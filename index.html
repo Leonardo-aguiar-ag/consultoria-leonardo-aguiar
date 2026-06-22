@@ -108,15 +108,22 @@
             margin-bottom: 30px;
             font-size: 1.1rem;
         }
-        /* O formulário em si será carregado pelo script externo */
-        #cs-form-leonardo_hapwida {
-            min-height: 400px;
+        #cs-form-leonardo_hapvida {
+            min-height: 520px;
+            width: 100%;
+        }
+        #cs-form-leonardo_hapvida iframe {
+            width: 100%;
+            min-height: 520px;
+            border: none;
+            overflow: hidden;
         }
 
         footer { background: #0f172a; color: #64748b; text-align: center; padding: 40px 20px; font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.05); }
 
         @media (max-width: 768px) {
             .lead-form-wrapper { padding: 30px 20px; }
+            .hero { clip-path: none; padding: 60px 20px; }
         }
     </style>
 </head>
@@ -136,7 +143,7 @@
             <h2>Simule seu plano de saúde</h2>
             <p class="subtitle">Preencha os dados abaixo e receba uma cotação personalizada em até 24h.</p>
             <!-- Container onde o widget será carregado -->
-            <div id="cs-form-leonardo_hapwida"></div>
+            <div id="cs-form-leonardo_hapvida"></div>
         </div>
     </section>
 
@@ -259,7 +266,7 @@
         <div class="lead-form-wrapper" style="background: #f1f5f9; border: 2px dashed var(--azul-vibrante);">
             <h2>Fale com um Especialista</h2>
             <p class="subtitle">Deixe seus dados e receba um atendimento personalizado para encontrar o plano ideal para você.</p>
-            <div id="cs-form-leonardo_hapwida-2"></div>
+            <div id="cs-form-leonardo_hapvida-2"></div>
         </div>
     </section>
 
@@ -289,6 +296,7 @@
     </a>
 
     <script>
+        // ==================== FUNÇÕES DO SITE ====================
         function abrirWhatsApp(mensagem) {
             const numero = "5511934319676";
             const url = `https://api.whatsapp.com/send?phone=${numero}&text=${encodeURIComponent(mensagem)}`;
@@ -308,29 +316,99 @@
         }
 
         // ================================================================
-        // CÓDIGO DO FORMULÁRIO DE LEADS (Vepage)
+        // CÓDIGO CORRIGIDO DO FORMULÁRIO DE LEADS (CARREGAMENTO CONFIÁVEL)
         // ================================================================
-        // Primeiro formulário
         (function() {
-            var s = document.createElement('script');
-            s.src = 'https://intranet.vepage.com/widget-loader.js';
-            s.setAttribute('data-slug', 'leonardo_hapwida');
-            s.setAttribute('data-container', 'cs-form-leonardo_hapwida');
-            document.head.appendChild(s);
-        })();
+            // ========== FUNÇÃO PRINCIPAL QUE CRIA O WIDGET ==========
+            function carregarWidget(containerId, slug) {
+                var container = document.getElementById(containerId);
+                if (!container) {
+                    console.error('❌ Container não encontrado:', containerId);
+                    return;
+                }
 
-        // Segundo formulário (opcional - com mesmo slug ou diferente)
-        // Para usar o mesmo formulário em dois lugares, você pode criar um segundo container
-        // e carregar o mesmo script, ou usar um slug diferente se tiver dois formulários configurados.
-        // Aqui estou usando o mesmo slug em dois lugares, o que funciona se o widget suportar múltiplas instâncias.
-        (function() {
-            var s = document.createElement('script');
-            s.src = 'https://intranet.vepage.com/widget-loader.js';
-            s.setAttribute('data-slug', 'leonardo_hapwida');
-            s.setAttribute('data-container', 'cs-form-leonardo_hapwida-2');
-            document.head.appendChild(s);
+                // Verifica se já existe iframe para evitar duplicação
+                if (container.querySelector('iframe')) {
+                    console.log('ℹ️ Widget já carregado em:', containerId);
+                    return;
+                }
+
+                // Cria o iframe com a URL correta do embed
+                var iframe = document.createElement('iframe');
+                iframe.src = 'https://interativepage.com/embed/' + slug;
+                iframe.id = 'cs-iframe-' + slug;
+                iframe.style.width = '100%';
+                iframe.style.minHeight = '520px';
+                iframe.style.height = '520px';
+                iframe.style.border = 'none';
+                iframe.style.overflow = 'hidden';
+                iframe.setAttribute('allowtransparency', 'true');
+                iframe.setAttribute('loading', 'lazy');
+
+                // Adiciona o iframe ao container
+                container.appendChild(iframe);
+
+                console.log('✅ Widget carregado em:', containerId);
+
+                // Listener para redimensionamento automático do iframe
+                window.addEventListener('message', function(e) {
+                    if (e.origin !== 'https://interativepage.com') return;
+                    if (!e.data || e.data.type !== 'CS_EMBED_RESIZE') return;
+                    if (e.data.slug !== slug) return;
+                    var h = Math.ceil(e.data.height);
+                    iframe.style.height = h + 'px';
+                    iframe.style.minHeight = h + 'px';
+                });
+            }
+
+            // ========== DOM PRONTO ==========
+            function iniciarWidgets() {
+                // Carrega o primeiro formulário
+                carregarWidget('cs-form-leonardo_hapvida', 'leonardo_hapvida');
+                // Carrega o segundo formulário (mesmo slug, container diferente)
+                carregarWidget('cs-form-leonardo_hapvida-2', 'leonardo_hapvida');
+            }
+
+            // Aguarda o DOM antes de carregar
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', iniciarWidgets);
+            } else {
+                iniciarWidgets();
+            }
+
+            // ========== FALLBACK: TENTA NOVAMENTE APÓS 10 SEGUNDOS ==========
+            setTimeout(function() {
+                var containers = ['cs-form-leonardo_hapvida', 'cs-form-leonardo_hapvida-2'];
+                containers.forEach(function(id) {
+                    var container = document.getElementById(id);
+                    if (container && !container.querySelector('iframe')) {
+                        console.warn('🔄 Tentando recarregar widget em:', id);
+                        carregarWidget(id, 'leonardo_hapvida');
+                    }
+                });
+            }, 10000);
+
+            // ========== RECARREGAR SE A JANELA FOR REDIMENSIONADA ==========
+            var resizeTimer;
+            window.addEventListener('resize', function() {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(function() {
+                    var containers = ['cs-form-leonardo_hapvida', 'cs-form-leonardo_hapvida-2'];
+                    containers.forEach(function(id) {
+                        var container = document.getElementById(id);
+                        var iframe = container ? container.querySelector('iframe') : null;
+                        if (iframe) {
+                            // Força o redimensionamento
+                            iframe.style.height = '520px';
+                            setTimeout(function() {
+                                iframe.style.height = 'auto';
+                            }, 100);
+                        }
+                    });
+                }, 500);
+            });
+
         })();
     </script>
-
 </body>
 </html>
