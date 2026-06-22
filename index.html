@@ -21,7 +21,6 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', 'Segoe UI', sans-serif; }
         body { background-color: var(--bg-light); color: var(--texto); line-height: 1.6; overflow-x: hidden; }
 
-        /* Hero */
         .hero { 
             background: radial-gradient(circle at top right, var(--azul-vibrante), var(--azul-deep));
             color: var(--branco); padding: 100px 20px; text-align: center;
@@ -30,7 +29,6 @@
         .hero h1 { font-size: clamp(2rem, 5vw, 3.2rem); margin-bottom: 20px; font-weight: 800; }
         .hero p { font-size: 1.2rem; max-width: 700px; margin: 0 auto 40px; opacity: 0.9; }
 
-        /* Botões */
         .btn { 
             display: inline-block; background: var(--laranja); color: white; padding: 16px 40px; 
             font-size: 1rem; font-weight: 700; text-decoration: none; border-radius: 50px; 
@@ -39,17 +37,14 @@
         }
         .btn:hover { background: var(--laranja-hover); transform: translateY(-2px); }
 
-        /* Seções */
         .secao { padding: 80px 20px; max-width: 1200px; margin: 0 auto; text-align: center; }
         .secao-bg { background: var(--branco); border-radius: 60px 60px 0 0; }
         .secao h2 { font-size: 2rem; margin-bottom: 40px; color: var(--azul-deep); font-weight: 800; }
 
-        /* Abas */
         .tabs-container { display: inline-flex; background: #e2e8f0; padding: 5px; border-radius: 50px; margin-bottom: 40px; }
         .tab-btn { border: none; padding: 12px 25px; border-radius: 40px; font-weight: 700; cursor: pointer; background: transparent; color: #64748b; }
         .tab-btn.active { background: var(--branco); color: var(--azul-vibrante); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
 
-        /* Cards Planos */
         .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
         .plano-escondido { display: none !important; }
         .card { 
@@ -68,15 +63,12 @@
         .card li { font-size: 0.9rem; margin-bottom: 10px; color: #475569; display: flex; gap: 8px; }
         .card li::before { content: "✓"; color: #10b981; font-weight: 800; }
 
-        /* Coparticipação */
         .copart-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
         .copart-item { padding: 30px; border-radius: 15px; text-align: left; background: #f1f5f9; border-left: 5px solid var(--laranja); }
         
-        /* Especialidades */
         .especialidades-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 30px; }
         .tag { background: #eef2ff; padding: 12px; border-radius: 10px; font-weight: 600; color: var(--azul-vibrante); font-size: 0.9rem; }
 
-        /* Consultor & Footer */
         .consultor { background: var(--azul-deep); color: white; padding: 80px 20px; text-align: center; }
         .consultor-card { background: rgba(255,255,255,0.05); backdrop-filter: blur(8px); padding: 40px; border-radius: 25px; max-width: 650px; margin: 0 auto; border: 1px solid rgba(255,255,255,0.1); }
         .contatos-footer { margin: 25px 0; text-align: left; display: inline-block; }
@@ -87,7 +79,7 @@
         .zap-float { position: fixed; bottom: 30px; right: 30px; background: #25d366; width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 20px rgba(0,0,0,0.2); z-index: 1000; transition: 0.3s; }
         .zap-float:hover { transform: scale(1.1); }
 
-        /* ===== ESTILOS DO FORMULÁRIO DE LEADS ===== */
+        /* Estilos do formulário */
         .lead-form-wrapper {
             background: var(--branco);
             border-radius: 30px;
@@ -108,11 +100,11 @@
             margin-bottom: 30px;
             font-size: 1.1rem;
         }
-        #cs-form-leonardo_hapvida {
+        #cs-form-leonardo_hapvida, #cs-form-leonardo_hapvida-2 {
             min-height: 520px;
             width: 100%;
         }
-        #cs-form-leonardo_hapvida iframe {
+        #cs-form-leonardo_hapvida iframe, #cs-form-leonardo_hapvida-2 iframe {
             width: 100%;
             min-height: 520px;
             border: none;
@@ -136,13 +128,12 @@
     </header>
 
     <!-- ============================================================ -->
-    <!-- FORMULÁRIO DE LEADS - POSIÇÃO 1 (Após o Hero)                 -->
+    <!-- FORMULÁRIO DE LEADS - POSIÇÃO 1                               -->
     <!-- ============================================================ -->
     <section class="secao secao-bg" style="padding-top: 60px;">
         <div class="lead-form-wrapper">
             <h2>Simule seu plano de saúde</h2>
             <p class="subtitle">Preencha os dados abaixo e receba uma cotação personalizada em até 24h.</p>
-            <!-- Container onde o widget será carregado -->
             <div id="cs-form-leonardo_hapvida"></div>
         </div>
     </section>
@@ -260,7 +251,7 @@
     </section>
 
     <!-- ============================================================ -->
-    <!-- FORMULÁRIO DE LEADS - POSIÇÃO 2 (Antes do Consultor)         -->
+    <!-- FORMULÁRIO DE LEADS - POSIÇÃO 2                               -->
     <!-- ============================================================ -->
     <section class="secao" style="padding-bottom: 40px;">
         <div class="lead-form-wrapper" style="background: #f1f5f9; border: 2px dashed var(--azul-vibrante);">
@@ -316,27 +307,28 @@
         }
 
         // ================================================================
-        // CÓDIGO CORRIGIDO DO FORMULÁRIO DE LEADS (CARREGAMENTO CONFIÁVEL)
+        // FORMULÁRIO DE LEADS – VERSÃO SEM WIDGET-LOADER (IFRAME DIRETO)
         // ================================================================
         (function() {
-            // ========== FUNÇÃO PRINCIPAL QUE CRIA O WIDGET ==========
-            function carregarWidget(containerId, slug) {
+            const slug = 'leonardo_hapvida';
+            const containers = ['cs-form-leonardo_hapvida', 'cs-form-leonardo_hapvida-2'];
+
+            function criarIframe(containerId) {
                 var container = document.getElementById(containerId);
                 if (!container) {
-                    console.error('❌ Container não encontrado:', containerId);
+                    console.warn('❌ Container não encontrado:', containerId);
                     return;
                 }
 
-                // Verifica se já existe iframe para evitar duplicação
+                // Evita duplicação
                 if (container.querySelector('iframe')) {
-                    console.log('ℹ️ Widget já carregado em:', containerId);
+                    console.log('ℹ️ Widget já presente em:', containerId);
                     return;
                 }
 
-                // Cria o iframe com a URL correta do embed
                 var iframe = document.createElement('iframe');
                 iframe.src = 'https://interativepage.com/embed/' + slug;
-                iframe.id = 'cs-iframe-' + slug;
+                iframe.id = 'cs-iframe-' + slug + '-' + containerId;
                 iframe.style.width = '100%';
                 iframe.style.minHeight = '520px';
                 iframe.style.height = '520px';
@@ -345,12 +337,10 @@
                 iframe.setAttribute('allowtransparency', 'true');
                 iframe.setAttribute('loading', 'lazy');
 
-                // Adiciona o iframe ao container
                 container.appendChild(iframe);
-
                 console.log('✅ Widget carregado em:', containerId);
 
-                // Listener para redimensionamento automático do iframe
+                // Escuta redimensionamento
                 window.addEventListener('message', function(e) {
                     if (e.origin !== 'https://interativepage.com') return;
                     if (!e.data || e.data.type !== 'CS_EMBED_RESIZE') return;
@@ -361,53 +351,25 @@
                 });
             }
 
-            // ========== DOM PRONTO ==========
-            function iniciarWidgets() {
-                // Carrega o primeiro formulário
-                carregarWidget('cs-form-leonardo_hapvida', 'leonardo_hapvida');
-                // Carrega o segundo formulário (mesmo slug, container diferente)
-                carregarWidget('cs-form-leonardo_hapvida-2', 'leonardo_hapvida');
-            }
-
-            // Aguarda o DOM antes de carregar
+            // Carrega quando o DOM estiver pronto
             if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', iniciarWidgets);
+                document.addEventListener('DOMContentLoaded', function() {
+                    containers.forEach(criarIframe);
+                });
             } else {
-                iniciarWidgets();
+                containers.forEach(criarIframe);
             }
 
-            // ========== FALLBACK: TENTA NOVAMENTE APÓS 10 SEGUNDOS ==========
+            // Fallback: tenta novamente após 8 segundos se algum container estiver vazio
             setTimeout(function() {
-                var containers = ['cs-form-leonardo_hapvida', 'cs-form-leonardo_hapvida-2'];
                 containers.forEach(function(id) {
                     var container = document.getElementById(id);
                     if (container && !container.querySelector('iframe')) {
-                        console.warn('🔄 Tentando recarregar widget em:', id);
-                        carregarWidget(id, 'leonardo_hapvida');
+                        console.warn('🔄 Tentando recarregar:', id);
+                        criarIframe(id);
                     }
                 });
-            }, 10000);
-
-            // ========== RECARREGAR SE A JANELA FOR REDIMENSIONADA ==========
-            var resizeTimer;
-            window.addEventListener('resize', function() {
-                clearTimeout(resizeTimer);
-                resizeTimer = setTimeout(function() {
-                    var containers = ['cs-form-leonardo_hapvida', 'cs-form-leonardo_hapvida-2'];
-                    containers.forEach(function(id) {
-                        var container = document.getElementById(id);
-                        var iframe = container ? container.querySelector('iframe') : null;
-                        if (iframe) {
-                            // Força o redimensionamento
-                            iframe.style.height = '520px';
-                            setTimeout(function() {
-                                iframe.style.height = 'auto';
-                            }, 100);
-                        }
-                    });
-                }, 500);
-            });
-
+            }, 8000);
         })();
     </script>
 </body>
