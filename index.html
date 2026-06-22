@@ -87,7 +87,37 @@
         .zap-float { position: fixed; bottom: 30px; right: 30px; background: #25d366; width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 20px rgba(0,0,0,0.2); z-index: 1000; transition: 0.3s; }
         .zap-float:hover { transform: scale(1.1); }
 
+        /* ===== ESTILOS DO FORMULÁRIO DE LEADS ===== */
+        .lead-form-wrapper {
+            background: var(--branco);
+            border-radius: 30px;
+            padding: 50px 40px;
+            box-shadow: var(--shadow);
+            max-width: 800px;
+            margin: 0 auto;
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+        .lead-form-wrapper h2 {
+            color: var(--azul-deep);
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+        .lead-form-wrapper .subtitle {
+            color: var(--texto);
+            opacity: 0.8;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+        /* O formulário em si será carregado pelo script externo */
+        #cs-form-leonardo_hapwida {
+            min-height: 400px;
+        }
+
         footer { background: #0f172a; color: #64748b; text-align: center; padding: 40px 20px; font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.05); }
+
+        @media (max-width: 768px) {
+            .lead-form-wrapper { padding: 30px 20px; }
+        }
     </style>
 </head>
 <body>
@@ -97,6 +127,18 @@
         <p>Especialista Hapvida NotreDame Intermédica. Proteção completa para sua família e máxima economia para sua empresa.</p>
         <button class="btn" onclick="abrirWhatsApp('Ola,tenho interesse em saber mais sobre os planos de saúde')">Solicitar Cotação Agora</button>
     </header>
+
+    <!-- ============================================================ -->
+    <!-- FORMULÁRIO DE LEADS - POSIÇÃO 1 (Após o Hero)                 -->
+    <!-- ============================================================ -->
+    <section class="secao secao-bg" style="padding-top: 60px;">
+        <div class="lead-form-wrapper">
+            <h2>Simule seu plano de saúde</h2>
+            <p class="subtitle">Preencha os dados abaixo e receba uma cotação personalizada em até 24h.</p>
+            <!-- Container onde o widget será carregado -->
+            <div id="cs-form-leonardo_hapwida"></div>
+        </div>
+    </section>
 
     <section class="secao">
         <h2>Conheça nossos Planos</h2>
@@ -210,6 +252,17 @@
         </div>
     </section>
 
+    <!-- ============================================================ -->
+    <!-- FORMULÁRIO DE LEADS - POSIÇÃO 2 (Antes do Consultor)         -->
+    <!-- ============================================================ -->
+    <section class="secao" style="padding-bottom: 40px;">
+        <div class="lead-form-wrapper" style="background: #f1f5f9; border: 2px dashed var(--azul-vibrante);">
+            <h2>Fale com um Especialista</h2>
+            <p class="subtitle">Deixe seus dados e receba um atendimento personalizado para encontrar o plano ideal para você.</p>
+            <div id="cs-form-leonardo_hapwida-2"></div>
+        </div>
+    </section>
+
     <section class="consultor">
         <div class="consultor-card">
             <h3 style="font-size: 1.8rem;">Leonardo Aguiar</h3>
@@ -253,6 +306,31 @@
                 }
             });
         }
+
+        // ================================================================
+        // CÓDIGO DO FORMULÁRIO DE LEADS (Vepage)
+        // ================================================================
+        // Primeiro formulário
+        (function() {
+            var s = document.createElement('script');
+            s.src = 'https://intranet.vepage.com/widget-loader.js';
+            s.setAttribute('data-slug', 'leonardo_hapwida');
+            s.setAttribute('data-container', 'cs-form-leonardo_hapwida');
+            document.head.appendChild(s);
+        })();
+
+        // Segundo formulário (opcional - com mesmo slug ou diferente)
+        // Para usar o mesmo formulário em dois lugares, você pode criar um segundo container
+        // e carregar o mesmo script, ou usar um slug diferente se tiver dois formulários configurados.
+        // Aqui estou usando o mesmo slug em dois lugares, o que funciona se o widget suportar múltiplas instâncias.
+        (function() {
+            var s = document.createElement('script');
+            s.src = 'https://intranet.vepage.com/widget-loader.js';
+            s.setAttribute('data-slug', 'leonardo_hapwida');
+            s.setAttribute('data-container', 'cs-form-leonardo_hapwida-2');
+            document.head.appendChild(s);
+        })();
     </script>
+
 </body>
 </html>
