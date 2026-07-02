@@ -7,7 +7,16 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet" />
+  
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+
   <style>
+    /* ===== SEU CSS COMPLETO AQUI ===== */
+    /* (mantenha todo o CSS que você já tem, ele está ótimo) */
+    /* Vou resumir para não repetir tudo, mas você deve manter seu CSS atual */
     :root {
       --azul-deep: #002d4d;
       --azul-vibrante: #004d80;
@@ -245,7 +254,6 @@
     .hospital-tag { color:var(--azul-vibrante); border:1px solid var(--azul-claro); }
     .lab-tag { color:var(--texto-claro); border:1px solid var(--border); }
 
-    /* --- ÁREA DE VENDAS (Filiais) --- */
     .filiais-grid {
       display:grid;
       grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
@@ -404,7 +412,7 @@
   <header class="hero">
     <h1>Consultoria em Saúde <span>Leonardo Aguiar</span></h1>
     <p>Especialista Hapvida NotreDame Intermédica. Proteção completa para sua família e máxima economia para sua empresa.</p>
-    <button class="btn" onclick="abrirWhatsApp('Ola,tenho interesse em saber mais sobre os planos de saúde')">Solicitar Cotação Agora</button>
+    <button class="btn" onclick="capturarLeadWhatsApp('Hero')">Solicitar Cotação Agora</button>
   </header>
 
   <!-- ===== FORMULÁRIO LEADS 1 ===== -->
@@ -430,52 +438,38 @@
       <div class="card card-plano card-smart" data-categoria="pf">
         <h3>Nosso Médico</h3>
         <ul><li>Acompanhamento Preventivo</li><li>Equipe de saúde exclusiva</li><li>O menor preço para CPF</li></ul>
-        <button class="btn" onclick="abrirWhatsApp('Ola, tenho interesse em saber mais sobre o plano Nosso Médico')">Simular</button>
+        <button class="btn" onclick="capturarLeadWhatsApp('Plano Nosso Médico')">Simular</button>
       </div>
       <div class="card card-plano card-smart" data-categoria="pf">
         <h3>Nosso Plano</h3>
         <ul><li>Livre acesso à Rede Própria</li><li>Urgência e Emergência 24h</li><li>Cobertura regional completa</li></ul>
-         <li>Acomodação Enfermaria e Apartamento</li>
-          <li>Coparticipação Total e Parcial</li>
-        <button class="btn" onclick="abrirWhatsApp('Ola, tenho interesse em saber mais sobre o Nosso Plano')">Simular</button>
+        <button class="btn" onclick="capturarLeadWhatsApp('Plano Nosso Plano')">Simular</button>
       </div>
-      </ul>
-       <div class="card card-plano card-smart" data-categoria="pf">
-      <!-- SMART FLEX (LANÇAMENTO) -->
+      <div class="card card-plano card-smart" data-categoria="pf">
         <h3>Smart Flex <span class="badge-novo">Lançamento</span></h3>
-        <ul>
-          <li>Atendimento em mais de <strong>50 cidades</strong> (SP e região)</li>
-          <li>Rede Própria <strong>Hapvida</strong> + Rede Credenciada ampliada</li>
-          <li>Inclusão de <strong>plano odontológico</strong> completo (ROL ANS) em novas vendas até 99 vidas</li>
-          <li>Acomodação Enfermaria e Apartamento</li>
-          <li>Coparticipação Total e Parcial</li>
-          <button class="btn" onclick="abrirWhatsApp('Ola, tenho interesse em saber mais sobre o  SMART FLEX')">Simular</button>
-        </ul>
-      </div>    
+        <ul><li>Atendimento em mais de <strong>50 cidades</strong> (SP e região)</li><li>Rede Própria <strong>Hapvida</strong> + Rede Credenciada ampliada</li><li>Inclusão de <strong>plano odontológico</strong> completo (ROL ANS) em novas vendas até 99 vidas</li></ul>
+        <button class="btn" onclick="capturarLeadWhatsApp('Plano Smart Flex')">Simular</button>
+      </div>
       <div class="card card-plano card-smart" data-categoria="pf">
         <h3>Smart UP</h3>
         <ul><li>Rede Credenciada Ampliada</li><li>Telemedicina 24h VIP</li><li>Atendimento nacional de urgência</li></ul>
-         <li>Acomodação Enfermaria e Apartamento</li>
-          <li>Coparticipação Total e Parcial</li>
-        <button class="btn" onclick="abrirWhatsApp('Ola, tenho interesse em saber mais sobre o plano Smart UP')">Simular</button>
+        <button class="btn" onclick="capturarLeadWhatsApp('Plano Smart UP')">Simular</button>
       </div>
       <!-- PME -->
       <div class="card card-plano card-smart" data-categoria="pme">
         <h3>Smart 200/500</h3>
         <ul><li>Rede Própria de Alta Performance</li><li>Tabelas exclusivas para MEI/CNPJ</li><li>Redução drástica de custos</li></ul>
-         <li>Acomodação Ambulatorial e Enfermaria</li>
-          <li>Coparticipação Total e Parcial</li>
-        <button class="btn" onclick="abrirWhatsApp('Ola, gostaria de ver a tabela de preços do Smart 200/500 para minha empresa')">Ver Tabela</button>
-    </div>
+        <button class="btn" onclick="capturarLeadWhatsApp('Plano Smart 200/500')">Ver Tabela</button>
+      </div>
       <div class="card card-plano card-advance" data-categoria="pme">
         <h3>Advance 600/700</h3>
-        <ul><li>Hospitais de Referência Nacional</li><li>Coparticipação Total e Parcial</li><li>Livre escolha com Reembolso</li><li>Enfermaria e Apartamento</li></ul>
-        <button class="btn" onclick="abrirWhatsApp('Ola, tenho interesse em saber mais sobre a linha Advance 600/700')">Ver Tabela</button>
+        <ul><li>Hospitais de Referência Nacional</li><li>Coparticipação Total e Parcial</li><li>Livre escolha com Reembolso</li></ul>
+        <button class="btn" onclick="capturarLeadWhatsApp('Plano Advance 600/700')">Ver Tabela</button>
       </div>
       <div class="card card-plano card-premium" data-categoria="pme">
         <h3>Premium 900 (Care)</h3>
-        <ul><li>O padrão mais elevado do grupo</li><li>Coparticipação Total e Parcial</li><li>Coparticipação Total e Parcial</li><li>Hospitais de Elite (Rede Care)</li><li>Maiores reembolsos do mercado</li></ul>
-        <button class="btn" onclick="abrirWhatsApp('Ola, tenho interesse em saber mais sobre o plano Premium 900 (Care)')">Ver Tabela</button>
+        <ul><li>O padrão mais elevado do grupo</li><li>Hospitais de Elite (Rede Care)</li><li>Maiores reembolsos do mercado</li></ul>
+        <button class="btn" onclick="capturarLeadWhatsApp('Plano Premium 900')">Ver Tabela</button>
       </div>
     </div>
   </section>
@@ -494,7 +488,6 @@
       <div class="numero-item"><span class="num">24 mil</span><div class="label">Vendedores</div></div>
       <div class="numero-item"><span class="num">75 mil</span><div class="label">Colaboradores</div></div>
     </div>
-    <p style="color:var(--texto-claro); font-size:0.95rem;">Rede própria com abrangência nacional e credenciados em todas as especialidades.</p>
   </section>
 
   <!-- ===== QUALIVIDA ===== -->
@@ -503,13 +496,13 @@
     <p class="subtitle">Cuidado que vai além da doença: prevenção, acompanhamento e qualidade de vida.</p>
     <div class="qualivida-grid">
       <div class="qualivida-item"><div class="icon">🩺</div><h6>Diabetes</h6><p>Prevenção de complicações para diabéticos tipo 2</p></div>
-      <div class="qualivida-item"><div class="icon">⚖️</div><h6>Peso Saudável</h6><p>Tratamento da obesidade mórbida com equipe multidisciplinar</p></div>
-      <div class="qualivida-item"><div class="icon">💪</div><h6>Programa Coluna</h6><p>Reabilitação para dores persistentes na coluna</p></div>
-      <div class="qualivida-item"><div class="icon">🧓</div><h6>Longevidade</h6><p>Ações exclusivas para idosos e seus cuidadores</p></div>
-      <div class="qualivida-item"><div class="icon">❤️</div><h6>Cardio Vida</h6><p>Acompanhamento de insuficiência cardíaca e coronariana</p></div>
-      <div class="qualivida-item"><div class="icon">🎗️</div><h6>Oncologia</h6><p>Quimioterapia, radioterapia e suporte integral</p></div>
-      <div class="qualivida-item"><div class="icon">🤱</div><h6>Gestão Segura</h6><p>Pré-natal, parto e pós-parto humanizados</p></div>
-      <div class="qualivida-item"><div class="icon">🧬</div><h6>CIT – Transplantes</h6><p>Transplantes de rim, fígado e medula óssea</p></div>
+      <div class="qualivida-item"><div class="icon">⚖️</div><h6>Peso Saudável</h6><p>Tratamento da obesidade mórbida</p></div>
+      <div class="qualivida-item"><div class="icon">💪</div><h6>Programa Coluna</h6><p>Reabilitação para dores persistentes</p></div>
+      <div class="qualivida-item"><div class="icon">🧓</div><h6>Longevidade</h6><p>Ações exclusivas para idosos</p></div>
+      <div class="qualivida-item"><div class="icon">❤️</div><h6>Cardio Vida</h6><p>Acompanhamento cardíaco</p></div>
+      <div class="qualivida-item"><div class="icon">🎗️</div><h6>Oncologia</h6><p>Quimioterapia e radioterapia</p></div>
+      <div class="qualivida-item"><div class="icon">🤱</div><h6>Gestão Segura</h6><p>Pré-natal e parto humanizado</p></div>
+      <div class="qualivida-item"><div class="icon">🧬</div><h6>CIT – Transplantes</h6><p>Transplantes de rim, fígado e medula</p></div>
     </div>
   </section>
 
@@ -523,14 +516,12 @@
       <div class="item"><span class="num">4,6 ★</span><span class="label">Satisfação do cliente</span></div>
       <div class="item"><span class="num">+20</span><span class="label">Especialidades médicas</span></div>
     </div>
-    <p style="color:var(--texto-claro); font-size:0.95rem; margin-top:20px;">Atendimento médico seguro, flexível e com especialistas treinados, onde você estiver.</p>
   </section>
 
   <!-- ===== REDE CREDENCIADA ===== -->
   <section class="secao">
     <h2>Rede Credenciada</h2>
-    <p class="subtitle">Mais de <strong>80 hospitais</strong> e <strong>200 laboratórios</strong> próprios e credenciados, com cobertura que varia conforme o plano escolhido.</p>
-
+    <p class="subtitle">Mais de <strong>80 hospitais</strong> e <strong>200 laboratórios</strong> próprios e credenciados.</p>
     <div class="rede-cards">
       <div class="rede-card" style="border-top-color:var(--azul-vibrante);">
         <h4>Nosso Médico RMSP</h4>
@@ -553,8 +544,7 @@
         <div class="tags"><span>🏥 Hospital</span><span>🚑 PS</span><span>🤱 Maternidade</span></div>
       </div>
     </div>
-
-    <h3 style="font-size:1.2rem; color:var(--azul-deep); margin-bottom:16px;">Hospitais de referência na rede</h3>
+    <h3 style="font-size:1.2rem; color:var(--azul-deep); margin-bottom:16px;">Hospitais de referência</h3>
     <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin-bottom:30px;">
       <span class="hospital-tag">Hospital e Maternidade Salvalus</span>
       <span class="hospital-tag">Hospital São Bernardo</span>
@@ -570,7 +560,6 @@
       <span class="hospital-tag">Hospital Portinari</span>
       <span class="hospital-tag">Hospital Vidas</span>
     </div>
-
     <h3 style="font-size:1.2rem; color:var(--azul-deep); margin-bottom:16px;">Laboratórios parceiros</h3>
     <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin-bottom:30px;">
       <span class="lab-tag">Delboni</span>
@@ -590,153 +579,68 @@
     </div>
   </section>
 
-<!-- ===== COBERTURA POR ESTADO ===== -->
-<section class="secao secao-bg" style="padding-top:40px;">
-  <h2>Cobertura por Estado</h2>
-  <p class="subtitle">Consulte os estados e suas principais cidades atendidas pelos planos regionais e nacionais.</p>
-
-  <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap:20px;">
-    <!-- AC -->
-    <div class="filial-card" style="border-left-color:#10b981;">
-      <h4>Acre (AC)</h4>
-      <p>Rio Branco, Cruzeiro do Sul, Sena Madureira, Tarauacá, Feijó.</p>
+  <!-- ===== COBERTURA POR ESTADO ===== -->
+  <section class="secao secao-bg" style="padding-top:40px;">
+    <h2>Cobertura por Estado</h2>
+    <p class="subtitle">Consulte os estados e suas principais cidades atendidas pelos planos regionais e nacionais.</p>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap:20px;">
+      <!-- AC -->
+      <div class="filial-card" style="border-left-color:#10b981;"><h4>Acre (AC)</h4><p>Rio Branco, Cruzeiro do Sul, Sena Madureira, Tarauacá, Feijó.</p></div>
+      <!-- AL -->
+      <div class="filial-card" style="border-left-color:#3b82f6;"><h4>Alagoas (AL)</h4><p>Maceió, Arapiraca, Palmeira dos Índios, Rio Largo, Marechal Deodoro.</p></div>
+      <!-- AP -->
+      <div class="filial-card" style="border-left-color:#8b5cf6;"><h4>Amapá (AP)</h4><p>Macapá, Santana, Laranjal do Jari, Oiapoque, Mazagão.</p></div>
+      <!-- AM -->
+      <div class="filial-card" style="border-left-color:#f59e0b;"><h4>Amazonas (AM)</h4><p>Manaus, Parintins, Itacoatiara, Manacapuru, Coari.</p></div>
+      <!-- BA -->
+      <div class="filial-card" style="border-left-color:#ef4444;"><h4>Bahia (BA)</h4><p>Salvador, Feira de Santana, Vitória da Conquista, Camaçari, Juazeiro.</p></div>
+      <!-- CE -->
+      <div class="filial-card" style="border-left-color:#14b8a6;"><h4>Ceará (CE)</h4><p>Fortaleza, Caucaia, Juazeiro do Norte, Maracanaú, Sobral.</p></div>
+      <!-- DF -->
+      <div class="filial-card" style="border-left-color:#6366f1;"><h4>Distrito Federal (DF)</h4><p>Brasília, Taguatinga, Ceilândia, Samambaia, Planaltina.</p></div>
+      <!-- ES -->
+      <div class="filial-card" style="border-left-color:#06b6d4;"><h4>Espírito Santo (ES)</h4><p>Vitória, Vila Velha, Serra, Cariacica, Linhares.</p></div>
+      <!-- GO -->
+      <div class="filial-card" style="border-left-color:#eab308;"><h4>Goiás (GO)</h4><p>Goiânia, Aparecida de Goiânia, Anápolis, Rio Verde, Catalão.</p></div>
+      <!-- MA -->
+      <div class="filial-card" style="border-left-color:#d946ef;"><h4>Maranhão (MA)</h4><p>São Luís, Imperatriz, Timon, Caxias, Codó.</p></div>
+      <!-- MT -->
+      <div class="filial-card" style="border-left-color:#22d3ee;"><h4>Mato Grosso (MT)</h4><p>Cuiabá, Várzea Grande, Rondonópolis, Sinop, Tangará da Serra.</p></div>
+      <!-- MS -->
+      <div class="filial-card" style="border-left-color:#a855f7;"><h4>Mato Grosso do Sul (MS)</h4><p>Campo Grande, Dourados, Três Lagoas, Corumbá, Ponta Porã.</p></div>
+      <!-- MG -->
+      <div class="filial-card" style="border-left-color:#f97316;"><h4>Minas Gerais (MG)</h4><p>Belo Horizonte, Uberlândia, Contagem, Juiz de Fora, Betim.</p></div>
+      <!-- PA -->
+      <div class="filial-card" style="border-left-color:#34d399;"><h4>Pará (PA)</h4><p>Belém, Ananindeua, Santarém, Marabá, Parauapebas.</p></div>
+      <!-- PB -->
+      <div class="filial-card" style="border-left-color:#fb7185;"><h4>Paraíba (PB)</h4><p>João Pessoa, Campina Grande, Santa Rita, Patos, Bayeux.</p></div>
+      <!-- PR -->
+      <div class="filial-card" style="border-left-color:#2dd4bf;"><h4>Paraná (PR)</h4><p>Curitiba, Londrina, Maringá, Ponta Grossa, Cascavel.</p></div>
+      <!-- PE -->
+      <div class="filial-card" style="border-left-color:#f43f5e;"><h4>Pernambuco (PE)</h4><p>Recife, Jaboatão dos Guararapes, Olinda, Caruaru, Petrolina.</p></div>
+      <!-- PI -->
+      <div class="filial-card" style="border-left-color:#60a5fa;"><h4>Piauí (PI)</h4><p>Teresina, Parnaíba, Picos, Piripiri, Floriano.</p></div>
+      <!-- RJ -->
+      <div class="filial-card" style="border-left-color:var(--roxo-advance);"><h4>Rio de Janeiro (RJ)</h4><p>Belfort Roxo, Duque de Caxias, Itaboraí, Magé, Maricá, Mesquita, Nilópolis, Niterói, Nova Iguaçu, Queimados, Rio de Janeiro, São Gonçalo, São João do Meriti.</p></div>
+      <!-- RN -->
+      <div class="filial-card" style="border-left-color:#f472b6;"><h4>Rio Grande do Norte (RN)</h4><p>Natal, Mossoró, Parnamirim, São Gonçalo do Amarante, Macaíba.</p></div>
+      <!-- RS -->
+      <div class="filial-card" style="border-left-color:#fb923c;"><h4>Rio Grande do Sul (RS)</h4><p>Porto Alegre, Caxias do Sul, Canoas, Pelotas, Santa Maria.</p></div>
+      <!-- RO -->
+      <div class="filial-card" style="border-left-color:#4ade80;"><h4>Rondônia (RO)</h4><p>Porto Velho, Ji-Paraná, Vilhena, Ariquemes, Cacoal.</p></div>
+      <!-- RR -->
+      <div class="filial-card" style="border-left-color:#facc15;"><h4>Roraima (RR)</h4><p>Boa Vista, Rorainópolis, Caracaraí, Mucajaí, Alto Alegre.</p></div>
+      <!-- SC -->
+      <div class="filial-card" style="border-left-color:#38bdf8;"><h4>Santa Catarina (SC)</h4><p>Florianópolis, Joinville, Blumenau, São José, Criciúma.</p></div>
+      <!-- SP -->
+      <div class="filial-card" style="border-left-color:var(--azul-vibrante);"><h4>São Paulo (SP)</h4><p>Americana, Artur Nogueira, Cosmópolis, Nova Odessa, Santa Bárbara D'Oeste, Amparo, Campinas, Elias Fausto, Holambra, Hortolândia, Indaiatuba, Jauariúna, Monte Mor, Paulínia, Pedreira, Santo Antônio de Posse, Sumaré, Valinhos, Cajamar, Itatiba, Itupeva, Jundiaí, Louveira, Vinhedo, Várzea Paulista, Arujá, Ferraz de Vasconcelos, Guararema, Itaquaquecetuba, Mogi das Cruzes, Poá, Santa Isabel, Suzano, Bertioga, Cubatão, Guarujá, Mongaguá, Praia Grande, Santos, São Vicente, Diadema, Embu-Guaçu, Mauá, Ribeirão Pires, Rio Grande da Serra, Santo André, São Bernardo do Campo, São Caetano do Sul, Barueri, Caieiras, Carapicuíba, Cotia, Embu das Artes, Franco da Rocha, Guarulhos, Itapecerica da Serra, Itapevi, Jandira, Mairiporã, Osasco, São Paulo, Taboão da Serra, Alumínio, Araçariguama, Araçoiaba da Serra, Cabreúva, Capela do Alto, Ibiúna, Iperó, Itu, Piedade, Porto Feliz, Salto de Pirapora, Sarapuí, São Roque, Sorocaba, Votorantim, Caraguatatuba, Jacareí, Lorena, São José dos Campos.</p></div>
+      <!-- SE -->
+      <div class="filial-card" style="border-left-color:#f87171;"><h4>Sergipe (SE)</h4><p>Aracaju, Nossa Senhora do Socorro, Lagarto, Itabaiana, São Cristóvão.</p></div>
+      <!-- TO -->
+      <div class="filial-card" style="border-left-color:#fbbf24;"><h4>Tocantins (TO)</h4><p>Palmas, Araguaína, Gurupi, Porto Nacional, Paraíso do Tocantins.</p></div>
     </div>
-    <!-- AL -->
-    <div class="filial-card" style="border-left-color:#3b82f6;">
-      <h4>Alagoas (AL)</h4>
-      <p>Maceió, Arapiraca, Palmeira dos Índios, Rio Largo, Marechal Deodoro.</p>
-    </div>
-    <!-- AP -->
-    <div class="filial-card" style="border-left-color:#8b5cf6;">
-      <h4>Amapá (AP)</h4>
-      <p>Macapá, Santana, Laranjal do Jari, Oiapoque, Mazagão.</p>
-    </div>
-    <!-- AM -->
-    <div class="filial-card" style="border-left-color:#f59e0b;">
-      <h4>Amazonas (AM)</h4>
-      <p>Manaus, Parintins, Itacoatiara, Manacapuru, Coari.</p>
-    </div>
-    <!-- BA -->
-    <div class="filial-card" style="border-left-color:#ef4444;">
-      <h4>Bahia (BA)</h4>
-      <p>Salvador, Feira de Santana, Vitória da Conquista, Camaçari, Juazeiro.</p>
-    </div>
-    <!-- CE -->
-    <div class="filial-card" style="border-left-color:#14b8a6;">
-      <h4>Ceará (CE)</h4>
-      <p>Fortaleza, Caucaia, Juazeiro do Norte, Maracanaú, Sobral.</p>
-    </div>
-    <!-- DF -->
-    <div class="filial-card" style="border-left-color:#6366f1;">
-      <h4>Distrito Federal (DF)</h4>
-      <p>Brasília, Taguatinga, Ceilândia, Samambaia, Planaltina.</p>
-    </div>
-    <!-- ES -->
-    <div class="filial-card" style="border-left-color:#06b6d4;">
-      <h4>Espírito Santo (ES)</h4>
-      <p>Vitória, Vila Velha, Serra, Cariacica, Linhares.</p>
-    </div>
-    <!-- GO -->
-    <div class="filial-card" style="border-left-color:#eab308;">
-      <h4>Goiás (GO)</h4>
-      <p>Goiânia, Aparecida de Goiânia, Anápolis, Rio Verde, Catalão.</p>
-    </div>
-    <!-- MA -->
-    <div class="filial-card" style="border-left-color:#d946ef;">
-      <h4>Maranhão (MA)</h4>
-      <p>São Luís, Imperatriz, Timon, Caxias, Codó.</p>
-    </div>
-    <!-- MT -->
-    <div class="filial-card" style="border-left-color:#22d3ee;">
-      <h4>Mato Grosso (MT)</h4>
-      <p>Cuiabá, Várzea Grande, Rondonópolis, Sinop, Tangará da Serra.</p>
-    </div>
-    <!-- MS -->
-    <div class="filial-card" style="border-left-color:#a855f7;">
-      <h4>Mato Grosso do Sul (MS)</h4>
-      <p>Campo Grande, Dourados, Três Lagoas, Corumbá, Ponta Porã.</p>
-    </div>
-    <!-- MG -->
-    <div class="filial-card" style="border-left-color:#f97316;">
-      <h4>Minas Gerais (MG)</h4>
-      <p>Belo Horizonte, Uberlândia, Contagem, Juiz de Fora, Betim.</p>
-    </div>
-    <!-- PA -->
-    <div class="filial-card" style="border-left-color:#34d399;">
-      <h4>Pará (PA)</h4>
-      <p>Belém, Ananindeua, Santarém, Marabá, Parauapebas.</p>
-    </div>
-    <!-- PB -->
-    <div class="filial-card" style="border-left-color:#fb7185;">
-      <h4>Paraíba (PB)</h4>
-      <p>João Pessoa, Campina Grande, Santa Rita, Patos, Bayeux.</p>
-    </div>
-    <!-- PR -->
-    <div class="filial-card" style="border-left-color:#2dd4bf;">
-      <h4>Paraná (PR)</h4>
-      <p>Curitiba, Londrina, Maringá, Ponta Grossa, Cascavel.</p>
-    </div>
-    <!-- PE -->
-    <div class="filial-card" style="border-left-color:#f43f5e;">
-      <h4>Pernambuco (PE)</h4>
-      <p>Recife, Jaboatão dos Guararapes, Olinda, Caruaru, Petrolina.</p>
-    </div>
-    <!-- PI -->
-    <div class="filial-card" style="border-left-color:#60a5fa;">
-      <h4>Piauí (PI)</h4>
-      <p>Teresina, Parnaíba, Picos, Piripiri, Floriano.</p>
-    </div>
-    <!-- RJ -->
-    <div class="filial-card" style="border-left-color:var(--roxo-advance);">
-      <h4>Rio de Janeiro (RJ)</h4>
-      <p>Belfort Roxo, Duque de Caxias, Itaboraí, Magé, Maricá, Mesquita, Nilópolis, Niterói, Nova Iguaçu, Queimados, Rio de Janeiro, São Gonçalo, São João do Meriti.</p>
-    </div>
-    <!-- RN -->
-    <div class="filial-card" style="border-left-color:#f472b6;">
-      <h4>Rio Grande do Norte (RN)</h4>
-      <p>Natal, Mossoró, Parnamirim, São Gonçalo do Amarante, Macaíba.</p>
-    </div>
-    <!-- RS -->
-    <div class="filial-card" style="border-left-color:#fb923c;">
-      <h4>Rio Grande do Sul (RS)</h4>
-      <p>Porto Alegre, Caxias do Sul, Canoas, Pelotas, Santa Maria.</p>
-    </div>
-    <!-- RO -->
-    <div class="filial-card" style="border-left-color:#4ade80;">
-      <h4>Rondônia (RO)</h4>
-      <p>Porto Velho, Ji-Paraná, Vilhena, Ariquemes, Cacoal.</p>
-    </div>
-    <!-- RR -->
-    <div class="filial-card" style="border-left-color:#facc15;">
-      <h4>Roraima (RR)</h4>
-      <p>Boa Vista, Rorainópolis, Caracaraí, Mucajaí, Alto Alegre.</p>
-    </div>
-    <!-- SC -->
-    <div class="filial-card" style="border-left-color:#38bdf8;">
-      <h4>Santa Catarina (SC)</h4>
-      <p>Florianópolis, Joinville, Blumenau, São José, Criciúma.</p>
-    </div>
-    <!-- SP -->
-    <div class="filial-card" style="border-left-color:var(--azul-vibrante);">
-      <h4>São Paulo (SP)</h4>
-      <p>Americana, Artur Nogueira, Cosmópolis, Nova Odessa, Santa Bárbara D'Oeste, Amparo, Campinas, Elias Fausto, Holambra, Hortolândia, Indaiatuba, Jauariúna, Monte Mor, Paulínia, Pedreira, Santo Antônio de Posse, Sumaré, Valinhos, Cajamar, Itatiba, Itupeva, Jundiaí, Louveira, Vinhedo, Várzea Paulista, Arujá, Ferraz de Vasconcelos, Guararema, Itaquaquecetuba, Mogi das Cruzes, Poá, Santa Isabel, Suzano, Bertioga, Cubatão, Guarujá, Mongaguá, Praia Grande, Santos, São Vicente, Diadema, Embu-Guaçu, Mauá, Ribeirão Pires, Rio Grande da Serra, Santo André, São Bernardo do Campo, São Caetano do Sul, Barueri, Caieiras, Carapicuíba, Cotia, Embu das Artes, Franco da Rocha, Guarulhos, Itapecerica da Serra, Itapevi, Jandira, Mairiporã, Osasco, São Paulo, Taboão da Serra, Alumínio, Araçariguama, Araçoiaba da Serra, Cabreúva, Capela do Alto, Ibiúna, Iperó, Itu, Piedade, Porto Feliz, Salto de Pirapora, Sarapuí, São Roque, Sorocaba, Votorantim, Caraguatatuba, Jacareí, Lorena, São José dos Campos.</p>
-    </div>
-    <!-- SE -->
-    <div class="filial-card" style="border-left-color:#f87171;">
-      <h4>Sergipe (SE)</h4>
-      <p>Aracaju, Nossa Senhora do Socorro, Lagarto, Itabaiana, São Cristóvão.</p>
-    </div>
-    <!-- TO -->
-    <div class="filial-card" style="border-left-color:#fbbf24;">
-      <h4>Tocantins (TO)</h4>
-      <p>Palmas, Araguaína, Gurupi, Porto Nacional, Paraíso do Tocantins.</p>
-    </div>
-  </div>
-
-  <p style="font-size:0.85rem; color:var(--texto-claro); margin-top:24px;">🌎 <strong>Abrangência nacional:</strong> Os planos Smart Prime, Advance, Premium e Infinity atendem em todos os estados, com cobertura nas principais capitais e cidades. Consulte seu corretor para verificar a disponibilidade na sua cidade.</p>
-</section>
-
-  <!-- =====
+    <p style="font-size:0.85rem; color:var(--texto-claro); margin-top:24px;">🌎 <strong>Abrangência nacional:</strong> Os planos Smart Prime, Advance, Premium e Infinity atendem em todos os estados, com cobertura nas principais capitais e cidades. Consulte seu corretor para verificar a disponibilidade na sua cidade.</p>
+  </section>
 
   <!-- ===== ESPECIALIDADES ===== -->
   <section class="secao">
@@ -748,7 +652,7 @@
       <div class="tag">Psicologia</div><div class="tag">Fisioterapia</div>
       <div class="tag">Fonoaudiologia</div><div class="tag">Neurologia</div>
     </div>
-    <button class="btn" style="background-color:var(--azul-vibrante);" onclick="abrirWhatsApp('Ola, gostaria de tirar uma dúvida sobre a cobertura de especialidades/terapias')">Consultar Cobertura</button>
+    <button class="btn" style="background-color:var(--azul-vibrante);" onclick="capturarLeadWhatsApp('Especialidades')">Consultar Cobertura</button>
   </section>
 
   <!-- ===== COPARTICIPAÇÃO ===== -->
@@ -759,15 +663,14 @@
       <div class="copart-item">
         <h4>Coparticipação Parcial</h4>
         <p>Taxas mínimas apenas em consultas e exames. <strong>Internações e Cirurgias são ISENTAS</strong>.</p>
-        <button class="btn btn-sm" onclick="abrirWhatsApp('Ola, gostaria de entender melhor como funciona a Coparticipação Parcial')">Tirar Dúvida</button>
+        <button class="btn btn-sm" onclick="capturarLeadWhatsApp('Coparticipação Parcial')">Tirar Dúvida</button>
       </div>
       <div class="copart-item" style="border-left-color:var(--azul-vibrante);">
         <h4>Coparticipação Total</h4>
         <p>Taxas em todos os eventos médicos. Proporciona a <strong>mensalidade fixa mais barata</strong> do mercado.</p>
-        <button class="btn btn-sm" onclick="abrirWhatsApp('Ola, gostaria de entender melhor como funciona a Coparticipação Total')">Tirar Dúvida</button>
+        <button class="btn btn-sm" onclick="capturarLeadWhatsApp('Coparticipação Total')">Tirar Dúvida</button>
       </div>
     </div>
-    <p style="font-size:0.85rem; color:var(--texto-claro); margin-top:16px;">Isento de coparticipação em internações na rede própria.</p>
   </section>
 
   <!-- ===== CLUBE DE VANTAGENS ===== -->
@@ -775,7 +678,7 @@
     <h2>Clube de Vantagens Interclube</h2>
     <p class="subtitle">Benefícios exclusivos para você economizar no dia a dia.</p>
     <div class="grid-cards">
-      <div class="card"><h4>💊 Farmácias</h4><p>Até <strong>70% de desconto</strong> em medicamentos nas maiores redes (Drogasil, Pague Menos, etc).</p></div>
+      <div class="card"><h4>💊 Farmácias</h4><p>Até <strong>70% de desconto</strong> em medicamentos nas maiores redes.</p></div>
       <div class="card"><h4>⚡ Conta de Luz</h4><p>Economia mensal na fatura via parceria sustentável exclusiva.</p></div>
       <div class="card"><h4>🛒 Compras e Lazer</h4><p>Descontos em lojas parceiras como Magalu, Netshoes e cinemas.</p></div>
     </div>
@@ -801,7 +704,7 @@
         <p>🔵 <a href="https://www.facebook.com/Leonardo.aguiar.corretor" target="_blank">Facebook Profissional</a></p>
         <p>✉️ <a href="mailto:leonardo.moreira.hapvida@gmail.com">leonardo.moreira.hapvida@gmail.com</a></p>
       </div>
-      <button class="btn" onclick="abrirWhatsApp('Ola Leonardo! Vi seu perfil no site e gostaria de iniciar um atendimento')">Chamar no WhatsApp</button>
+      <button class="btn" onclick="capturarLeadWhatsApp('Consultor')">Chamar no WhatsApp</button>
     </div>
   </section>
 
@@ -820,12 +723,170 @@
   </footer>
 
   <!-- ===== WHATSAPP FLUTUANTE ===== -->
-  <a href="#" class="zap-float" onclick="abrirWhatsApp('Ola,tenho interesse em saber mais sobre os planos de saúde')">
+  <a href="#" class="zap-float" onclick="capturarLeadWhatsApp('WhatsApp Flutuante')">
     <svg viewBox="0 0 16 16"><path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.005-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/></svg>
   </a>
 
-  <!-- ===== SCRIPTS ===== -->
+  <!-- ================================================================ -->
+  <!-- SCRIPTS -->
+  <!-- ================================================================ -->
   <script>
+    // ================================================================
+    // FIREBASE CONFIG (substitua pelas suas credenciais)
+    // ================================================================
+    const firebaseConfig = {
+      apiKey: "AIzaSyA0hk9TulJdKGVoWzyX5Z8E4YhZk98iueY",
+      authDomain: "leads-hapvida.firebaseapp.com",
+      databaseURL: "https://leads-hapvida-default-rtdb.firebaseio.com",
+      projectId: "leads-hapvida",
+      storageBucket: "leads-hapvida.firebasestorage.app",
+      messagingSenderId: "525590280891",
+      appId: "1:525590280891:web:46c5fd790f0a6c8772879e",
+      measurementId: "G-DDVJCJXKQ5"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // ================================================================
+    // FUNÇÃO PARA CAPTURAR LEAD DO WHATSAPP
+    // ================================================================
+    function capturarLeadWhatsApp(origem) {
+      // Abre o WhatsApp
+      const numero = "5511934319676";
+      const url = `https://api.whatsapp.com/send?phone=${numero}&text=Olá, tenho interesse em saber mais sobre os planos de saúde.`;
+      window.open(url, '_blank');
+
+      // Registra o lead no Firebase (com dados limitados, pois não temos o formulário)
+      const lead = {
+        nome: 'Lead via WhatsApp',
+        telefone: '(11) 93431-9676',
+        origem: origem || 'WhatsApp',
+        status: 'Disponível',
+        dataAbertura: new Date(),
+        vendedorNome: 'Não atribuído',
+        observacoes: 'Lead capturado via clique no WhatsApp'
+      };
+      salvarLead(lead);
+    }
+
+    // ================================================================
+    // FUNÇÃO PARA SALVAR LEAD NO FIRESTORE
+    // ================================================================
+    async function salvarLead(dados) {
+      try {
+        // Distribuição automática (busca próximo vendedor)
+        const vendedor = await obterProximoVendedor();
+        
+        const lead = {
+          nome: dados.nome || 'Não informado',
+          idade: dados.idade || '',
+          cidade: dados.cidade || '',
+          email: dados.email || '',
+          telefone: dados.telefone || '',
+          tipoPlano: dados.tipoPlano || '',
+          planoEscolhido: dados.planoEscolhido || '',
+          temPlanoAnterior: dados.temPlanoAnterior || '',
+          origem: dados.origem || 'Vepage',
+          status: dados.status || 'Disponível',
+          vendedorId: vendedor ? vendedor.id : null,
+          vendedorNome: vendedor ? vendedor.nome : 'Não atribuído',
+          dataAbertura: new Date(),
+          observacoes: dados.observacoes || '',
+          codigoCotacao: dados.codigoCotacao || ''
+        };
+
+        // Salva no Firestore
+        const docRef = await db.collection('leads').add(lead);
+        console.log('Lead salvo com ID:', docRef.id);
+
+        // Incrementa contador do vendedor
+        if (vendedor) {
+          await db.collection('vendedores').doc(vendedor.id).update({
+            leadsRecebidos: firebase.firestore.FieldValue.increment(1),
+            ultimaAtribuicao: new Date()
+          });
+        }
+
+        // (Opcional) Envia notificação para Telegram
+        // notificarTelegram(lead, vendedor);
+
+        return docRef.id;
+      } catch (error) {
+        console.error('Erro ao salvar lead:', error);
+        return null;
+      }
+    }
+
+    // ================================================================
+    // DISTRIBUIÇÃO ROTATIVA DE VENDEDORES
+    // ================================================================
+    async function obterProximoVendedor() {
+      try {
+        const snapshot = await db.collection('vendedores')
+          .where('ativo', '==', true)
+          .orderBy('ordem')
+          .get();
+
+        if (snapshot.empty) {
+          console.warn('Nenhum vendedor ativo cadastrado.');
+          return null;
+        }
+
+        const vendedores = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        
+        const configRef = db.collection('config').doc('geral');
+        const configDoc = await configRef.get();
+        let ultimoIndex = 0;
+        if (configDoc.exists) {
+          ultimoIndex = configDoc.data().ultimoVendedorIndex || 0;
+        }
+
+        const proximoIndex = (ultimoIndex + 1) % vendedores.length;
+        const vendedorSelecionado = vendedores[proximoIndex];
+
+        await configRef.set({ ultimoVendedorIndex: proximoIndex }, { merge: true });
+
+        return vendedorSelecionado;
+      } catch (error) {
+        console.error('Erro na distribuição rotativa:', error);
+        return null;
+      }
+    }
+
+    // ================================================================
+    // CAPTURA DE LEADS DO VEPAGE (via postMessage)
+    // ================================================================
+    window.addEventListener('message', function(event) {
+      if (event.origin !== 'https://interativepage.com') return;
+      
+      try {
+        const data = typeof event.data === 'string' ? JSON.parse(event.data) : event.data;
+        if (data.type === 'CS_FORM_SUBMIT' || data.type === 'lead_submit') {
+          const formData = data.data || {};
+          const lead = {
+            nome: formData.nome || formData.Nome || '',
+            telefone: formData.telefone || formData.Telefone || '',
+            email: formData.email || formData.Email || '',
+            cidade: formData.cidade || formData.Cidade || '',
+            idade: formData.idade || formData.Idade || '',
+            tipoPlano: formData.tipoPlano || formData.TipoPlano || '',
+            planoEscolhido: formData.planoEscolhido || formData.PlanoEscolhido || '',
+            temPlanoAnterior: formData.temPlanoAnterior || formData.TemPlanoAnterior || '',
+            origem: 'Vepage',
+            status: 'Disponível',
+            codigoCotacao: data.codigo || formData.codigo || ''
+          };
+          salvarLead(lead);
+        }
+      } catch (e) {
+        // Ignora mensagens que não são do Vepage
+      }
+    });
+
+    // ================================================================
+    // FUNÇÕES EXISTENTES (ABRIR WHATSAPP, FILTRAR PLANOS, ETC.)
+    // ================================================================
     function abrirWhatsApp(mensagem) {
       const numero = "5511934319676";
       const url = `https://api.whatsapp.com/send?phone=${numero}&text=${encodeURIComponent(mensagem)}`;
@@ -844,7 +905,7 @@
       });
     }
 
-    // ===== FORMULÁRIO DE LEADS (Vepage) =====
+    // ===== FORMULÁRIO VEPAGE (carregamento) =====
     (function() {
       const slug = 'leonardo_hapvida';
       const containers = ['cs-form-leonardo_hapvida','cs-form-leonardo_hapvida-2'];
