@@ -699,7 +699,7 @@
       <h3>Leonardo Aguiar</h3>
       <span class="badge">Consultor Autorizado Hapvida NDI</span>
       <div class="contatos-footer">
-        <p>📞 <a href="https://api.whatsapp.com/send?phone=5511934319676" target="_blank">(11) 93431-9676</a></p>
+        <p>📞 <a href="https://api.whatsapp.com/send?phone=5511926923328" target="_blank">(11) 92692-3328</a></p>
         <p>📸 <a href="https://www.instagram.com/leonardo_hapvida/" target="_blank">@leonardo_hapvida</a></p>
         <p>🔵 <a href="https://www.facebook.com/Leonardo.aguiar.corretor" target="_blank">Facebook Profissional</a></p>
         <p>✉️ <a href="mailto:leonardo.moreira.hapvida@gmail.com">leonardo.moreira.hapvida@gmail.com</a></p>
@@ -732,7 +732,7 @@
   <!-- ================================================================ -->
   <script>
     // ================================================================
-    // FIREBASE CONFIG (substitua pelas suas credenciais)
+    // FIREBASE CONFIG
     // ================================================================
     const firebaseConfig = {
       apiKey: "AIzaSyA0hk9TulJdKGVoWzyX5Z8E4YhZk98iueY",
@@ -752,15 +752,15 @@
     // FUNÇÃO PARA CAPTURAR LEAD DO WHATSAPP
     // ================================================================
     function capturarLeadWhatsApp(origem) {
-      // Abre o WhatsApp
-      const numero = "5511934319676";
+      // Abre o WhatsApp com o novo número
+      const numero = "5511926923328";
       const url = `https://api.whatsapp.com/send?phone=${numero}&text=Olá, tenho interesse em saber mais sobre os planos de saúde.`;
       window.open(url, '_blank');
 
-      // Registra o lead no Firebase (com dados limitados, pois não temos o formulário)
+      // Registra o lead no Firebase
       const lead = {
         nome: 'Lead via WhatsApp',
-        telefone: '(11) 93431-9676',
+        telefone: '(11) 92692-3328',
         origem: origem || 'WhatsApp',
         status: 'Disponível',
         dataAbertura: new Date(),
@@ -888,7 +888,7 @@
     // FUNÇÕES EXISTENTES (ABRIR WHATSAPP, FILTRAR PLANOS, ETC.)
     // ================================================================
     function abrirWhatsApp(mensagem) {
-      const numero = "5511934319676";
+      const numero = "5511926923328";
       const url = `https://api.whatsapp.com/send?phone=${numero}&text=${encodeURIComponent(mensagem)}`;
       window.open(url, '_blank');
     }
