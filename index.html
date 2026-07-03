@@ -15,7 +15,7 @@
 
   <style>
     /* ================================================================
-       CSS COMPLETO (mantido com ajustes para o novo menu)
+       CSS COMPLETO – COM MENU MAIS LARGO E SEPARADO
        ================================================================ */
     :root {
       --azul-deep: #002d4d;
@@ -142,16 +142,16 @@
     .card li::before { content:'✓'; color:#10b981; font-weight:800; flex-shrink:0; }
     .card .btn { width:100%; padding:14px 20px; font-size:0.9rem; margin-top:auto; }
 
-    /* ---- MENU ESTADO (NOVO) ---- */
+    /* ---- MENU ESTADO (MAIS LARGO E SEPARADO) ---- */
     .estado-menu {
       background:var(--branco);
-      padding:12px 24px;
+      padding:16px 40px;
       box-shadow:0 2px 12px rgba(0,0,0,0.04);
       display:flex;
       flex-wrap:wrap;
       align-items:center;
-      justify-content:center;
-      gap:8px 24px;
+      justify-content:space-between;
+      gap:16px 32px;
       border-bottom:1px solid #e9edf2;
       position:sticky;
       top:0;
@@ -159,59 +159,92 @@
       backdrop-filter:blur(8px);
       background:rgba(255,255,255,0.92);
     }
+
     .estado-menu .menu-logo {
       font-family:'Montserrat',sans-serif;
       font-weight:900;
-      font-size:1.2rem;
+      font-size:1.4rem;
       color:var(--azul-deep);
-      margin-right:12px;
+      white-space:nowrap;
     }
     .estado-menu .menu-logo span { color:var(--laranja); }
+
     .estado-menu .menu-links {
       display:flex;
       flex-wrap:wrap;
       align-items:center;
-      gap:6px 18px;
+      gap:12px 24px;
     }
+
     .estado-menu .menu-links a {
       color:var(--texto-claro);
       text-decoration:none;
-      font-size:0.85rem;
+      font-size:0.9rem;
       font-weight:500;
       transition:var(--transition);
-      padding:4px 0;
+      padding:6px 0;
       border-bottom:2px solid transparent;
     }
-    .estado-menu .menu-links a:hover { color:var(--azul-vibrante); border-bottom-color:var(--azul-vibrante); }
+    .estado-menu .menu-links a:hover {
+      color:var(--azul-vibrante);
+      border-bottom-color:var(--azul-vibrante);
+    }
+
     .estado-menu .menu-divider {
       width:1px;
-      height:24px;
+      height:28px;
       background:#d1d9e6;
     }
+
+    /* SELETOR DE ESTADO - MAIS DESTACADO */
     .estado-switcher {
       display:inline-flex;
       background:#eef2f6;
-      padding:4px;
-      border-radius:40px;
-      gap:4px;
+      padding:6px 10px;
+      border-radius:50px;
+      gap:6px;
+      border:1px solid #dce1e8;
+      box-shadow:0 1px 4px rgba(0,0,0,0.02);
     }
+
     .estado-switcher .estado-btn {
       border:none;
-      padding:6px 18px;
-      border-radius:30px;
-      font-weight:600;
-      font-size:0.8rem;
+      padding:10px 24px;
+      border-radius:40px;
+      font-weight:700;
+      font-size:0.9rem;
       cursor:pointer;
       background:transparent;
       color:var(--texto-claro);
       transition:var(--transition);
+      letter-spacing:0.3px;
     }
+
     .estado-switcher .estado-btn.active {
       background:var(--branco);
       color:var(--azul-vibrante);
-      box-shadow:0 2px 8px rgba(0,0,0,0.06);
+      box-shadow:0 2px 8px rgba(0,0,0,0.08);
+      border:1px solid rgba(0,77,128,0.1);
     }
-    .estado-switcher .estado-btn:hover:not(.active) { color:var(--texto); }
+
+    .estado-switcher .estado-btn:hover:not(.active) {
+      color:var(--texto);
+      background:rgba(255,255,255,0.4);
+    }
+
+    /* SEPARADOR ENTRE OS BOTÕES */
+    .estado-switcher .estado-btn:not(:last-child)::after {
+      content: '';
+      display: inline-block;
+      width: 1px;
+      height: 24px;
+      background: #d1d9e6;
+      margin-left: 12px;
+      vertical-align: middle;
+    }
+    .estado-switcher .estado-btn:last-child::after {
+      display: none;
+    }
 
     /* ---- FILTROS PF/PME ---- */
     .tabs-container {
@@ -306,7 +339,7 @@
     .teleconsulta-box .item .num { font-size:2rem; font-weight:800; display:block; }
     .teleconsulta-box .item .label { font-size:0.8rem; opacity:0.8; }
 
-    /* ---- REDE CREDENCIADA (ESTADO) ---- */
+    /* ---- REDE POR ESTADO ---- */
     .rede-estado-container {
       display:block;
       transition:var(--transition);
@@ -500,9 +533,20 @@
       .secao-bg { padding:60px 16px; }
       .consultor-card { padding:32px 24px; }
       .lead-form-wrapper { padding:32px 24px; }
-      .estado-menu { flex-direction:column; gap:12px; padding:12px 16px; }
-      .estado-menu .menu-links { justify-content:center; gap:10px; }
+      .estado-menu {
+        flex-direction:column;
+        gap:16px;
+        padding:16px 20px;
+      }
+      .estado-menu .menu-links {
+        justify-content:center;
+        gap:10px 18px;
+      }
       .estado-menu .menu-divider { display:none; }
+      .estado-switcher .estado-btn {
+        padding:8px 16px;
+        font-size:0.8rem;
+      }
       .tabs-container { flex-wrap:wrap; gap:6px; background:transparent; border-radius:0; padding:0; }
       .tab-btn { background:#eef2f6; border-radius:40px; padding:8px 18px; font-size:0.8rem; }
       .tab-btn.active { background:var(--azul-vibrante); color:var(--branco); }
@@ -519,8 +563,9 @@
       .rede-cards { grid-template-columns:1fr; }
       .filiais-grid { grid-template-columns:1fr; }
       .lead-form-wrapper { padding:24px 16px; }
-      .estado-switcher .estado-btn { padding:4px 12px; font-size:0.75rem; }
-      .estado-menu .menu-links a { font-size:0.75rem; }
+      .estado-switcher .estado-btn { padding:6px 12px; font-size:0.75rem; }
+      .estado-switcher .estado-btn:not(:last-child)::after { display:none; }
+      .estado-menu .menu-links a { font-size:0.8rem; }
     }
     @media (max-width:480px) {
       .hero { padding:60px 16px 50px; }
@@ -1198,7 +1243,7 @@
         const cardEstado = card.dataset.estado;
         if (cardEstado === estado) {
           card.classList.remove('plano-escondido');
-          card.style.display = 'flex'; // força exibição
+          card.style.display = 'flex';
         } else {
           card.classList.add('plano-escondido');
           card.style.display = 'none';
@@ -1234,11 +1279,8 @@
 
     function aplicarFiltroCategoria(categoria) {
       document.querySelectorAll('.card-plano').forEach(card => {
-        // Primeiro, verifica se o card pertence ao estado atual
         const cardEstado = card.dataset.estado;
         const isEstadoAtual = (cardEstado === estadoAtual);
-        
-        // Depois, verifica a categoria (todos, pf, pme)
         const cardCategoria = card.dataset.categoria;
         const isCategoriaMatch = (categoria === 'todos' || cardCategoria === categoria);
         
