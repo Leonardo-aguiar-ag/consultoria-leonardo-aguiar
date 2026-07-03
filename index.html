@@ -15,7 +15,7 @@
 
   <style>
     /* ================================================================
-       CSS COMPLETO – MENU AINDA MAIS LARGO E COM SEPARAÇÃO
+       CSS COMPLETO – MENU LARGO E SEPARAÇÃO CLARA
        ================================================================ */
     :root {
       --azul-deep: #002d4d;
@@ -145,7 +145,7 @@
     /* ---- MENU ESTADO (MAIS LARGO E COM SEPARAÇÃO) ---- */
     .estado-menu {
       background:var(--branco);
-      padding:18px 50px; /* mais largo */
+      padding:18px 50px;
       box-shadow:0 2px 12px rgba(0,0,0,0.04);
       display:flex;
       flex-wrap:wrap;
@@ -163,7 +163,7 @@
     .estado-menu .menu-logo {
       font-family:'Montserrat',sans-serif;
       font-weight:900;
-      font-size:1.5rem; /* maior */
+      font-size:1.5rem;
       color:var(--azul-deep);
       white-space:nowrap;
     }
@@ -173,7 +173,7 @@
       display:flex;
       flex-wrap:wrap;
       align-items:center;
-      gap:16px 30px; /* mais espaçado */
+      gap:16px 30px;
     }
 
     .estado-menu .menu-links a {
@@ -621,7 +621,7 @@
   </section>
 
   <!-- ============================================================= -->
-  <!-- ===== CONHEÇA NOSSOS PLANOS (SEPARADO POR ESTADO) ===== -->
+  <!-- ===== CONHEÇA NOSSOS PLANOS (ATUALIZADO SP PF) ===== -->
   <!-- ============================================================= -->
   <section class="secao" id="planos-estado">
     <h2>Conheça nossos Planos</h2>
@@ -637,28 +637,81 @@
     <div class="grid-cards" id="container-planos">
       
       <!-- ========================================================= -->
-      <!-- PLANOS SÃO PAULO (data-estado="sp")                       -->
+      <!-- PLANOS SÃO PAULO – PESSOA FÍSICA (ATUALIZADO)             -->
       <!-- ========================================================= -->
       <div class="card card-plano card-smart" data-estado="sp" data-categoria="pf">
-        <h3>Nosso Médico</h3>
-        <ul><li>Acompanhamento Preventivo</li><li>Equipe de saúde exclusiva</li><li>O menor preço para CPF</li></ul>
-        <button class="btn" onclick="capturarLeadWhatsApp('Plano Nosso Médico')">Simular</button>
-      </div>
-      <div class="card card-plano card-smart" data-estado="sp" data-categoria="pf">
-        <h3>Nosso Plano</h3>
-        <ul><li>Livre acesso à Rede Própria</li><li>Urgência e Emergência 24h</li><li>Cobertura regional completa</li></ul>
-        <button class="btn" onclick="capturarLeadWhatsApp('Plano Nosso Plano')">Simular</button>
-      </div>
-      <div class="card card-plano card-smart" data-estado="sp" data-categoria="pf">
-        <h3>Smart Flex <span class="badge-novo">Lançamento</span></h3>
-        <ul><li>Atendimento em mais de <strong>50 cidades</strong> (SP e região)</li><li>Rede Própria <strong>Hapvida</strong> + Rede Credenciada ampliada</li><li>Inclusão de <strong>plano odontológico</strong> completo (ROL ANS) em novas vendas até 99 vidas</li></ul>
-        <button class="btn" onclick="capturarLeadWhatsApp('Plano Smart Flex')">Simular</button>
-      </div>
-      <div class="card card-plano card-smart" data-estado="sp" data-categoria="pf">
         <h3>Smart UP</h3>
-        <ul><li>Rede Credenciada Ampliada</li><li>Telemedicina 24h VIP</li><li>Atendimento nacional de urgência</li></ul>
-        <button class="btn" onclick="capturarLeadWhatsApp('Plano Smart UP')">Simular</button>
+        <ul>
+          <li><strong>Operadora:</strong> Hapvida NotreDame</li>
+          <li><strong>Tabela:</strong> GNDI Hapvida SP Capital</li>
+          <li><strong>Coparticipação:</strong> Com Coparticipação</li>
+          <li><strong>Acomodação:</strong> Enfermaria</li>
+          <li><strong>Abrangência:</strong> Grupo de Municípios*</li>
+          <li><strong>Reembolso:</strong> Sem Reembolso</li>
+          <li><strong>Destaque:</strong> Internações isentas. Consultas e exames com valores fixos (consulte).</li>
+        </ul>
+        <button class="btn" onclick="capturarLeadWhatsApp('SP - Smart UP Enfermaria')">Cotar Agora</button>
       </div>
+
+      <div class="card card-plano card-smart" data-estado="sp" data-categoria="pf">
+        <h3>Smart UP Ambulatorial</h3>
+        <ul>
+          <li><strong>Operadora:</strong> Hapvida NotreDame</li>
+          <li><strong>Tabela:</strong> GNDI Hapvida SP Capital</li>
+          <li><strong>Coparticipação:</strong> Com Coparticipação Parcial</li>
+          <li><strong>Acomodação:</strong> Sem acomodação hospitalar</li>
+          <li><strong>Abrangência:</strong> Grupo de Municípios*</li>
+          <li><strong>Reembolso:</strong> Sem Reembolso</li>
+          <li><strong>Destaque:</strong> Consultas eletivas e de urgência isentas. Exames simples e complexos isentos. Terapias com valor fixo (consulte).</li>
+        </ul>
+        <button class="btn" onclick="capturarLeadWhatsApp('SP - Smart UP Amb Parcial')">Cotar Agora</button>
+      </div>
+
+      <div class="card card-plano card-smart" data-estado="sp" data-categoria="pf">
+        <h3>Smart UP Ambulatorial Total</h3>
+        <ul>
+          <li><strong>Operadora:</strong> Hapvida NotreDame</li>
+          <li><strong>Tabela:</strong> GNDI Hapvida SP Capital</li>
+          <li><strong>Coparticipação:</strong> Com Coparticipação</li>
+          <li><strong>Acomodação:</strong> Sem acomodação hospitalar</li>
+          <li><strong>Abrangência:</strong> Grupo de Municípios*</li>
+          <li><strong>Reembolso:</strong> Sem Reembolso</li>
+          <li><strong>Destaque:</strong> Internações isentas. Consultas e exames com coparticipação (consulte valores).</li>
+        </ul>
+        <button class="btn" onclick="capturarLeadWhatsApp('SP - Smart UP Amb Total')">Cotar Agora</button>
+      </div>
+
+      <div class="card card-plano card-smart" data-estado="sp" data-categoria="pf">
+        <h3>Nosso Médico RMSP</h3>
+        <ul>
+          <li><strong>Operadora:</strong> Hapvida NotreDame</li>
+          <li><strong>Tabela:</strong> GNDI Hapvida SP Capital</li>
+          <li><strong>Coparticipação:</strong> Com Coparticipação Parcial</li>
+          <li><strong>Acomodação:</strong> Rede Própria (Enfermaria/Apartamento)</li>
+          <li><strong>Abrangência:</strong> Grupo de Municípios*</li>
+          <li><strong>Reembolso:</strong> Sem Reembolso</li>
+          <li><strong>Destaque:</strong> Consultas eletivas e de urgência isentas. Exames simples e complexos isentos. Internações isentas. Terapias com valor fixo (consulte).</li>
+        </ul>
+        <button class="btn" onclick="capturarLeadWhatsApp('SP - Nosso Médico Parcial')">Cotar Agora</button>
+      </div>
+
+      <div class="card card-plano card-smart" data-estado="sp" data-categoria="pf">
+        <h3>Nosso Médico RMSP Total</h3>
+        <ul>
+          <li><strong>Operadora:</strong> Hapvida NotreDame</li>
+          <li><strong>Tabela:</strong> GNDI Hapvida SP Capital</li>
+          <li><strong>Coparticipação:</strong> Com Coparticipação</li>
+          <li><strong>Acomodação:</strong> Rede Própria (Enfermaria/Apartamento)</li>
+          <li><strong>Abrangência:</strong> Grupo de Municípios*</li>
+          <li><strong>Reembolso:</strong> Sem Reembolso</li>
+          <li><strong>Destaque:</strong> Internações isentas. Consultas e exames com valores fixos (consulte). Terapias especiais e demais com valores fixos (consulte).</li>
+        </ul>
+        <button class="btn" onclick="capturarLeadWhatsApp('SP - Nosso Médico Total')">Cotar Agora</button>
+      </div>
+
+      <!-- ========================================================= -->
+      <!-- PLANOS SÃO PAULO – EMPRESARIAL (PME) – MANTIDOS           -->
+      <!-- ========================================================= -->
       <div class="card card-plano card-smart" data-estado="sp" data-categoria="pme">
         <h3>Smart 200/500</h3>
         <ul><li>Rede Própria de Alta Performance</li><li>Tabelas exclusivas para MEI/CNPJ</li><li>Redução drástica de custos</li></ul>
@@ -828,7 +881,7 @@
         <div class="legenda">
           <p><strong>Legenda de cobertura:</strong> H - Hospitalar • PS - Pronto Socorro • PA - Pronto Atendimento • M - Maternidade • Amb - Ambulatorial</p>
           <p><strong>*Grupo de Municípios:</strong> Abrange cidades da região metropolitana e polos conforme rede credenciada.</p>
-          <p><strong>Coparticipação (valores fixos referência):</strong> Consulta eletiva R$ 25,42 • Terapias neurológicas R$ 78,87 • Terapias gerais R$ 24,27 (sujeito a reajuste).</p>
+          <p><strong>Coparticipação (valores fixos referência):</strong> Consulte valores atualizados na cotação.</p>
         </div>
       </div>
     </div>
@@ -1090,10 +1143,11 @@
         'Plano Familiar': 'Olá, tenho interesse no plano familiar para minha família.',
         'Plano Individual Criança': 'Olá, tenho interesse no plano individual para criança.',
         'Plano Individual Adulto/Idoso': 'Olá, tenho interesse no plano individual para adulto/idoso.',
-        'Plano Nosso Médico': 'Olá, tenho interesse no plano Nosso Médico.',
-        'Plano Nosso Plano': 'Olá, tenho interesse no plano Nosso Plano.',
-        'Plano Smart Flex': 'Olá, tenho interesse no plano Smart Flex.',
-        'Plano Smart UP': 'Olá, tenho interesse no plano Smart UP.',
+        'SP - Smart UP Enfermaria': 'Olá, tenho interesse no plano Smart UP (Enfermaria) para São Paulo. Gostaria de mais informações.',
+        'SP - Smart UP Amb Parcial': 'Olá, tenho interesse no plano Smart UP Ambulatorial com Coparticipação Parcial para São Paulo.',
+        'SP - Smart UP Amb Total': 'Olá, tenho interesse no plano Smart UP Ambulatorial com Coparticipação Total para São Paulo.',
+        'SP - Nosso Médico Parcial': 'Olá, tenho interesse no plano Nosso Médico RMSP com Coparticipação Parcial para São Paulo.',
+        'SP - Nosso Médico Total': 'Olá, tenho interesse no plano Nosso Médico RMSP com Coparticipação Total para São Paulo.',
         'Plano Smart 200/500': 'Olá, tenho interesse no plano Smart 200/500 para minha empresa.',
         'Plano Advance 600/700': 'Olá, tenho interesse no plano Advance 600/700.',
         'Plano Premium 900': 'Olá, tenho interesse no plano Premium 900.',
