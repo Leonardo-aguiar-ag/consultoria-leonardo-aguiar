@@ -15,7 +15,7 @@
 
   <style>
     /* ================================================================
-       CSS COMPLETO – COM MENU MAIS LARGO E SEPARADO
+       CSS COMPLETO – MENU AINDA MAIS LARGO E COM SEPARAÇÃO
        ================================================================ */
     :root {
       --azul-deep: #002d4d;
@@ -142,16 +142,16 @@
     .card li::before { content:'✓'; color:#10b981; font-weight:800; flex-shrink:0; }
     .card .btn { width:100%; padding:14px 20px; font-size:0.9rem; margin-top:auto; }
 
-    /* ---- MENU ESTADO (MAIS LARGO E SEPARADO) ---- */
+    /* ---- MENU ESTADO (MAIS LARGO E COM SEPARAÇÃO) ---- */
     .estado-menu {
       background:var(--branco);
-      padding:16px 40px;
+      padding:18px 50px; /* mais largo */
       box-shadow:0 2px 12px rgba(0,0,0,0.04);
       display:flex;
       flex-wrap:wrap;
       align-items:center;
       justify-content:space-between;
-      gap:16px 32px;
+      gap:20px 40px;
       border-bottom:1px solid #e9edf2;
       position:sticky;
       top:0;
@@ -163,7 +163,7 @@
     .estado-menu .menu-logo {
       font-family:'Montserrat',sans-serif;
       font-weight:900;
-      font-size:1.4rem;
+      font-size:1.5rem; /* maior */
       color:var(--azul-deep);
       white-space:nowrap;
     }
@@ -173,13 +173,13 @@
       display:flex;
       flex-wrap:wrap;
       align-items:center;
-      gap:12px 24px;
+      gap:16px 30px; /* mais espaçado */
     }
 
     .estado-menu .menu-links a {
       color:var(--texto-claro);
       text-decoration:none;
-      font-size:0.9rem;
+      font-size:0.95rem;
       font-weight:500;
       transition:var(--transition);
       padding:6px 0;
@@ -192,38 +192,39 @@
 
     .estado-menu .menu-divider {
       width:1px;
-      height:28px;
+      height:32px;
       background:#d1d9e6;
     }
 
-    /* SELETOR DE ESTADO - MAIS DESTACADO */
+    /* SELETOR DE ESTADO - MAIS DESTACADO E SEPARADO */
     .estado-switcher {
       display:inline-flex;
       background:#eef2f6;
-      padding:6px 10px;
-      border-radius:50px;
-      gap:6px;
+      padding:8px 14px;
+      border-radius:60px;
+      gap:10px;
       border:1px solid #dce1e8;
-      box-shadow:0 1px 4px rgba(0,0,0,0.02);
+      box-shadow:0 2px 8px rgba(0,0,0,0.04);
     }
 
     .estado-switcher .estado-btn {
       border:none;
-      padding:10px 24px;
-      border-radius:40px;
+      padding:12px 28px;
+      border-radius:50px;
       font-weight:700;
-      font-size:0.9rem;
+      font-size:0.95rem;
       cursor:pointer;
       background:transparent;
       color:var(--texto-claro);
       transition:var(--transition);
       letter-spacing:0.3px;
+      position:relative;
     }
 
     .estado-switcher .estado-btn.active {
       background:var(--branco);
       color:var(--azul-vibrante);
-      box-shadow:0 2px 8px rgba(0,0,0,0.08);
+      box-shadow:0 2px 12px rgba(0,0,0,0.08);
       border:1px solid rgba(0,77,128,0.1);
     }
 
@@ -232,14 +233,14 @@
       background:rgba(255,255,255,0.4);
     }
 
-    /* SEPARADOR ENTRE OS BOTÕES */
+    /* Linha divisória entre os botões (São Paulo | Goiânia) */
     .estado-switcher .estado-btn:not(:last-child)::after {
       content: '';
       display: inline-block;
       width: 1px;
-      height: 24px;
-      background: #d1d9e6;
-      margin-left: 12px;
+      height: 30px;
+      background: #c0c8d4;
+      margin-left: 16px;
       vertical-align: middle;
     }
     .estado-switcher .estado-btn:last-child::after {
@@ -535,17 +536,17 @@
       .lead-form-wrapper { padding:32px 24px; }
       .estado-menu {
         flex-direction:column;
-        gap:16px;
-        padding:16px 20px;
+        gap:20px;
+        padding:16px 24px;
       }
       .estado-menu .menu-links {
         justify-content:center;
-        gap:10px 18px;
+        gap:12px 20px;
       }
       .estado-menu .menu-divider { display:none; }
       .estado-switcher .estado-btn {
-        padding:8px 16px;
-        font-size:0.8rem;
+        padding:10px 20px;
+        font-size:0.85rem;
       }
       .tabs-container { flex-wrap:wrap; gap:6px; background:transparent; border-radius:0; padding:0; }
       .tab-btn { background:#eef2f6; border-radius:40px; padding:8px 18px; font-size:0.8rem; }
@@ -563,9 +564,10 @@
       .rede-cards { grid-template-columns:1fr; }
       .filiais-grid { grid-template-columns:1fr; }
       .lead-form-wrapper { padding:24px 16px; }
-      .estado-switcher .estado-btn { padding:6px 12px; font-size:0.75rem; }
+      .estado-switcher .estado-btn { padding:8px 16px; font-size:0.8rem; }
       .estado-switcher .estado-btn:not(:last-child)::after { display:none; }
-      .estado-menu .menu-links a { font-size:0.8rem; }
+      .estado-menu .menu-links a { font-size:0.85rem; }
+      .estado-menu { padding:14px 16px; }
     }
     @media (max-width:480px) {
       .hero { padding:60px 16px 50px; }
@@ -576,6 +578,8 @@
       .contatos-footer p { font-size:0.9rem; }
       .zap-float { width:56px; height:56px; bottom:20px; right:20px; }
       .zap-float svg { width:30px; height:30px; }
+      .estado-switcher { flex-wrap:wrap; justify-content:center; }
+      .estado-switcher .estado-btn { padding:6px 14px; font-size:0.75rem; }
     }
   </style>
 </head>
