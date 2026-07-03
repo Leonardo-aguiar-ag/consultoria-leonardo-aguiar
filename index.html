@@ -15,7 +15,7 @@
 
   <style>
     /* ================================================================
-       SEU CSS COMPLETO AQUI (mantenha o que você já tem)
+       SEU CSS COMPLETO (mantido exatamente como estava)
        ================================================================ */
     :root {
       --azul-deep: #002d4d;
@@ -146,6 +146,8 @@
       border-radius:60px;
       margin-bottom:48px;
       box-shadow:inset 0 1px 3px rgba(0,0,0,0.04);
+      flex-wrap:wrap;
+      justify-content:center;
     }
     .tab-btn {
       border:none;
@@ -252,7 +254,7 @@
       margin:4px;
     }
     .hospital-tag { color:var(--azul-vibrante); border:1px solid var(--azul-claro); }
-    .lab-tag { color:var(--texto-claro); border:1px solid var(--border); }
+    .lab-tag { color:var(--texto-claro); border:1px solid #ddd; }
 
     .filiais-grid {
       display:grid;
@@ -371,12 +373,38 @@
     .zap-float:hover { transform:scale(1.1); box-shadow:0 12px 32px rgba(37,211,102,0.4); }
     .zap-float svg { width:34px; height:34px; fill:var(--branco); }
 
+    /* Rede Goiânia */
+    #goiania-rede {
+      background:var(--branco);
+      border-radius:var(--radius);
+      padding:30px;
+      box-shadow:var(--shadow-sm);
+      margin-top:30px;
+      text-align:left;
+      border-top:5px solid var(--laranja);
+    }
+    #goiania-rede h3 { color:var(--azul-deep); margin-bottom:16px; font-size:1.4rem; }
+    #goiania-rede .rede-grupo { margin-bottom:20px; }
+    #goiania-rede .rede-grupo h4 { color:var(--azul-vibrante); margin-bottom:8px; font-size:1.1rem; }
+    #goiania-rede .tag-rede { 
+      display:inline-block; 
+      background:var(--azul-claro); 
+      padding:6px 16px; 
+      border-radius:40px; 
+      margin:4px; 
+      font-size:0.85rem; 
+      color:var(--azul-deep);
+    }
+
     @media (max-width:992px) {
       .hero { padding:80px 20px 70px; clip-path:ellipse(180% 100% at 50% 0%); }
       .secao { padding:60px 16px; }
       .secao-bg { padding:60px 16px; }
       .consultor-card { padding:32px 24px; }
       .lead-form-wrapper { padding:32px 24px; }
+      .tabs-container { flex-wrap:wrap; gap:6px; background:transparent; border-radius:0; padding:0; }
+      .tab-btn { background:#eef2f6; border-radius:40px; padding:8px 18px; font-size:0.8rem; }
+      .tab-btn.active { background:var(--azul-vibrante); color:var(--branco); }
     }
     @media (max-width:768px) {
       .hero h1 { font-size:1.8rem; }
@@ -384,18 +412,12 @@
       .btn { padding:14px 32px; font-size:0.9rem; }
       .grid-cards { grid-template-columns:1fr; max-width:420px; margin:0 auto; }
       .copart-grid { grid-template-columns:1fr; max-width:420px; margin:0 auto; }
-      .tabs-container { flex-wrap:wrap; gap:6px; background:transparent; border-radius:0; padding:0; }
-      .tab-btn { background:#eef2f6; border-radius:40px; padding:8px 18px; font-size:0.8rem; }
-      .tab-btn.active { background:var(--azul-vibrante); color:var(--branco); }
-      .lead-form-wrapper h2 { font-size:1.3rem; }
-      .contatos-footer p { font-size:0.9rem; }
-      .zap-float { width:56px; height:56px; bottom:20px; right:20px; }
-      .zap-float svg { width:30px; height:30px; }
       .numeros-grid { grid-template-columns:repeat(2,1fr); }
       .qualivida-grid { grid-template-columns:repeat(2,1fr); }
       .teleconsulta-box { grid-template-columns:repeat(2,1fr); }
       .rede-cards { grid-template-columns:1fr; }
       .filiais-grid { grid-template-columns:1fr; }
+      .lead-form-wrapper { padding:24px 16px; }
     }
     @media (max-width:480px) {
       .hero { padding:60px 16px 50px; }
@@ -403,6 +425,9 @@
       .lead-form-wrapper { padding:24px 16px; }
       .consultor-card { padding:24px 16px; }
       .card { padding:24px 18px; }
+      .contatos-footer p { font-size:0.9rem; }
+      .zap-float { width:56px; height:56px; bottom:20px; right:20px; }
+      .zap-float svg { width:30px; height:30px; }
     }
   </style>
 </head>
@@ -425,17 +450,22 @@
   </section>
 
   <!-- ============================================================= -->
-  <!-- ===== CONHEÇA NOSSOS PLANOS ===== -->
+  <!-- ===== CONHEÇA NOSSOS PLANOS (COM NOVA ABA GOIÂNIA) ===== -->
   <!-- ============================================================= -->
   <section class="secao">
     <h2>Conheça nossos Planos</h2>
     <p class="subtitle">Escolha a categoria e encontre o plano ideal para você ou sua empresa.</p>
     <div class="tabs-container">
       <button class="tab-btn active" onclick="filtrarPlanos(event,'todos')">Ver Todos</button>
+      <button class="tab-btn" onclick="filtrarPlanos(event,'goiania')">Goiânia</button>
       <button class="tab-btn" onclick="filtrarPlanos(event,'pf')">Familiar</button>
       <button class="tab-btn" onclick="filtrarPlanos(event,'pme')">Empresarial (CNPJ)</button>
     </div>
     <div class="grid-cards" id="container-planos">
+      
+      <!-- ========================================================= -->
+      <!-- PLANOS NACIONAIS / SÃO PAULO (já existentes) -->
+      <!-- ========================================================= -->
       <!-- PF -->
       <div class="card card-plano card-smart" data-categoria="pf">
         <h3>Nosso Médico</h3>
@@ -473,17 +503,120 @@
         <ul><li>O padrão mais elevado do grupo</li><li>Hospitais de Elite (Rede Care)</li><li>Maiores reembolsos do mercado</li></ul>
         <button class="btn" onclick="capturarLeadWhatsApp('Plano Premium 900')">Ver Tabela</button>
       </div>
+
+      <!-- ========================================================= -->
+      <!-- PLANOS EXCLUSIVOS PARA GOIÂNIA (5 opções do PDF)          -->
+      <!-- ========================================================= -->
+      <div class="card card-plano card-smart" data-categoria="goiania">
+        <h3>Hapvida Ambulatorial</h3>
+        <ul>
+          <li><strong>Coparticipação:</strong> Parcial (consulta e exames)</li>
+          <li><strong>Acomodação:</strong> Sem acomodação hospitalar</li>
+          <li><strong>Abrangência:</strong> Grupo de Municípios*</li>
+          <li><strong>Reembolso:</strong> Sem reembolso</li>
+          <li><strong>Ideal para:</strong> Quem busca o essencial com custo reduzido</li>
+        </ul>
+        <button class="btn" onclick="capturarLeadWhatsApp('Goiânia - Hapvida Ambulatorial')">Cotar Agora</button>
+      </div>
+
+      <div class="card card-plano card-smart" data-categoria="goiania">
+        <h3>Hapvida Ambulatorial Total</h3>
+        <ul>
+          <li><strong>Coparticipação:</strong> Total (todos os eventos)</li>
+          <li><strong>Acomodação:</strong> Sem acomodação hospitalar</li>
+          <li><strong>Abrangência:</strong> Grupo de Municípios*</li>
+          <li><strong>Reembolso:</strong> Sem reembolso</li>
+          <li><strong>Diferencial:</strong> Mensalidade fixa mais barata</li>
+        </ul>
+        <button class="btn" onclick="capturarLeadWhatsApp('Goiânia - Hapvida Ambulatorial Total')">Cotar Agora</button>
+      </div>
+
+      <div class="card card-plano card-smart" data-categoria="goiania">
+        <h3>Nosso Médico Enfermaria</h3>
+        <ul>
+          <li><strong>Coparticipação:</strong> Parcial</li>
+          <li><strong>Acomodação:</strong> Enfermaria</li>
+          <li><strong>Abrangência:</strong> Grupo de Municípios</li>
+          <li><strong>Reembolso:</strong> Sem reembolso</li>
+          <li><strong>Rede:</strong> Hospitais próprios Hapvida</li>
+        </ul>
+        <button class="btn" onclick="capturarLeadWhatsApp('Goiânia - Nosso Médico Enfermaria')">Cotar Agora</button>
+      </div>
+
+      <div class="card card-plano card-premium" data-categoria="goiania">
+        <h3>Nosso Médico Apartamento</h3>
+        <ul>
+          <li><strong>Coparticipação:</strong> Parcial</li>
+          <li><strong>Acomodação:</strong> Apartamento</li>
+          <li><strong>Abrangência:</strong> Grupo de Municípios</li>
+          <li><strong>Reembolso:</strong> Sem reembolso</li>
+          <li><strong>Conforto:</strong> Internação com privacidade</li>
+        </ul>
+        <button class="btn" onclick="capturarLeadWhatsApp('Goiânia - Nosso Médico Apartamento')">Cotar Agora</button>
+      </div>
+
+      <div class="card card-plano card-smart" data-categoria="goiania">
+        <h3>Nosso Plano (Rede Própria)</h3>
+        <ul>
+          <li><strong>Coparticipação:</strong> Parcial</li>
+          <li><strong>Acomodação:</strong> Enfermaria</li>
+          <li><strong>Abrangência:</strong> Grupo de Municípios</li>
+          <li><strong>Reembolso:</strong> Sem reembolso</li>
+          <li><strong>Destaque:</strong> Rede Própria Hapvida exclusiva</li>
+        </ul>
+        <button class="btn" onclick="capturarLeadWhatsApp('Goiânia - Nosso Plano')">Cotar Agora</button>
+      </div>
+
+    </div>
+
+    <!-- ===== REDE DE ATENDIMENTO GOIÂNIA (exibida quando a aba Goiânia está ativa) ===== -->
+    <div id="goiania-rede" style="display:none;">
+      <h3>🏥 Rede de Atendimento – Goiânia e Região</h3>
+      
+      <div class="rede-grupo">
+        <h4>Hospitais e Prontos Atendimentos</h4>
+        <div>
+          <span class="tag-rede">Goiânia: Hospital América</span>
+          <span class="tag-rede">Goiânia: Hospital Jardim América (Hosp - PS - Mat)</span>
+          <span class="tag-rede">Goiânia: Hospital Promed</span>
+          <span class="tag-rede">Goiânia: Pronto Atendimento Cora Coralina</span>
+          <span class="tag-rede">Edéia: Pronto Atendimento Edéia</span>
+          <span class="tag-rede">Quirinópolis: Hospital Quirinópolis</span>
+          <span class="tag-rede">Anápolis: Pronto Atendimento Anápolis</span>
+        </div>
+      </div>
+
+      <div class="rede-grupo">
+        <h4>Laboratórios e Clínicas de Imagem</h4>
+        <div>
+          <span class="tag-rede">Goiânia: Centro de Imagem Jardim América</span>
+          <span class="tag-rede">Goiânia: Clínica Rio Araguaia</span>
+          <span class="tag-rede">Goiânia: Hospital e Maternidade América</span>
+          <span class="tag-rede">Goiânia: Hospital Promed</span>
+          <span class="tag-rede">Goiânia: Laboratório Jardim América (Matriz/Posto 2)</span>
+          <span class="tag-rede">Goiânia: Policlínica América</span>
+          <span class="tag-rede">Quirinópolis: Hospital e Maternidade Quirinópolis</span>
+          <span class="tag-rede">Anápolis: Laboratório Anápolis</span>
+          <span class="tag-rede">Aparecida de Goiânia: Clínica Mineira de Aparecida</span>
+          <span class="tag-rede">Aparecida de Goiânia: Diagnóstico Vila Aparecida</span>
+        </div>
+      </div>
+
+      <div class="rede-grupo" style="font-size:0.9rem; color:var(--texto-claro); border-top:1px solid #eee; padding-top:16px;">
+        <p><strong>Legenda de cobertura:</strong> H - Hospitalar • PS - Pronto Socorro • PA - Pronto Atendimento • M - Maternidade • Amb - Ambulatorial</p>
+        <p><strong>*Grupo de Municípios:</strong> Abrange cidades da região metropolitana e polos conforme rede credenciada.</p>
+        <p><strong>Coparticipação (valores fixos referência):</strong> Consulta eletiva R$ 25,42 • Terapias neurológicas R$ 78,87 • Terapias gerais R$ 24,27 (sujeito a reajuste).</p>
+      </div>
     </div>
   </section>
 
   <!-- ============================================================= -->
-  <!-- ===== PLANOS POR PERFIL (movido para cá) ===== -->
+  <!-- ===== PLANOS POR PERFIL ===== -->
   <!-- ============================================================= -->
   <section class="secao secao-bg">
     <h2>Planos por Perfil</h2>
     <p class="subtitle">Escolha o perfil que melhor se encaixa para você e receba uma cotação personalizada.</p>
     <div class="grid-cards">
-      <!-- Card Plano Familiar -->
       <div class="card card-flex" style="border-top-color:var(--verde-destaque);">
         <div style="text-align:center; margin-bottom:1rem;">
           <i class="bi bi-people-fill" style="font-size:3rem; color:var(--verde-destaque);"></i>
@@ -494,7 +627,6 @@
           Quero saber mais
         </button>
       </div>
-      <!-- Card Plano Individual Criança -->
       <div class="card card-smart" style="border-top-color:var(--azul-vibrante);">
         <div style="text-align:center; margin-bottom:1rem;">
           <i class="bi bi-child" style="font-size:3rem; color:var(--azul-vibrante);"></i>
@@ -505,7 +637,6 @@
           Quero saber mais
         </button>
       </div>
-      <!-- Card Plano Individual Adulto/Idoso -->
       <div class="card card-premium" style="border-top-color:var(--premium-gold);">
         <div style="text-align:center; margin-bottom:1rem;">
           <i class="bi bi-person" style="font-size:3rem; color:var(--premium-gold);"></i>
@@ -629,59 +760,32 @@
     <h2>Cobertura por Estado</h2>
     <p class="subtitle">Consulte os estados e suas principais cidades atendidas pelos planos regionais e nacionais.</p>
     <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap:20px;">
-      <!-- AC -->
       <div class="filial-card" style="border-left-color:#10b981;"><h4>Acre (AC)</h4><p>Rio Branco, Cruzeiro do Sul, Sena Madureira, Tarauacá, Feijó.</p></div>
-      <!-- AL -->
       <div class="filial-card" style="border-left-color:#3b82f6;"><h4>Alagoas (AL)</h4><p>Maceió, Arapiraca, Palmeira dos Índios, Rio Largo, Marechal Deodoro.</p></div>
-      <!-- AP -->
       <div class="filial-card" style="border-left-color:#8b5cf6;"><h4>Amapá (AP)</h4><p>Macapá, Santana, Laranjal do Jari, Oiapoque, Mazagão.</p></div>
-      <!-- AM -->
       <div class="filial-card" style="border-left-color:#f59e0b;"><h4>Amazonas (AM)</h4><p>Manaus, Parintins, Itacoatiara, Manacapuru, Coari.</p></div>
-      <!-- BA -->
       <div class="filial-card" style="border-left-color:#ef4444;"><h4>Bahia (BA)</h4><p>Salvador, Feira de Santana, Vitória da Conquista, Camaçari, Juazeiro.</p></div>
-      <!-- CE -->
       <div class="filial-card" style="border-left-color:#14b8a6;"><h4>Ceará (CE)</h4><p>Fortaleza, Caucaia, Juazeiro do Norte, Maracanaú, Sobral.</p></div>
-      <!-- DF -->
       <div class="filial-card" style="border-left-color:#6366f1;"><h4>Distrito Federal (DF)</h4><p>Brasília, Taguatinga, Ceilândia, Samambaia, Planaltina.</p></div>
-      <!-- ES -->
       <div class="filial-card" style="border-left-color:#06b6d4;"><h4>Espírito Santo (ES)</h4><p>Vitória, Vila Velha, Serra, Cariacica, Linhares.</p></div>
-      <!-- GO -->
       <div class="filial-card" style="border-left-color:#eab308;"><h4>Goiás (GO)</h4><p>Goiânia, Aparecida de Goiânia, Anápolis, Rio Verde, Catalão.</p></div>
-      <!-- MA -->
       <div class="filial-card" style="border-left-color:#d946ef;"><h4>Maranhão (MA)</h4><p>São Luís, Imperatriz, Timon, Caxias, Codó.</p></div>
-      <!-- MT -->
       <div class="filial-card" style="border-left-color:#22d3ee;"><h4>Mato Grosso (MT)</h4><p>Cuiabá, Várzea Grande, Rondonópolis, Sinop, Tangará da Serra.</p></div>
-      <!-- MS -->
       <div class="filial-card" style="border-left-color:#a855f7;"><h4>Mato Grosso do Sul (MS)</h4><p>Campo Grande, Dourados, Três Lagoas, Corumbá, Ponta Porã.</p></div>
-      <!-- MG -->
       <div class="filial-card" style="border-left-color:#f97316;"><h4>Minas Gerais (MG)</h4><p>Belo Horizonte, Uberlândia, Contagem, Juiz de Fora, Betim.</p></div>
-      <!-- PA -->
       <div class="filial-card" style="border-left-color:#34d399;"><h4>Pará (PA)</h4><p>Belém, Ananindeua, Santarém, Marabá, Parauapebas.</p></div>
-      <!-- PB -->
       <div class="filial-card" style="border-left-color:#fb7185;"><h4>Paraíba (PB)</h4><p>João Pessoa, Campina Grande, Santa Rita, Patos, Bayeux.</p></div>
-      <!-- PR -->
       <div class="filial-card" style="border-left-color:#2dd4bf;"><h4>Paraná (PR)</h4><p>Curitiba, Londrina, Maringá, Ponta Grossa, Cascavel.</p></div>
-      <!-- PE -->
       <div class="filial-card" style="border-left-color:#f43f5e;"><h4>Pernambuco (PE)</h4><p>Recife, Jaboatão dos Guararapes, Olinda, Caruaru, Petrolina.</p></div>
-      <!-- PI -->
       <div class="filial-card" style="border-left-color:#60a5fa;"><h4>Piauí (PI)</h4><p>Teresina, Parnaíba, Picos, Piripiri, Floriano.</p></div>
-      <!-- RJ -->
       <div class="filial-card" style="border-left-color:var(--roxo-advance);"><h4>Rio de Janeiro (RJ)</h4><p>Belfort Roxo, Duque de Caxias, Itaboraí, Magé, Maricá, Mesquita, Nilópolis, Niterói, Nova Iguaçu, Queimados, Rio de Janeiro, São Gonçalo, São João do Meriti.</p></div>
-      <!-- RN -->
       <div class="filial-card" style="border-left-color:#f472b6;"><h4>Rio Grande do Norte (RN)</h4><p>Natal, Mossoró, Parnamirim, São Gonçalo do Amarante, Macaíba.</p></div>
-      <!-- RS -->
       <div class="filial-card" style="border-left-color:#fb923c;"><h4>Rio Grande do Sul (RS)</h4><p>Porto Alegre, Caxias do Sul, Canoas, Pelotas, Santa Maria.</p></div>
-      <!-- RO -->
       <div class="filial-card" style="border-left-color:#4ade80;"><h4>Rondônia (RO)</h4><p>Porto Velho, Ji-Paraná, Vilhena, Ariquemes, Cacoal.</p></div>
-      <!-- RR -->
       <div class="filial-card" style="border-left-color:#facc15;"><h4>Roraima (RR)</h4><p>Boa Vista, Rorainópolis, Caracaraí, Mucajaí, Alto Alegre.</p></div>
-      <!-- SC -->
       <div class="filial-card" style="border-left-color:#38bdf8;"><h4>Santa Catarina (SC)</h4><p>Florianópolis, Joinville, Blumenau, São José, Criciúma.</p></div>
-      <!-- SP -->
       <div class="filial-card" style="border-left-color:var(--azul-vibrante);"><h4>São Paulo (SP)</h4><p>Americana, Artur Nogueira, Cosmópolis, Nova Odessa, Santa Bárbara D'Oeste, Amparo, Campinas, Elias Fausto, Holambra, Hortolândia, Indaiatuba, Jauariúna, Monte Mor, Paulínia, Pedreira, Santo Antônio de Posse, Sumaré, Valinhos, Cajamar, Itatiba, Itupeva, Jundiaí, Louveira, Vinhedo, Várzea Paulista, Arujá, Ferraz de Vasconcelos, Guararema, Itaquaquecetuba, Mogi das Cruzes, Poá, Santa Isabel, Suzano, Bertioga, Cubatão, Guarujá, Mongaguá, Praia Grande, Santos, São Vicente, Diadema, Embu-Guaçu, Mauá, Ribeirão Pires, Rio Grande da Serra, Santo André, São Bernardo do Campo, São Caetano do Sul, Barueri, Caieiras, Carapicuíba, Cotia, Embu das Artes, Franco da Rocha, Guarulhos, Itapecerica da Serra, Itapevi, Jandira, Mairiporã, Osasco, São Paulo, Taboão da Serra, Alumínio, Araçariguama, Araçoiaba da Serra, Cabreúva, Capela do Alto, Ibiúna, Iperó, Itu, Piedade, Porto Feliz, Salto de Pirapora, Sarapuí, São Roque, Sorocaba, Votorantim, Caraguatatuba, Jacareí, Lorena, São José dos Campos.</p></div>
-      <!-- SE -->
       <div class="filial-card" style="border-left-color:#f87171;"><h4>Sergipe (SE)</h4><p>Aracaju, Nossa Senhora do Socorro, Lagarto, Itabaiana, São Cristóvão.</p></div>
-      <!-- TO -->
       <div class="filial-card" style="border-left-color:#fbbf24;"><h4>Tocantins (TO)</h4><p>Palmas, Araguaína, Gurupi, Porto Nacional, Paraíso do Tocantins.</p></div>
     </div>
     <p style="font-size:0.85rem; color:var(--texto-claro); margin-top:24px;">🌎 <strong>Abrangência nacional:</strong> Os planos Smart Prime, Advance, Premium e Infinity atendem em todos os estados, com cobertura nas principais capitais e cidades. Consulte seu corretor para verificar a disponibilidade na sua cidade.</p>
@@ -797,7 +901,6 @@
     // FUNÇÃO PARA CAPTURAR LEAD DO WHATSAPP COM MENSAGEM PERSONALIZADA
     // ================================================================
     function capturarLeadWhatsApp(origem) {
-      // Mapeamento de mensagens personalizadas por origem
       const mensagens = {
         'Plano Familiar': 'Olá, tenho interesse no plano familiar para minha família. Gostaria de saber mais sobre valores e coberturas.',
         'Plano Individual Criança': 'Olá, tenho interesse no plano individual para criança. Quais são as opções e preços?',
@@ -814,18 +917,20 @@
         'Coparticipação Total': 'Olá, gostaria de entender melhor como funciona a Coparticipação Total.',
         'Consultor': 'Olá Leonardo! Vi seu perfil no site e gostaria de iniciar um atendimento.',
         'Hero': 'Olá, tenho interesse em saber mais sobre os planos de saúde.',
-        'WhatsApp Flutuante': 'Olá, tenho interesse em saber mais sobre os planos de saúde.'
+        'WhatsApp Flutuante': 'Olá, tenho interesse em saber mais sobre os planos de saúde.',
+        // Goiânia
+        'Goiânia - Hapvida Ambulatorial': 'Olá, tenho interesse no plano Hapvida Ambulatorial para Goiânia. Pode me passar mais detalhes?',
+        'Goiânia - Hapvida Ambulatorial Total': 'Olá, tenho interesse no plano Hapvida Ambulatorial Total para Goiânia. Quero saber os valores.',
+        'Goiânia - Nosso Médico Enfermaria': 'Olá, tenho interesse no plano Nosso Médico Enfermaria para Goiânia. Pode me ajudar?',
+        'Goiânia - Nosso Médico Apartamento': 'Olá, tenho interesse no plano Nosso Médico Apartamento para Goiânia. Gostaria de mais informações.',
+        'Goiânia - Nosso Plano': 'Olá, tenho interesse no plano Nosso Plano para Goiânia. Quero saber sobre a rede própria.'
       };
 
-      // Usa a mensagem mapeada ou uma padrão
       let mensagem = mensagens[origem] || 'Olá, tenho interesse em saber mais sobre os planos de saúde.';
-
-      // Abre o WhatsApp com a mensagem personalizada
       const numero = "5511926923328";
       const url = `https://api.whatsapp.com/send?phone=${numero}&text=${encodeURIComponent(mensagem)}`;
       window.open(url, '_blank');
 
-      // Registra o lead no Firebase
       const lead = {
         nome: 'Lead via WhatsApp',
         telefone: '(11) 92692-3328',
@@ -843,9 +948,7 @@
     // ================================================================
     async function salvarLead(dados) {
       try {
-        // Distribuição automática (busca próximo vendedor)
         const vendedor = await obterProximoVendedor();
-        
         const lead = {
           nome: dados.nome || 'Não informado',
           idade: dados.idade || '',
@@ -863,19 +966,14 @@
           observacoes: dados.observacoes || '',
           codigoCotacao: dados.codigoCotacao || ''
         };
-
-        // Salva no Firestore
         const docRef = await db.collection('leads').add(lead);
         console.log('Lead salvo com ID:', docRef.id);
-
-        // Incrementa contador do vendedor
         if (vendedor) {
           await db.collection('vendedores').doc(vendedor.id).update({
             leadsRecebidos: firebase.firestore.FieldValue.increment(1),
             ultimaAtribuicao: new Date()
           });
         }
-
         return docRef.id;
       } catch (error) {
         console.error('Erro ao salvar lead:', error);
@@ -892,26 +990,20 @@
           .where('ativo', '==', true)
           .orderBy('ordem')
           .get();
-
         if (snapshot.empty) {
           console.warn('Nenhum vendedor ativo cadastrado.');
           return null;
         }
-
         const vendedores = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        
         const configRef = db.collection('config').doc('geral');
         const configDoc = await configRef.get();
         let ultimoIndex = 0;
         if (configDoc.exists) {
           ultimoIndex = configDoc.data().ultimoVendedorIndex || 0;
         }
-
         const proximoIndex = (ultimoIndex + 1) % vendedores.length;
         const vendedorSelecionado = vendedores[proximoIndex];
-
         await configRef.set({ ultimoVendedorIndex: proximoIndex }, { merge: true });
-
         return vendedorSelecionado;
       } catch (error) {
         console.error('Erro na distribuição rotativa:', error);
@@ -924,7 +1016,6 @@
     // ================================================================
     window.addEventListener('message', function(event) {
       if (event.origin !== 'https://interativepage.com') return;
-      
       try {
         const data = typeof event.data === 'string' ? JSON.parse(event.data) : event.data;
         if (data.type === 'CS_FORM_SUBMIT' || data.type === 'lead_submit') {
@@ -944,20 +1035,12 @@
           };
           salvarLead(lead);
         }
-      } catch (e) {
-        // Ignora mensagens que não são do Vepage
-      }
+      } catch (e) {}
     });
 
     // ================================================================
-    // FUNÇÕES EXISTENTES (ABRIR WHATSAPP, FILTRAR PLANOS, ETC.)
+    // FUNÇÃO FILTRAR PLANOS (ATUALIZADA PARA EXIBIR REDE GOIÂNIA)
     // ================================================================
-    function abrirWhatsApp(mensagem) {
-      const numero = "5511926923328";
-      const url = `https://api.whatsapp.com/send?phone=${numero}&text=${encodeURIComponent(mensagem)}`;
-      window.open(url, '_blank');
-    }
-
     function filtrarPlanos(evento, categoria) {
       document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
       evento.target.classList.add('active');
@@ -968,6 +1051,21 @@
           card.classList.add('plano-escondido');
         }
       });
+
+      // Exibe/esconde a rede de Goiânia
+      const redeGoiania = document.getElementById('goiania-rede');
+      if (redeGoiania) {
+        redeGoiania.style.display = (categoria === 'goiania') ? 'block' : 'none';
+      }
+    }
+
+    // ================================================================
+    // FUNÇÕES EXISTENTES (ABRIR WHATSAPP)
+    // ================================================================
+    function abrirWhatsApp(mensagem) {
+      const numero = "5511926923328";
+      const url = `https://api.whatsapp.com/send?phone=${numero}&text=${encodeURIComponent(mensagem)}`;
+      window.open(url, '_blank');
     }
 
     // ===== FORMULÁRIO VEPAGE (carregamento) =====
