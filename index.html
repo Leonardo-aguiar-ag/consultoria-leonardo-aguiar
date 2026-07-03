@@ -40,7 +40,7 @@
   <button class="btn" onclick="capturarLeadWhatsApp('Hero')">Solicitar Cotação Agora</button>
 </header>
 
-<!-- ===== FORMULÁRIO COM REDIRECIONAMENTO DIRETO ===== -->
+<!-- ===== FORMULÁRIO ===== -->
 <section class="secao secao-bg" style="padding-top:60px;" id="formulario1">
   <div class="lead-form-wrapper">
     <h2>Simule seu plano de saúde</h2>
@@ -208,22 +208,12 @@ async function enviarLead(event) {
       body: JSON.stringify(data)
     });
     
-    // ===== REDIRECIONAMENTO DIRETO PARA O WHATSAPP (com atraso) =====
-    const mensagemWhatsApp = `✅ Olá Leonardo! Um novo lead acabou de se cadastrar:
-
-📌 Nome: ${data.nome}
-📌 CPF: ${data.cpf}
-📌 Telefone: ${data.telefone}
-📌 E-mail: ${data.email || 'Não informado'}
-📌 Cidade: ${data.cidade}
-📌 Plano: ${data.plano || 'Não informado'}
-📌 Mensagem: ${data.mensagem || 'Nenhuma'}
-
-💬 Entre em contato com este cliente agora mesmo!`;
+    // ===== MENSAGEM SIMPLES COM NOME E PLANO =====
+    const mensagemWhatsApp = `Olá Leonardo, meu nome é ${data.nome} e tenho interesse no plano ${data.plano || 'não especificado'}. Pode me ajudar?`;
     
     const urlWhatsApp = `https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${encodeURIComponent(mensagemWhatsApp)}`;
     
-    // Aguarda 1.5 segundos para garantir que o envio foi concluído
+    // Aguarda 1.5 segundos e redireciona
     setTimeout(() => {
       window.location.href = urlWhatsApp;
     }, 1500);
