@@ -621,7 +621,7 @@
   </section>
 
   <!-- ============================================================= -->
-  <!-- ===== CONHEÇA NOSSOS PLANOS (ATUALIZADO SP PF) ===== -->
+  <!-- ===== CONHEÇA NOSSOS PLANOS (ATUALIZADO SP PF + GO PME) ===== -->
   <!-- ============================================================= -->
   <section class="secao" id="planos-estado">
     <h2>Conheça nossos Planos</h2>
@@ -729,7 +729,7 @@
       </div>
 
       <!-- ========================================================= -->
-      <!-- PLANOS GOIÂNIA (data-estado="go")                         -->
+      <!-- PLANOS GOIÂNIA – PESSOA FÍSICA                            -->
       <!-- ========================================================= -->
       <div class="card card-plano card-smart" data-estado="go" data-categoria="pf" style="display:none;">
         <h3>Hapvida Ambulatorial</h3>
@@ -791,11 +791,42 @@
         <button class="btn" onclick="capturarLeadWhatsApp('Goiânia - Nosso Plano')">Cotar Agora</button>
       </div>
 
+      <!-- ========================================================= -->
+      <!-- PLANOS GOIÂNIA – PESSOA JURÍDICA (PME) – NOVOS           -->
+      <!-- ========================================================= -->
+      <div class="card card-plano card-smart" data-estado="go" data-categoria="pme" style="display:none;">
+        <h3>Nosso Médico Empresarial</h3>
+        <ul>
+          <li><strong>Operadora:</strong> Hapvida</li>
+          <li><strong>Tabela:</strong> Hapvida - Goiânia</li>
+          <li><strong>Coparticipação:</strong> Com Coparticipação Parcial</li>
+          <li><strong>Acomodação:</strong> Enfermaria</li>
+          <li><strong>Abrangência:</strong> Grupo de Municípios*</li>
+          <li><strong>Reembolso:</strong> Sem Reembolso</li>
+          <li><strong>Destaque:</strong> Consultas eletivas e de urgência isentas. Exames simples e complexos isentos. Internações isentas. Terapias com 40% limitado (consulte valor máximo).</li>
+        </ul>
+        <button class="btn" onclick="capturarLeadWhatsApp('Goiânia - Nosso Médico Empresarial')">Cotar Agora</button>
+      </div>
+
+      <div class="card card-plano card-smart" data-estado="go" data-categoria="pme" style="display:none;">
+        <h3>Nosso Plano Empresarial</h3>
+        <ul>
+          <li><strong>Operadora:</strong> Hapvida</li>
+          <li><strong>Tabela:</strong> Hapvida - Goiânia</li>
+          <li><strong>Coparticipação:</strong> Com Coparticipação</li>
+          <li><strong>Acomodação:</strong> Apartamento</li>
+          <li><strong>Abrangência:</strong> Grupo de Municípios*</li>
+          <li><strong>Reembolso:</strong> Sem Reembolso</li>
+          <li><strong>Destaque:</strong> Consultas com valor fixo. Exames com 40% limitado (consulte valor máximo). Terapias especiais com valor fixo. Internações isentas. <strong>Inclui opção odontológica</strong> (consulte).</li>
+        </ul>
+        <button class="btn" onclick="capturarLeadWhatsApp('Goiânia - Nosso Plano Empresarial')">Cotar Agora</button>
+      </div>
+
     </div>
   </section>
 
   <!-- ============================================================= -->
-  <!-- ===== PLANOS POR PERFIL (MOVIDO PARA LOGO ABAIXO) ===== -->
+  <!-- ===== PLANOS POR PERFIL ===== -->
   <!-- ============================================================= -->
   <section class="secao">
     <h2>Planos por Perfil</h2>
@@ -1156,6 +1187,8 @@
         'Goiânia - Nosso Médico Enfermaria': 'Olá, tenho interesse no plano Nosso Médico Enfermaria para Goiânia.',
         'Goiânia - Nosso Médico Apartamento': 'Olá, tenho interesse no plano Nosso Médico Apartamento para Goiânia.',
         'Goiânia - Nosso Plano': 'Olá, tenho interesse no plano Nosso Plano para Goiânia.',
+        'Goiânia - Nosso Médico Empresarial': 'Olá, tenho interesse no plano Nosso Médico Empresarial para Goiânia. Quero saber mais para minha empresa.',
+        'Goiânia - Nosso Plano Empresarial': 'Olá, tenho interesse no plano Nosso Plano Empresarial para Goiânia. Quero saber mais sobre a opção odontológica e valores.',
         'Especialidades': 'Olá, gostaria de tirar uma dúvida sobre especialidades.',
         'Coparticipação Parcial': 'Olá, gostaria de entender a Coparticipação Parcial.',
         'Coparticipação Total': 'Olá, gostaria de entender a Coparticipação Total.',
@@ -1284,19 +1317,16 @@
     function switchEstado(estado) {
       estadoAtual = estado;
       
-      // Atualiza botões
       document.querySelectorAll('.estado-btn').forEach(btn => {
         btn.classList.remove('active');
         if (btn.dataset.estado === estado) btn.classList.add('active');
       });
 
-      // Atualiza subtítulo
       const subtitle = document.getElementById('subtitle-estado');
       if (subtitle) {
         subtitle.textContent = `Planos disponíveis para ${estado === 'sp' ? 'São Paulo' : 'Goiânia'}`;
       }
 
-      // Mostra/esconde planos
       document.querySelectorAll('.card-plano').forEach(card => {
         const cardEstado = card.dataset.estado;
         if (cardEstado === estado) {
@@ -1308,11 +1338,9 @@
         }
       });
 
-      // Mostra/esconde rede
       document.getElementById('rede-sp').style.display = (estado === 'sp') ? 'block' : 'none';
       document.getElementById('rede-go').style.display = (estado === 'go') ? 'block' : 'none';
 
-      // Reaplica filtro de categoria (PF/PME) para manter consistência
       const activeTab = document.querySelector('.tab-btn.active');
       if (activeTab) {
         const categoria = activeTab.textContent.toLowerCase().includes('familiar') ? 'pf' :
@@ -1322,7 +1350,7 @@
     }
 
     // ================================================================
-    // FILTROS PF / PME (APLICADOS SOBRE O ESTADO ATUAL)
+    // FILTROS PF / PME
     // ================================================================
     let categoriaAtual = 'todos';
 
@@ -1408,7 +1436,7 @@
     })();
 
     // ================================================================
-    // INICIALIZAÇÃO: Garante que o estado padrão (SP) seja aplicado
+    // INICIALIZAÇÃO
     // ================================================================
     document.addEventListener('DOMContentLoaded', function() {
       switchEstado('sp');
