@@ -208,7 +208,7 @@ async function enviarLead(event) {
       body: JSON.stringify(data)
     });
     
-    // ===== REDIRECIONAMENTO DIRETO PARA O WHATSAPP =====
+    // ===== REDIRECIONAMENTO DIRETO PARA O WHATSAPP (com atraso) =====
     const mensagemWhatsApp = `✅ Olá Leonardo! Um novo lead acabou de se cadastrar:
 
 📌 Nome: ${data.nome}
@@ -221,11 +221,13 @@ async function enviarLead(event) {
 
 💬 Entre em contato com este cliente agora mesmo!`;
     
-    // Redireciona para o WhatsApp (substitui a página atual)
     const urlWhatsApp = `https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${encodeURIComponent(mensagemWhatsApp)}`;
-    window.location.href = urlWhatsApp;
     
-    // Mostra mensagem de sucesso (pode não ser vista devido ao redirecionamento)
+    // Aguarda 1.5 segundos para garantir que o envio foi concluído
+    setTimeout(() => {
+      window.location.href = urlWhatsApp;
+    }, 1500);
+    
     status.className = 'mensagem-status sucesso';
     status.textContent = '✅ Redirecionando para o WhatsApp...';
     form.reset();
