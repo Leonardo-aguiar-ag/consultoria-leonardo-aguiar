@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet" />
   
-  <!-- Firebase SDKs -->
+  <!-- Firebase SDKs (mantido) -->
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 
   <style>
     /* ================================================================
-       CSS COMPLETO – COM LOGO + CONSULTORIA
+       CSS COMPLETO – com logo + consultoria
        ================================================================ */
     :root {
       --azul-deep: #002d4d;
@@ -160,7 +160,6 @@
       background:rgba(255,255,255,0.92);
     }
 
-    /* Logo + consultoria */
     .menu-brand {
       display:flex;
       align-items:center;
@@ -218,7 +217,6 @@
       background:#d1d9e6;
     }
 
-    /* SELETOR DE ESTADO */
     .estado-switcher {
       display:inline-flex;
       background:#eef2f6;
@@ -488,7 +486,7 @@
     .contatos-footer a { color:rgba(255,255,255,0.85); text-decoration:none; transition:var(--transition); }
     .contatos-footer a:hover { color:var(--laranja); }
 
-    /* ---- FORMULÁRIO INTERATIVE PAGE (WIDGET) ---- */
+    /* ---- FORMULÁRIO WIDGET ---- */
     .lead-form-wrapper {
       background:var(--branco);
       border-radius:var(--radius);
@@ -502,8 +500,8 @@
     .lead-form-wrapper:hover { box-shadow:var(--shadow-md); }
     .lead-form-wrapper h2 { font-size:1.6rem; margin-bottom:6px; color:var(--azul-deep); }
     .lead-form-wrapper .subtitle { color:var(--texto-claro); margin-bottom:30px; font-size:1rem; }
-    #cs-form-leonardo_hapvida { min-height:520px; width:100%; }
-    #cs-form-leonardo_hapvida iframe {
+    #cs-form-leonardo_hapvida, #cs-form-leonardo_hapvida-2 { min-height:520px; width:100%; }
+    #cs-form-leonardo_hapvida iframe, #cs-form-leonardo_hapvida-2 iframe {
       width:100%;
       min-height:520px;
       border:none;
@@ -610,9 +608,8 @@
 </head>
 <body>
 
-  <!-- ===== MENU SUPERIOR COM LOGO + CONSULTORIA ===== -->
+  <!-- ===== MENU SUPERIOR ===== -->
   <nav class="estado-menu" id="topo">
-    <!-- Esquerda: Logo Hapvida + Consultoria -->
     <div class="menu-brand">
       <img src="https://www2.hapvida.com.br/image/layout_set_logo?img_id=12239142&t=1783019116087" alt="Hapvida" />
       <div class="consultoria-texto">
@@ -620,8 +617,6 @@
         <span>ESPECIALISTA HAPVIDA NDI</span>
       </div>
     </div>
-
-    <!-- Direita: Links + Seletor de estado -->
     <div class="menu-links">
       <a href="#hero">Conheça a Hapvida</a>
       <a href="#planos-estado">Nossos Planos</a>
@@ -630,7 +625,6 @@
       <a href="#consultor">Acesse sua Área</a>
       <a href="#formulario1" class="btn btn-sm" style="background:var(--laranja); color:white; padding:8px 20px;">Faça sua cotação</a>
       <span class="menu-divider"></span>
-      <!-- SELETOR DE ESTADO -->
       <div class="estado-switcher">
         <button class="estado-btn active" data-estado="sp" onclick="switchEstado('sp')">📍 São Paulo</button>
         <button class="estado-btn" data-estado="go" onclick="switchEstado('go')">📍 Goiânia</button>
@@ -645,7 +639,7 @@
     <button class="btn" onclick="capturarLeadWhatsApp('Hero')">Solicitar Cotação Agora</button>
   </header>
 
-  <!-- ===== FORMULÁRIO LEADS 1 (WIDGET INTERATIVE PAGE) ===== -->
+  <!-- ===== FORMULÁRIO LEADS 1 (WIDGET INTERACTIVE PAGE) ===== -->
   <section class="secao secao-bg" style="padding-top:60px;" id="formulario1">
     <div class="lead-form-wrapper">
       <h2>Simule seu plano de saúde</h2>
@@ -669,9 +663,7 @@
 
     <div class="grid-cards" id="container-planos">
       
-      <!-- ========================================================= -->
-      <!-- PLANOS SÃO PAULO – PESSOA FÍSICA                          -->
-      <!-- ========================================================= -->
+      <!-- PLANOS SÃO PAULO – PESSOA FÍSICA -->
       <div class="card card-plano card-smart" data-estado="sp" data-categoria="pf">
         <h3>Smart UP</h3>
         <ul>
@@ -742,9 +734,7 @@
         <button class="btn" onclick="capturarLeadWhatsApp('SP - Nosso Médico Total')">Cotar Agora</button>
       </div>
 
-      <!-- ========================================================= -->
-      <!-- PLANOS SÃO PAULO – EMPRESARIAL (PME)                     -->
-      <!-- ========================================================= -->
+      <!-- PLANOS SÃO PAULO – EMPRESARIAL (PME) -->
       <div class="card card-plano card-smart" data-estado="sp" data-categoria="pme">
         <h3>Smart 200/500</h3>
         <ul><li>Rede Própria de Alta Performance</li><li>Tabelas exclusivas para MEI/CNPJ</li><li>Redução drástica de custos</li></ul>
@@ -761,9 +751,7 @@
         <button class="btn" onclick="capturarLeadWhatsApp('Plano Premium 900')">Ver Tabela</button>
       </div>
 
-      <!-- ========================================================= -->
-      <!-- PLANOS GOIÂNIA – PESSOA FÍSICA                           -->
-      <!-- ========================================================= -->
+      <!-- PLANOS GOIÂNIA – PESSOA FÍSICA -->
       <div class="card card-plano card-smart" data-estado="go" data-categoria="pf" style="display:none;">
         <h3>Hapvida Ambulatorial</h3>
         <ul>
@@ -824,9 +812,7 @@
         <button class="btn" onclick="capturarLeadWhatsApp('Goiânia - Nosso Plano')">Cotar Agora</button>
       </div>
 
-      <!-- ========================================================= -->
-      <!-- PLANOS GOIÂNIA – PESSOA JURÍDICA (PME)                   -->
-      <!-- ========================================================= -->
+      <!-- PLANOS GOIÂNIA – PESSOA JURÍDICA (PME) -->
       <div class="card card-plano card-smart" data-estado="go" data-categoria="pme" style="display:none;">
         <h3>Nosso Médico Empresarial</h3>
         <ul>
@@ -1135,7 +1121,7 @@
     </div>
   </section>
 
-  <!-- ===== FORMULÁRIO LEADS 2 ===== -->
+  <!-- ===== FORMULÁRIO LEADS 2 (WIDGET INTERACTIVE PAGE) ===== -->
   <section class="secao secao-bg" style="padding-bottom:40px;" id="formulario2">
     <div class="lead-form-wrapper" style="background:#f1f6fa; border:2px dashed var(--azul-vibrante);">
       <h2>Fale com um Especialista</h2>
@@ -1200,75 +1186,75 @@
     const db = firebase.firestore();
 
     // ================================================================
-    // FUNÇÃO PARA ENVIAR LEAD PARA GOOGLE SHEETS (VIA APPS SCRIPT)
+    // FUNÇÃO PARA CAPTURAR LEAD DO WHATSAPP
     // ================================================================
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw0Xz__8iD7pdpeBbOK9a3L2OProIC5-NkZ5vOcWkKbXS5VSomqY2hbzb7IMAiFBfW0NQ/exec';
+    function capturarLeadWhatsApp(origem) {
+      const mensagens = {
+        'Plano Familiar': 'Olá, tenho interesse no plano familiar para minha família.',
+        'Plano Individual Criança': 'Olá, tenho interesse no plano individual para criança.',
+        'Plano Individual Adulto/Idoso': 'Olá, tenho interesse no plano individual para adulto/idoso.',
+        'SP - Smart UP Enfermaria': 'Olá, tenho interesse no plano Smart UP (Enfermaria) para São Paulo.',
+        'SP - Smart UP Amb Parcial': 'Olá, tenho interesse no plano Smart UP Ambulatorial com Coparticipação Parcial para São Paulo.',
+        'SP - Smart UP Amb Total': 'Olá, tenho interesse no plano Smart UP Ambulatorial com Coparticipação Total para São Paulo.',
+        'SP - Nosso Médico Parcial': 'Olá, tenho interesse no plano Nosso Médico RMSP com Coparticipação Parcial para São Paulo.',
+        'SP - Nosso Médico Total': 'Olá, tenho interesse no plano Nosso Médico RMSP com Coparticipação Total para São Paulo.',
+        'Plano Smart 200/500': 'Olá, tenho interesse no plano Smart 200/500 para minha empresa.',
+        'Plano Advance 600/700': 'Olá, tenho interesse no plano Advance 600/700.',
+        'Plano Premium 900': 'Olá, tenho interesse no plano Premium 900.',
+        'Goiânia - Hapvida Ambulatorial': 'Olá, tenho interesse no plano Hapvida Ambulatorial para Goiânia.',
+        'Goiânia - Hapvida Ambulatorial Total': 'Olá, tenho interesse no plano Hapvida Ambulatorial Total para Goiânia.',
+        'Goiânia - Nosso Médico Enfermaria': 'Olá, tenho interesse no plano Nosso Médico Enfermaria para Goiânia.',
+        'Goiânia - Nosso Médico Apartamento': 'Olá, tenho interesse no plano Nosso Médico Apartamento para Goiânia.',
+        'Goiânia - Nosso Plano': 'Olá, tenho interesse no plano Nosso Plano para Goiânia.',
+        'Goiânia - Nosso Médico Empresarial': 'Olá, tenho interesse no plano Nosso Médico Empresarial para Goiânia. Quero saber mais para minha empresa.',
+        'Goiânia - Nosso Plano Empresarial': 'Olá, tenho interesse no plano Nosso Plano Empresarial para Goiânia. Quero saber mais sobre a opção odontológica e valores.',
+        'Especialidades': 'Olá, gostaria de tirar uma dúvida sobre especialidades.',
+        'Coparticipação Parcial': 'Olá, gostaria de entender a Coparticipação Parcial.',
+        'Coparticipação Total': 'Olá, gostaria de entender a Coparticipação Total.',
+        'Consultor': 'Olá Leonardo! Vi seu perfil e gostaria de atendimento.',
+        'Hero': 'Olá, tenho interesse em saber mais sobre os planos.',
+        'WhatsApp Flutuante': 'Olá, tenho interesse em saber mais sobre os planos.'
+      };
 
-    // Escuta eventos de postMessage do widget da Interactive Page
-    window.addEventListener('message', function(event) {
-      // Verifica se a origem é a Interactive Page
-      if (event.origin !== 'https://interativepage.com') return;
+      let mensagem = mensagens[origem] || 'Olá, tenho interesse em saber mais sobre os planos de saúde.';
+      const numero = "5511926923328";
+      const url = `https://api.whatsapp.com/send?phone=${numero}&text=${encodeURIComponent(mensagem)}`;
+      window.open(url, '_blank');
 
-      try {
-        const data = typeof event.data === 'string' ? JSON.parse(event.data) : event.data;
-        
-        // Verifica se é um evento de submissão de formulário
-        if (data.type === 'CS_FORM_SUBMIT' || data.type === 'lead_submit') {
-          const formData = data.data || {};
-
-          // Mapeia os campos para a planilha (ajuste os nomes conforme os campos do seu formulário)
-          const lead = {
-            name: formData.nome || formData.name || '',
-            telephone: formData.telefone || formData.phone || '',
-            email: formData.email || '',
-            cidade: formData.cidade || formData.city || '',
-            plano: formData.plano || formData.plan || ''
-          };
-
-          // Envia para o Google Sheets
-          enviarParaGoogleSheets(lead);
-          
-          // Salva também no Firebase (opcional, você pode comentar se não quiser)
-          salvarLeadNoFirebase(lead);
-        }
-      } catch (error) {
-        console.error('Erro ao processar mensagem do widget:', error);
-      }
-    });
-
-    // Função para enviar dados ao Google Apps Script
-    function enviarParaGoogleSheets(dados) {
-      fetch(GOOGLE_SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(dados)
-      }).catch(error => {
-        console.error('Erro ao enviar para Google Sheets:', error);
-      });
+      // Registra o lead no Firebase (opcional)
+      const lead = {
+        nome: 'Lead via WhatsApp',
+        telefone: '(11) 92692-3328',
+        origem: origem || 'WhatsApp',
+        status: 'Disponível',
+        dataAbertura: new Date(),
+        vendedorNome: 'Não atribuído',
+        observacoes: `Lead capturado via clique no WhatsApp (${origem})`
+      };
+      salvarLeadNoFirebase(lead);
     }
 
     // ================================================================
-    // FUNÇÃO PARA SALVAR LEAD NO FIRESTORE (sistema existente)
+    // FUNÇÃO PARA SALVAR LEAD NO FIRESTORE (opcional)
     // ================================================================
     async function salvarLeadNoFirebase(dados) {
       try {
         const vendedor = await obterProximoVendedor();
         const lead = {
-          nome: dados.name || dados.nome || 'Não informado',
+          nome: dados.nome || 'Não informado',
           idade: '',
           cidade: dados.cidade || '',
           email: dados.email || '',
-          telefone: dados.telephone || dados.telefone || '',
+          telefone: dados.telefone || '',
           tipoPlano: '',
           planoEscolhido: dados.plano || '',
           temPlanoAnterior: '',
-          origem: 'Widget Interactive Page',
+          origem: dados.origem || 'Formulário Site',
           status: 'Disponível',
           vendedorId: vendedor ? vendedor.id : null,
           vendedorNome: vendedor ? vendedor.nome : 'Não atribuído',
           dataAbertura: new Date(),
-          observacoes: '',
+          observacoes: dados.observacoes || '',
           codigoCotacao: ''
         };
         const docRef = await db.collection('leads').add(lead);
@@ -1317,52 +1303,34 @@
     }
 
     // ================================================================
-    // FUNÇÃO PARA CAPTURAR LEAD DO WHATSAPP
+    // CARREGAMENTO DOS WIDGETS DA INTERACTIVE PAGE
     // ================================================================
-    function capturarLeadWhatsApp(origem) {
-      const mensagens = {
-        'Plano Familiar': 'Olá, tenho interesse no plano familiar para minha família.',
-        'Plano Individual Criança': 'Olá, tenho interesse no plano individual para criança.',
-        'Plano Individual Adulto/Idoso': 'Olá, tenho interesse no plano individual para adulto/idoso.',
-        'SP - Smart UP Enfermaria': 'Olá, tenho interesse no plano Smart UP (Enfermaria) para São Paulo.',
-        'SP - Smart UP Amb Parcial': 'Olá, tenho interesse no plano Smart UP Ambulatorial com Coparticipação Parcial para São Paulo.',
-        'SP - Smart UP Amb Total': 'Olá, tenho interesse no plano Smart UP Ambulatorial com Coparticipação Total para São Paulo.',
-        'SP - Nosso Médico Parcial': 'Olá, tenho interesse no plano Nosso Médico RMSP com Coparticipação Parcial para São Paulo.',
-        'SP - Nosso Médico Total': 'Olá, tenho interesse no plano Nosso Médico RMSP com Coparticipação Total para São Paulo.',
-        'Plano Smart 200/500': 'Olá, tenho interesse no plano Smart 200/500 para minha empresa.',
-        'Plano Advance 600/700': 'Olá, tenho interesse no plano Advance 600/700.',
-        'Plano Premium 900': 'Olá, tenho interesse no plano Premium 900.',
-        'Goiânia - Hapvida Ambulatorial': 'Olá, tenho interesse no plano Hapvida Ambulatorial para Goiânia.',
-        'Goiânia - Hapvida Ambulatorial Total': 'Olá, tenho interesse no plano Hapvida Ambulatorial Total para Goiânia.',
-        'Goiânia - Nosso Médico Enfermaria': 'Olá, tenho interesse no plano Nosso Médico Enfermaria para Goiânia.',
-        'Goiânia - Nosso Médico Apartamento': 'Olá, tenho interesse no plano Nosso Médico Apartamento para Goiânia.',
-        'Goiânia - Nosso Plano': 'Olá, tenho interesse no plano Nosso Plano para Goiânia.',
-        'Goiânia - Nosso Médico Empresarial': 'Olá, tenho interesse no plano Nosso Médico Empresarial para Goiânia. Quero saber mais para minha empresa.',
-        'Goiânia - Nosso Plano Empresarial': 'Olá, tenho interesse no plano Nosso Plano Empresarial para Goiânia. Quero saber mais sobre a opção odontológica e valores.',
-        'Especialidades': 'Olá, gostaria de tirar uma dúvida sobre especialidades.',
-        'Coparticipação Parcial': 'Olá, gostaria de entender a Coparticipação Parcial.',
-        'Coparticipação Total': 'Olá, gostaria de entender a Coparticipação Total.',
-        'Consultor': 'Olá Leonardo! Vi seu perfil e gostaria de atendimento.',
-        'Hero': 'Olá, tenho interesse em saber mais sobre os planos.',
-        'WhatsApp Flutuante': 'Olá, tenho interesse em saber mais sobre os planos.'
-      };
+    (function() {
+      const slug = 'leonardo_hapvida';
+      const containers = ['cs-form-leonardo_hapvida', 'cs-form-leonardo_hapvida-2'];
 
-      let mensagem = mensagens[origem] || 'Olá, tenho interesse em saber mais sobre os planos de saúde.';
-      const numero = "5511926923328";
-      const url = `https://api.whatsapp.com/send?phone=${numero}&text=${encodeURIComponent(mensagem)}`;
-      window.open(url, '_blank');
+      function carregarWidget(containerId) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        
+        // Evita carregar duplicado
+        if (container.querySelector('iframe')) return;
+        
+        const script = document.createElement('script');
+        script.src = 'https://interativepage.com/widget-loader.js';
+        script.setAttribute('data-slug', slug);
+        script.setAttribute('data-container', containerId);
+        document.head.appendChild(script);
+      }
 
-      // Registra o lead no Firebase e Google Sheets
-      const lead = {
-        name: 'Lead via WhatsApp',
-        telephone: '(11) 92692-3328',
-        email: '',
-        cidade: '',
-        plano: origem
-      };
-      enviarParaGoogleSheets(lead);
-      salvarLeadNoFirebase(lead);
-    }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() {
+          containers.forEach(carregarWidget);
+        });
+      } else {
+        containers.forEach(carregarWidget);
+      }
+    })();
 
     // ================================================================
     // FUNÇÃO PARA ALTERNAR ESTADO (SP / GO)
@@ -1434,61 +1402,6 @@
         }
       });
     }
-
-    // ================================================================
-    // FUNÇÃO ABRIR WHATSAPP (fallback)
-    // ================================================================
-    function abrirWhatsApp(mensagem) {
-      const numero = "5511926923328";
-      const url = `https://api.whatsapp.com/send?phone=${numero}&text=${encodeURIComponent(mensagem)}`;
-      window.open(url, '_blank');
-    }
-
-    // ================================================================
-    // CARREGAMENTO DO WIDGET INTERATIVE PAGE
-    // ================================================================
-    (function() {
-      const slug = 'leonardo_hapvida';
-      const containers = ['cs-form-leonardo_hapvida', 'cs-form-leonardo_hapvida-2'];
-
-      function criarIframe(containerId) {
-        const container = document.getElementById(containerId);
-        if (!container || container.querySelector('iframe')) return;
-        const iframe = document.createElement('iframe');
-        iframe.src = 'https://interativepage.com/embed/' + slug;
-        iframe.style.width = '100%';
-        iframe.style.minHeight = '520px';
-        iframe.style.height = '520px';
-        iframe.style.border = 'none';
-        iframe.style.overflow = 'hidden';
-        iframe.setAttribute('allowtransparency', 'true');
-        iframe.setAttribute('loading', 'lazy');
-        container.appendChild(iframe);
-
-        window.addEventListener('message', function(e) {
-          if (e.origin !== 'https://interativepage.com') return;
-          if (!e.data || e.data.type !== 'CS_EMBED_RESIZE') return;
-          if (e.data.slug !== slug) return;
-          iframe.style.height = Math.ceil(e.data.height) + 'px';
-          iframe.style.minHeight = Math.ceil(e.data.height) + 'px';
-        });
-      }
-
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', function() {
-          containers.forEach(criarIframe);
-        });
-      } else {
-        containers.forEach(criarIframe);
-      }
-
-      setTimeout(function() {
-        containers.forEach(function(id) {
-          const c = document.getElementById(id);
-          if (c && !c.querySelector('iframe')) criarIframe(id);
-        });
-      }, 8000);
-    })();
 
     // ================================================================
     // INICIALIZAÇÃO
