@@ -676,6 +676,11 @@
       .zap-float svg { width:30px; height:30px; }
       .estado-switcher { flex-wrap:wrap; justify-content:center; }
     }
+
+    /* Widget da InteractivePage – mantido escondido */
+    #interactive-widget-container {
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -715,7 +720,7 @@
     <button class="btn" onclick="capturarLeadWhatsApp('Hero')">Solicitar Cotação Agora</button>
   </header>
 
-  <!-- ===== FORMULÁRIO LEADS 1 (PERSONALIZADO COM GOOGLE SHEETS) ===== -->
+  <!-- ===== FORMULÁRIO LEADS 1 (PERSONALIZADO COM DUPLA CAPTURA) ===== -->
   <section class="secao secao-bg" style="padding-top:60px;" id="formulario1">
     <div class="lead-form-wrapper">
       <h2>Simule seu plano de saúde</h2>
@@ -761,6 +766,11 @@
         <div id="status1" class="mensagem-status"></div>
         <button type="submit" class="btn-enviar">📩 Enviar cotação</button>
       </form>
+
+      <!-- Container escondido para o widget da InteractivePage -->
+      <div id="interactive-widget-container">
+        <div id="cs-form-leonardo_hapvida"></div>
+      </div>
     </div>
   </section>
 
@@ -1245,7 +1255,7 @@
     </div>
   </section>
 
-  <!-- ===== FORMULÁRIO LEADS 2 ===== -->
+  <!-- ===== FORMULÁRIO LEADS 2 (DUPLA CAPTURA) ===== -->
   <section class="secao secao-bg" style="padding-bottom:40px;" id="formulario2">
     <div class="lead-form-wrapper" style="background:#f1f6fa; border:2px dashed var(--azul-vibrante);">
       <h2>Fale com um Especialista</h2>
@@ -1350,10 +1360,13 @@
     const db = firebase.firestore();
 
     // ================================================================
-    // FUNÇÃO PARA ENVIAR LEAD PARA GOOGLE SHEETS (VIA APPS SCRIPT)
+    // URL DO GOOGLE APPS SCRIPT
     // ================================================================
     const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw0Xz__8iD7pdpeBbOK9a3L2OProIC5-NkZ5vOcWkKbXS5VSomqY2hbzb7IMAiFBfW0NQ/exec';
 
+    // ================================================================
+    // FUNÇÃO PARA ENVIAR LEAD PARA GOOGLE SHEETS + INTERACTIVEPAGE
+    // ================================================================
     async function enviarLead(event, form) {
       event.preventDefault();
       
@@ -1379,18 +1392,53 @@
       btn.disabled = true;
       
       try {
-        // Salva no Firebase (sistema existente)
-        await salvarLeadNoFirebase(data);
-        
-        // Envia para o Google Sheets via Apps Script
-        const response = await fetch(GOOGLE_SCRIPT_URL, {
+        // 1. Envia para o Google Sheets
+        await fetch(GOOGLE_SCRIPT_URL, {
           method: 'POST',
           mode: 'no-cors',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
+          body: JSON.stringify({
+            name: data.nome,
+            telephone: data.telefone,
+            email: data.email || '',
+            cidade: data.cidade,
+            plano: data.plano || '',
+            mensagem: data.mensagem || ''
+          })
         });
         
-        // Como 'no-cors' não retorna resposta legível, consideramos sucesso
+        // 2. Envia para o Firebase (sistema existente)
+        await salvarLeadNoFirebase(data);
+        
+        // 3. Dispara o formulário da InteractivePage (se existir)
+        //    Tentamos encontrar o iframe do InteractivePage e preencher/submeter
+        try {
+          const iframe = document.querySelector('#cs-form-leonardo_hapvida iframe');
+          if (iframe && iframe.contentWindow) {
+            // Preenche os campos do formulário dentro do iframe
+            const campos = {
+              'nome': data.nome,
+              'telefone': data.telefone,
+              'email': data.email || '',
+              'cidade': data.cidade,
+              'plano': data.plano || '',
+              'mensagem': data.mensagem || ''
+            };
+            // Envia uma mensagem para o iframe (postMessage)
+            iframe.contentWindow.postMessage({
+              type: 'CS_FORM_FILL',
+              data: campos,
+              submit: true
+            }, '*');
+            console.log('Lead enviado para a InteractivePage via postMessage');
+          } else {
+            // Fallback: tenta carregar o widget e submeter via script
+            console.warn('Widget da InteractivePage não encontrado. O lead foi salvo na planilha e no Firebase.');
+          }
+        } catch (e) {
+          console.warn('Não foi possível enviar para a InteractivePage:', e);
+        }
+        
         statusDiv.className = 'mensagem-status sucesso';
         statusDiv.textContent = '✅ Lead enviado com sucesso! Em breve entraremos em contato.';
         form.reset();
@@ -1401,7 +1449,6 @@
         statusDiv.textContent = '❌ Erro ao enviar. Tente novamente ou entre em contato pelo WhatsApp.';
       } finally {
         btn.disabled = false;
-        // Esconde a mensagem após 8 segundos
         setTimeout(() => {
           statusDiv.style.display = 'none';
           statusDiv.className = 'mensagem-status';
@@ -1410,7 +1457,7 @@
     }
 
     // ================================================================
-    // FUNÇÃO PARA SALVAR LEAD NO FIRESTORE (sistema existente)
+    // FUNÇÃO PARA SALVAR LEAD NO FIRESTORE
     // ================================================================
     async function salvarLeadNoFirebase(dados) {
       try {
@@ -1513,7 +1560,6 @@
       const url = `https://api.whatsapp.com/send?phone=${numero}&text=${encodeURIComponent(mensagem)}`;
       window.open(url, '_blank');
 
-      // Registra o lead no Firebase
       const lead = {
         nome: 'Lead via WhatsApp',
         telefone: '(11) 92692-3328',
@@ -1605,6 +1651,18 @@
       const url = `https://api.whatsapp.com/send?phone=${numero}&text=${encodeURIComponent(mensagem)}`;
       window.open(url, '_blank');
     }
+
+    // ================================================================
+    // CARREGAR WIDGET DA INTERACTIVEPAGE (ESCONDIDO)
+    // ================================================================
+    (function() {
+      const s = document.createElement('script');
+      s.src = 'https://interativepage.com/widget-loader.js';
+      s.setAttribute('data-slug', 'leonardo_hapvida');
+      s.setAttribute('data-container', 'cs-form-leonardo_hapvida');
+      document.head.appendChild(s);
+      console.log('Widget da InteractivePage carregado (escondido).');
+    })();
 
     // ================================================================
     // INICIALIZAÇÃO
