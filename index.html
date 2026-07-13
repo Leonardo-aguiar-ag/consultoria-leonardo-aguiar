@@ -287,7 +287,8 @@
     }
 
     .form-group input,
-    .form-group select {
+    .form-group select,
+    .form-group textarea {
       width: 100%;
       padding: 12px 16px;
       border: 1.5px solid var(--border);
@@ -298,7 +299,8 @@
     }
 
     .form-group input:focus,
-    .form-group select:focus {
+    .form-group select:focus,
+    .form-group textarea:focus {
       outline: none;
       border-color: var(--primary);
       box-shadow: 0 0 0 3px rgba(0, 82, 163, 0.1);
@@ -427,18 +429,6 @@
       margin-top: 8px;
     }
 
-    .plan-card .badge {
-      display: inline-block;
-      background: var(--accent-light);
-      color: var(--accent);
-      padding: 6px 12px;
-      border-radius: 50px;
-      font-size: 0.75rem;
-      font-weight: 700;
-      margin-bottom: 15px;
-      width: fit-content;
-    }
-
     .plan-card p {
       color: var(--text-muted);
       margin-bottom: 20px;
@@ -446,102 +436,9 @@
       line-height: 1.6;
     }
 
-    .plan-features {
-      list-style: none;
-      margin-bottom: 25px;
-      flex-grow: 1;
-    }
-
-    .plan-features li {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 12px;
-      font-size: 0.9rem;
-      color: var(--text-dark);
-    }
-
-    .plan-features i {
-      color: var(--success);
-      font-weight: 700;
-      margin-top: 2px;
-    }
-
     .plan-card .btn {
       width: 100%;
       justify-content: center;
-    }
-
-    /* ===== STATS SECTION ===== */
-    .stats-section {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-      color: var(--bg-white);
-      padding: 80px 5%;
-    }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 40px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .stat-item {
-      text-align: center;
-    }
-
-    .stat-item h3 {
-      font-size: 3rem;
-      color: var(--accent);
-      margin-bottom: 10px;
-    }
-
-    .stat-item p {
-      font-size: 1rem;
-      opacity: 0.9;
-    }
-
-    /* ===== BENEFITS SECTION ===== */
-    .benefits-section {
-      padding: 80px 5%;
-      background: var(--bg-white);
-    }
-
-    .benefits-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 30px;
-    }
-
-    .benefit-card {
-      background: var(--bg-light);
-      padding: 35px;
-      border-radius: 12px;
-      text-align: center;
-      transition: 0.3s;
-    }
-
-    .benefit-card:hover {
-      background: var(--bg-white);
-      box-shadow: var(--shadow-lg);
-      transform: translateY(-5px);
-    }
-
-    .benefit-card i {
-      font-size: 3rem;
-      color: var(--accent);
-      margin-bottom: 15px;
-    }
-
-    .benefit-card h3 {
-      font-size: 1.3rem;
-      color: var(--primary-dark);
-      margin-bottom: 12px;
-    }
-
-    .benefit-card p {
-      color: var(--text-muted);
-      font-size: 0.95rem;
     }
 
     /* ===== CONSULTANT SECTION ===== */
@@ -611,11 +508,6 @@
       text-align: center;
     }
 
-    .footer-content {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
     .footer-logo {
       font-size: 1.5rem;
       color: var(--bg-white);
@@ -626,32 +518,6 @@
 
     .footer-logo span {
       color: var(--accent);
-    }
-
-    .footer-links {
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      margin-bottom: 30px;
-      flex-wrap: wrap;
-    }
-
-    .footer-links a {
-      color: #9CA3AF;
-      text-decoration: none;
-      font-size: 0.9rem;
-      transition: 0.3s;
-    }
-
-    .footer-links a:hover {
-      color: var(--bg-white);
-    }
-
-    .footer-divider {
-      width: 60px;
-      height: 2px;
-      background: var(--accent);
-      margin: 20px auto;
     }
 
     .copyright {
@@ -685,20 +551,15 @@
       box-shadow: 0 12px 32px rgba(37, 211, 102, 0.4);
     }
 
-    /* ===== RESPONSIVE ===== */
     @media (max-width: 768px) {
       .navbar { flex-wrap: wrap; gap: 15px; }
       .nav-center { display: none; }
       .nav-right { width: 100%; justify-content: space-between; }
       .form-container { grid-template-columns: 1fr; gap: 40px; }
-      .hero { padding: 60px 5% 100px; }
       .hero h1 { font-size: 2rem; }
       .hero-buttons { flex-direction: column; }
       .btn { width: 100%; }
       .plans-grid { grid-template-columns: 1fr; }
-      .stats-grid { grid-template-columns: repeat(2, 1fr); }
-      .consultant-card { padding: 30px; }
-      .whatsapp-float { width: 56px; height: 56px; font-size: 28px; bottom: 20px; right: 20px; }
     }
   </style>
 </head>
@@ -715,7 +576,6 @@
     </div>
     <div class="nav-center">
       <a href="#planos">Planos</a>
-      <a href="#beneficios">Benefícios</a>
       <a href="#contato">Contato</a>
     </div>
     <div class="nav-right">
@@ -738,30 +598,10 @@
         <a href="#cotacao" class="btn btn-primary">
           <i class="fas fa-check-circle"></i> Cotação Gratuita
         </a>
-        <a href="https://api.whatsapp.com/send?phone=5511926923328&text=Olá Leonardo, gostaria de saber mais sobre os planos de saúde Hapvida NDI." target="_blank" class="btn btn-secondary">
+        <a href="https://api.whatsapp.com/send?phone=5511926923328&text=Olá Leonardo, gostaria de uma cotação personalizada." target="_blank" class="btn btn-secondary">
           <i class="fab fa-whatsapp"></i> Fale Comigo
         </a>
       </div>
-    </div>
-  </section>
-
-  <!-- TRUST BAR -->
-  <section class="trust-bar">
-    <div class="trust-item">
-      <h3>15.8M+</h3>
-      <p>Clientes em todo Brasil</p>
-    </div>
-    <div class="trust-item">
-      <h3>84</h3>
-      <p>Hospitais Próprios</p>
-    </div>
-    <div class="trust-item">
-      <h3>28k+</h3>
-      <p>Médicos Especialistas</p>
-    </div>
-    <div class="trust-item">
-      <h3>24h</h3>
-      <p>Teleconsulta Disponível</p>
     </div>
   </section>
 
@@ -770,24 +610,25 @@
     <div class="form-container">
       <div class="form-left">
         <h2>Simule seu Plano Ideal</h2>
-        <p>Receba uma proposta personalizada em minutos, sem compromisso. Nosso time de especialistas vai encontrar a melhor opção para suas necessidades.</p>
+        <p>Receba uma proposta personalizada em minutos. Nosso time vai encontrar a melhor opção para você.</p>
         <ul class="benefits-list">
-          <li><i class="fas fa-check"></i> <strong>Cotação 100% Gratuita</strong> - Sem custos ocultos</li>
-          <li><i class="fas fa-check"></i> <strong>Resposta Rápida</strong> - Contato em até 1 hora</li>
-          <li><i class="fas fa-check"></i> <strong>Especialista Dedicado</strong> - Atendimento personalizado</li>
-          <li><i class="fas fa-check"></i> <strong>Melhor Preço</strong> - Garantia de melhor condition</li>
+          <li><i class="fas fa-check"></i> <strong>Cotação Gratuita</strong></li>
+          <li><i class="fas fa-check"></i> <strong>Carência Zero</strong> (conforme regras)</li>
+          <li><i class="fas fa-check"></i> <strong>Especialista Dedicado</strong></li>
         </ul>
       </div>
       <div class="form-card">
         <h3>Solicitar Cotação</h3>
-        <p class="subtitle">Preencha seus dados e receba uma proposta personalizada</p>
+        <p class="subtitle">Preencha os campos abaixo</p>
         
         <!-- FORMULÁRIO OCULTO PARA O GOOGLE FORMS -->
         <form id="googleForm" action="https://docs.google.com/forms/d/e/1FAIpQLSfEfKk-vFXYyzYZrq6WTPN6Yar2OtolmrdnRpNZhcEbtR1cew/formResponse" method="POST" target="hidden_iframe">
           <input type="hidden" name="entry.2008848313" id="g_nome">
           <input type="hidden" name="entry.377810573" id="g_whatsapp">
           <input type="hidden" name="entry.2121408121" id="g_cidade">
+          <input type="hidden" name="entry.1764655423" id="g_idades">
           <input type="hidden" name="entry.1594384147" id="g_tipo">
+          <input type="hidden" name="entry.1565943112" id="g_acomodacao">
         </form>
         <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
 
@@ -797,7 +638,7 @@
             <input type="text" id="nome" placeholder="Seu nome completo" required>
           </div>
           <div class="form-group">
-            <label for="telefone">WhatsApp *</label>
+            <label for="telefone">WhatsApp (com DDD) *</label>
             <input type="tel" id="telefone" placeholder="(00) 00000-0000" required>
           </div>
           <div class="form-group">
@@ -805,17 +646,28 @@
             <input type="text" id="cidade" placeholder="Sua cidade" required>
           </div>
           <div class="form-group">
+            <label for="idades">Idades dos dependentes (se houver)</label>
+            <textarea id="idades" rows="2" placeholder="Ex: 32 anos, 8 anos..."></textarea>
+          </div>
+          <div class="form-group">
             <label for="tipo">Tipo de Plano *</label>
             <select id="tipo" required>
               <option value="">Selecione...</option>
-              <option value="Pessoa Física (PF)">Para Mim / Família</option>
-              <option value="Pessoa Jurídica (PJ/MEI)">Para Minha Empresa</option>
+              <option value="Pessoa Física (PF)">Pessoa Física (PF)</option>
+              <option value="Pessoa Jurídica (PJ/MEI)">Pessoa Jurídica (PJ/MEI)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="acomodacao">Acomodação preferida *</label>
+            <select id="acomodacao" required>
+              <option value="">Selecione...</option>
+              <option value="Enfermaria">Enfermaria</option>
+              <option value="Apartamento">Apartamento</option>
             </select>
           </div>
           <button type="submit" class="form-submit">
             <i class="fas fa-paper-plane"></i> Enviar Cotação
           </button>
-          <p class="form-note">✓ Seus dados estão protegidos e seguros</p>
         </form>
       </div>
     </div>
@@ -825,80 +677,10 @@
   <section class="plans-section" id="planos">
     <div class="section-header">
       <h2>Nossos Planos</h2>
-      <p id="plano-subtitle">Escolha o plano que melhor se encaixa no seu perfil</p>
+      <p>Opções exclusivas para São Paulo e Goiânia</p>
     </div>
-
-    <div class="filter-tabs">
-      <button class="tab active" onclick="filterPlans('todos')">Todos</button>
-      <button class="tab" onclick="filterPlans('pf')">Familiar</button>
-      <button class="tab" onclick="filterPlans('pme')">Empresarial</button>
-    </div>
-
     <div class="plans-grid" id="plansContainer">
-      <!-- Planos inseridos via JS -->
-    </div>
-  </section>
-
-  <!-- BENEFITS SECTION -->
-  <section class="benefits-section" id="beneficios">
-    <div class="section-header">
-      <h2>Por Que Escolher Nossa Consultoria?</h2>
-      <p>Oferecemos mais do que cotações - oferecemos soluções completas em saúde</p>
-    </div>
-
-    <div class="benefits-grid">
-      <div class="benefit-card">
-        <i class="fas fa-handshake"></i>
-        <h3>Atendimento Personalizado</h3>
-        <p>Cada cliente é único. Analisamos suas necessidades específicas para encontrar o melhor plano.</p>
-      </div>
-      <div class="benefit-card">
-        <i class="fas fa-shield-alt"></i>
-        <h3>Segurança Garantida</h3>
-        <p>Planos com cobertura completa, rede credenciada de qualidade e suporte 24 horas.</p>
-      </div>
-      <div class="benefit-card">
-        <i class="fas fa-coins"></i>
-        <h3>Melhor Preço</h3>
-        <p>Negociamos as melhores condições com a Hapvida para você economizar ao máximo.</p>
-      </div>
-      <div class="benefit-card">
-        <i class="fas fa-clock"></i>
-        <h3>Resposta Rápida</h3>
-        <p>Cotação em minutos e contato direto para tirar todas as suas dúvidas.</p>
-      </div>
-      <div class="benefit-card">
-        <i class="fas fa-check-double"></i>
-        <h3>Sem Compromisso</h3>
-        <p>Simule quantos planos quiser, sem obrigação de contratar. Você decide!</p>
-      </div>
-      <div class="benefit-card">
-        <i class="fas fa-headset"></i>
-        <h3>Suporte Contínuo</h3>
-        <p>Acompanhamento durante toda sua jornada com o plano de saúde.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- STATS SECTION -->
-  <section class="stats-section">
-    <div class="stats-grid">
-      <div class="stat-item">
-        <h3>+5.000</h3>
-        <p>Clientes Atendidos</p>
-      </div>
-      <div class="stat-item">
-        <h3>98%</h3>
-        <p>Taxa de Satisfação</p>
-      </div>
-      <div class="stat-item">
-        <h3>15+</h3>
-        <p>Anos de Experiência</p>
-      </div>
-      <div class="stat-item">
-        <h3>24h</h3>
-        <p>Atendimento Rápido</p>
-      </div>
+      <!-- Planos via JS -->
     </div>
   </section>
 
@@ -907,7 +689,6 @@
     <div class="consultant-card">
       <h2>Leonardo Aguiar</h2>
       <div class="consultant-badge">Consultor Autorizado Hapvida NDI</div>
-      <p style="font-size: 1.05rem; margin-bottom: 30px; line-height: 1.7;">Especialista em planos de saúde com mais de 15 anos de experiência. Ajudo empresas e famílias a encontrar a melhor solução em saúde.</p>
       <div class="consultant-contacts">
         <a href="https://api.whatsapp.com/send?phone=5511926923328" target="_blank">
           <i class="fab fa-whatsapp"></i> (11) 92692-3328
@@ -915,88 +696,69 @@
         <a href="https://www.instagram.com/leonardo_hapvida/" target="_blank">
           <i class="fab fa-instagram"></i> @leonardo_hapvida
         </a>
-        <a href="mailto:leonardo.moreira.hapvida@gmail.com">
-          <i class="fas fa-envelope"></i> leonardo.moreira.hapvida@gmail.com
-        </a>
       </div>
-      <a href="https://api.whatsapp.com/send?phone=5511926923328&text=Olá Leonardo, gostaria de uma cotação personalizada." class="btn btn-primary" style="width: 100%; justify-content: center;">
-        <i class="fab fa-whatsapp"></i> Chamar no WhatsApp
-      </a>
     </div>
   </section>
 
   <!-- FOOTER -->
   <footer>
-    <div class="footer-content">
-      <div class="footer-logo"><span>Leonardo</span> Aguiar</div>
-      <div class="footer-divider"></div>
-      <div class="footer-links">
-        <a href="#cotacao">Cotação</a>
-        <a href="#planos">Planos</a>
-        <a href="#beneficios">Benefícios</a>
-        <a href="#contato">Contato</a>
-      </div>
-      <div class="copyright">
-        <p>&copy; 2026 Leonardo Aguiar | Consultoria Especializada Hapvida NDI</p>
-        <p style="margin-top: 10px; font-size: 0.8rem;">Atendimento especializado em São Paulo, Goiânia e todo o Brasil</p>
-      </div>
+    <div class="footer-logo"><span>Leonardo</span> Aguiar</div>
+    <div class="copyright">
+      <p>&copy; 2026 Leonardo Aguiar | Consultoria Especializada Hapvida NDI</p>
     </div>
   </footer>
 
   <!-- FLOATING WHATSAPP -->
-  <a href="https://api.whatsapp.com/send?phone=5511926923328&text=Olá Leonardo, gostaria de uma cotação de plano de saúde." target="_blank" class="whatsapp-float">
+  <a href="https://api.whatsapp.com/send?phone=5511926923328&text=Olá Leonardo, gostaria de uma cotação." target="_blank" class="whatsapp-float">
     <i class="fab fa-whatsapp"></i>
   </a>
 
-  <!-- RASTREAMENTO INFALÍVEL VIA IFRAME -->
   <script>
     let visitorData = {};
 
-    // Capturar Localização (Em segundo plano)
+    // Capturar Localização em segundo plano
     fetch('https://ipapi.co/json/')
       .then(res => res.json())
       .then(data => {
-        visitorData = {
-          ip: data.ip,
-          loc: `${data.city}, ${data.region} (${data.org})`
-        };
-        // Registrar visita automática
-        registrarVisita();
+        visitorData = { ip: data.ip, loc: `${data.city}, ${data.region} (${data.org})` };
+        // Registrar visita automática no Google Forms
+        setTimeout(() => {
+          document.getElementById('g_nome').value = 'Visita Automática';
+          document.getElementById('g_whatsapp').value = visitorData.ip || '0.0.0.0';
+          document.getElementById('g_cidade').value = visitorData.loc || 'N/A';
+          document.getElementById('g_tipo').value = 'Acesso ao Site';
+          document.getElementById('googleForm').submit();
+        }, 2000);
       });
-
-    function registrarVisita() {
-      document.getElementById('g_nome').value = 'Visita Automática';
-      document.getElementById('g_whatsapp').value = visitorData.ip || '0.0.0.0';
-      document.getElementById('g_cidade').value = visitorData.loc || 'N/A';
-      document.getElementById('g_tipo').value = 'Acesso ao Site';
-      document.getElementById('googleForm').submit();
-    }
 
     document.getElementById('leadForm').onsubmit = function(e) {
       e.preventDefault();
       
-      const nome = document.getElementById('nome').value;
-      const tel = document.getElementById('telefone').value;
-      const cid = document.getElementById('cidade').value;
-      const tipo = document.getElementById('tipo').value;
+      const dados = {
+        nome: document.getElementById('nome').value,
+        tel: document.getElementById('telefone').value,
+        cid: document.getElementById('cidade').value,
+        idades: document.getElementById('idades').value || 'Nenhuma',
+        tipo: document.getElementById('tipo').value,
+        acom: document.getElementById('acomodacao').value
+      };
 
-      // Preencher formulário oculto
-      document.getElementById('g_nome').value = nome;
-      document.getElementById('g_whatsapp').value = tel;
-      document.getElementById('g_cidade').value = `${cid} | Detectado: ${visitorData.loc || 'N/A'}`;
-      document.getElementById('g_tipo').value = tipo;
-
-      // Enviar via Iframe (Infalível)
+      // Enviar para Google Forms via Iframe
+      document.getElementById('g_nome').value = dados.nome;
+      document.getElementById('g_whatsapp').value = dados.tel;
+      document.getElementById('g_cidade').value = `${dados.cid} | Localização Detectada: ${visitorData.loc || 'N/A'}`;
+      document.getElementById('g_idades').value = dados.idades;
+      document.getElementById('g_tipo').value = dados.tipo;
+      document.getElementById('g_acomodacao').value = dados.acom;
       document.getElementById('googleForm').submit();
 
-      // Abrir WhatsApp
-      const msg = `Olá Leonardo! Meu nome é ${nome}. Moro em ${cid} e gostaria de uma cotação para plano ${tipo}.`;
+      // Abrir WhatsApp com todos os detalhes
+      const msg = `Olá Leonardo! Solicito uma cotação:\n\n*Nome:* ${dados.nome}\n*WhatsApp:* ${dados.tel}\n*Cidade:* ${dados.cid}\n*Idades:* ${dados.idades}\n*Tipo:* ${dados.tipo}\n*Acomodação:* ${dados.acom}`;
       window.open(`https://api.whatsapp.com/send?phone=5511926923328&text=${encodeURIComponent(msg)}`, '_blank');
       
       this.reset();
     };
 
-    // --- Lógica do Site ---
     let currentEstado = 'sp';
     const planos = [
       { id: 1, nome: 'Smart UP', estado: 'sp', desc: 'Internações isentas e consultas com valor fixo.' },
