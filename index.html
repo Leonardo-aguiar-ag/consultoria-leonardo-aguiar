@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Consultoria Hapvida NDI | Leonardo Aguiar - Cotação Personalizada</title>
-  <meta name="description" content="Consultoria especializada em planos de saúde Hapvida NDI. Cotação gratuita e personalizada para você, sua família ou empresa. Atendimento em SP e Goiânia.">
+  <title>Consultoria Hapvida NDI | Leonardo Aguiar</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -29,9 +28,7 @@
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    
     html { scroll-behavior: smooth; }
-    
     body {
       font-family: 'Inter', sans-serif;
       background: var(--bg-light);
@@ -138,18 +135,6 @@
       text-align: center;
       position: relative;
       overflow: hidden;
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      right: -10%;
-      width: 600px;
-      height: 600px;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 50%;
-      z-index: 0;
     }
 
     .hero-content { position: relative; z-index: 1; }
@@ -953,133 +938,96 @@
     <i class="fab fa-whatsapp"></i>
   </a>
 
-  <!-- RASTREADOR ULTRA COMPATÍVEL -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <!-- RASTREAMENTO SIMPLES E GARANTIDO -->
   <script>
-    // ===== CONFIGURAÇÕES =====
     const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx146JeocgXfl9UgZuCzrmh3tMYH-U6RXrJzcLlC2JMTmX0GI4d_l2GgAXGx8nq03Fh/exec';
     const WHATSAPP_NUMBER = '5511926923328';
-    
-    let currentEstado = 'sp';
-    let currentFilter = 'todos';
     let visitorData = {};
 
-    const planos = [
-      { id: 1, nome: 'Smart UP', estado: 'sp', cat: 'pf', desc: 'Internações isentas e consultas com valor fixo. Ideal para famílias que buscam segurança.', features: ['Internações Isentas', 'Consultas Fixas', 'Rede Própria', 'Cobertura Ampla'] },
-      { id: 2, nome: 'Nosso Médico RMSP', estado: 'sp', cat: 'pf', desc: 'Rede própria completa com consultas e exames isentos. Máxima cobertura.', features: ['Consultas Isentas', 'Exames Isentos', 'Rede Própria', 'Internação Isenta'] },
-      { id: 3, nome: 'Smart 200/500', estado: 'sp', cat: 'pme', desc: 'Alta performance para empresas. Redução drástica de custos operacionais.', features: ['Tabelas Exclusivas', 'Rede de Qualidade', 'Suporte Dedicado', 'Flexibilidade'] },
-      { id: 4, nome: 'Advance 600/700', estado: 'sp', cat: 'pme', desc: 'Hospitais de referência nacional e livre escolha com reembolso.', features: ['Hospitais Elite', 'Livre Escolha', 'Reembolso', 'Cobertura Total'] },
-      { id: 5, nome: 'Premium 900', estado: 'sp', cat: 'pme', desc: 'O padrão mais elevado do grupo com hospitais de elite.', features: ['Máxima Cobertura', 'Hospitais Premium', 'Reembolso Máximo', 'Prioridade'] },
-      { id: 6, nome: 'Hapvida Ambulatorial', estado: 'go', cat: 'pf', desc: 'Custo reduzido focado em consultas e exames. Perfeito para orçamentos apertados.', features: ['Consultas Fixas', 'Exames Cobertos', 'Custo Baixo', 'Rede Credenciada'] },
-      { id: 7, nome: 'Nosso Médico', estado: 'go', cat: 'pf', desc: 'Atendimento completo na rede própria Hapvida em Goiânia.', features: ['Rede Própria', 'Cobertura Completa', 'Atendimento 24h', 'Internação'] },
-      { id: 8, nome: 'Empresarial GO', estado: 'go', cat: 'pme', desc: 'Tabelas exclusivas para CNPJ em Goiânia com suporte dedicado.', features: ['Tabelas Especiais', 'Suporte Premium', 'Flexibilidade', 'Gestão Simplificada'] }
-    ];
-
-    // ===== RASTREAMENTO DEFINITIVO (Usando jQuery para maior compatibilidade) =====
-    function capturarERastrear() {
-      $.getJSON('https://api.ipify.org?format=jsonp&callback=?', function(data) {
-        const ip = data.ip;
-        $.getJSON('https://ipapi.co/' + ip + '/json/', function(loc) {
-          visitorData = {
-            ip: loc.ip,
-            pais: loc.country_name,
-            estado: loc.region,
-            cidade_detectada: loc.city,
-            isp: loc.org
-          };
-          enviarEvento({
-            tipo_evento: 'visita',
-            pagina: window.location.pathname,
-            referrer: document.referrer || 'Direto'
-          });
+    // 1. Capturar IP e Localização de forma direta
+    fetch('https://ipapi.co/json/')
+      .then(res => res.json())
+      .then(data => {
+        visitorData = {
+          ip: data.ip,
+          pais: data.country_name,
+          estado: data.region,
+          cidade_detectada: data.city,
+          isp: data.org
+        };
+        // Enviar visita
+        enviarParaGoogle({
+          tipo_evento: 'visita',
+          pagina: window.location.pathname
         });
       });
-    }
 
-    function enviarEvento(dados) {
+    // 2. Função de envio simplificada (Sem jQuery, sem bloqueios)
+    function enviarParaGoogle(dados) {
       const payload = Object.assign({}, visitorData, dados);
-      $.ajax({
-        url: GOOGLE_SCRIPT_URL,
-        type: 'POST',
-        data: JSON.stringify(payload),
-        contentType: 'text/plain', // Crucial para evitar problemas de CORS no Google
-        crossDomain: true
+      fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors', // Evita erros de CORS no Google
+        body: JSON.stringify(payload)
       });
     }
 
-    // ===== RENDERIZAÇÃO DE PLANOS =====
+    // 3. Formulário de Lead
+    document.getElementById('leadForm').onsubmit = function(e) {
+      e.preventDefault();
+      const dados = {
+        tipo_evento: 'lead',
+        nome: document.getElementById('nome').value,
+        telefone: document.getElementById('telefone').value,
+        cidade: document.getElementById('cidade').value,
+        tipo: document.getElementById('tipo').value
+      };
+      enviarParaGoogle(dados);
+      
+      const msg = `Olá Leonardo! Meu nome é ${dados.nome}. Moro em ${dados.cidade} e gostaria de uma cotação.`;
+      window.open(`https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${encodeURIComponent(msg)}`, '_blank');
+      this.reset();
+    };
+
+    // --- Lógica do Site (Planos e Estados) ---
+    let currentEstado = 'sp';
+    let currentFilter = 'todos';
+    const planos = [
+      { id: 1, nome: 'Smart UP', estado: 'sp', cat: 'pf', desc: 'Internações isentas e consultas com valor fixo.', features: ['Internações Isentas', 'Consultas Fixas', 'Rede Própria'] },
+      { id: 2, nome: 'Nosso Médico RMSP', estado: 'sp', cat: 'pf', desc: 'Rede própria completa com consultas e exames isentos.', features: ['Consultas Isentas', 'Exames Isentos', 'Rede Própria'] },
+      { id: 3, nome: 'Smart 200/500', estado: 'sp', cat: 'pme', desc: 'Alta performance para empresas.', features: ['Tabelas Exclusivas', 'Rede de Qualidade'] },
+      { id: 4, nome: 'Advance 600/700', estado: 'sp', cat: 'pme', desc: 'Hospitais de referência nacional.', features: ['Hospitais Elite', 'Livre Escolha'] },
+      { id: 6, nome: 'Hapvida Ambulatorial', estado: 'go', cat: 'pf', desc: 'Custo reduzido focado em consultas e exames.', features: ['Consultas Fixas', 'Exames Cobertos'] },
+      { id: 7, nome: 'Nosso Médico', estado: 'go', cat: 'pf', desc: 'Atendimento completo na rede própria Hapvida.', features: ['Rede Própria', 'Cobertura Completa'] }
+    ];
+
     function renderPlanos() {
-      const container = $('#plansContainer');
-      if (!container.length) return;
-      container.empty();
+      const container = document.getElementById('plansContainer');
+      container.innerHTML = '';
       const filtered = planos.filter(p => p.estado === currentEstado && (currentFilter === 'todos' || p.cat === currentFilter));
       filtered.forEach(p => {
-        const card = `
-          <div class="plan-card">
-            <div class="badge">${p.cat === 'pf' ? 'Familiar' : 'Empresarial'}</div>
-            <h3>${p.nome}</h3>
-            <p>${p.desc}</p>
-            <ul class="plan-features">
-              ${p.features.map(f => `<li><i class="fas fa-check-circle"></i> ${f}</li>`).join('')}
-            </ul>
-            <button class="btn btn-primary" onclick="cotarPlano('${p.nome}')">
-              <i class="fas fa-quote-left"></i> Cotar Agora
-            </button>
-          </div>
-        `;
-        container.append(card);
+        const card = document.createElement('div');
+        card.className = 'plan-card';
+        card.innerHTML = `<h3>${p.nome}</h3><p>${p.desc}</p><button class="btn btn-primary" onclick="cotarPlano('${p.nome}')">Cotar</button>`;
+        container.appendChild(card);
       });
     }
 
     function setEstado(estado) {
       currentEstado = estado;
-      $('.state-btn').each(function() {
-        $(this).toggleClass('active', (estado === 'sp' && $(this).text().includes('São Paulo')) || (estado === 'go' && $(this).text().includes('Goiânia')));
-      });
-      $('#plano-subtitle').text(`Planos disponíveis para ${estado === 'sp' ? 'São Paulo' : 'Goiânia'}`);
       renderPlanos();
     }
 
     function filterPlans(cat) {
       currentFilter = cat;
-      $('.tab').each(function() {
-        $(this).toggleClass('active', 
-          (cat === 'todos' && $(this).text().includes('Todos')) ||
-          (cat === 'pf' && $(this).text().includes('Familiar')) ||
-          (cat === 'pme' && $(this).text().includes('Empresarial'))
-        );
-      });
       renderPlanos();
     }
 
     function cotarPlano(nome) {
-      const msg = `Olá Leonardo! Gostaria de uma cotação para o plano ${nome}. Qual é o valor?`;
-      window.open(`https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${encodeURIComponent(msg)}`, '_blank');
+      window.open(`https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=Cotação para ${nome}`, '_blank');
     }
 
-    // ===== FORMULÁRIO DE LEADS =====
-    $('#leadForm').on('submit', function(e) {
-      e.preventDefault();
-      const dados = {
-        tipo_evento: 'lead',
-        nome: $('#nome').val(),
-        telefone: $('#telefone').val(),
-        cidade: $('#cidade').val(),
-        tipo: $('#tipo').val()
-      };
-      enviarEvento(dados);
-      const tipoLabel = dados.tipo === 'individual' ? 'individual/familiar' : 'empresarial';
-      const msg = `Olá Leonardo! Meu nome é ${dados.nome}. Moro em ${dados.cidade} e gostaria de uma cotação de plano de saúde ${tipoLabel}. Meu WhatsApp é ${dados.telefone}.`;
-      window.open(`https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${encodeURIComponent(msg)}`, '_blank');
-      this.reset();
-    });
-
-    // ===== INICIALIZAÇÃO =====
-    $(document).ready(function() {
-      setEstado('sp');
-      renderPlanos();
-      capturarERastrear();
-    });
+    window.onload = () => { renderPlanos(); };
   </script>
 </body>
 </html>
