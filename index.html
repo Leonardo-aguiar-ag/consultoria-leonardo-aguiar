@@ -498,6 +498,7 @@
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 40px;
       max-width: 1200px;
+      margin: 0 auto;
     }
 
     .stat-item {
@@ -953,8 +954,10 @@
   </a>
 
   <script>
+    // ===== CONFIGURAÇÕES =====
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx146JeocgXfl9UgZuCzrmh3tMYH-U6RXrJzcLlC2JMTmX0GI4d_l2GgAXGx8nq03Fh/exec';
     const WHATSAPP_NUMBER = '5511926923328';
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxDihslMkd41TQrrGxhAnIPBCUDh2oSiIKvppbUuwTMHm8dZgsQ9Pulqs4aseblrl8t/exec';
+    
     let currentEstado = 'sp';
     let currentFilter = 'todos';
 
@@ -969,6 +972,17 @@
       { id: 8, nome: 'Empresarial GO', estado: 'go', cat: 'pme', desc: 'Tabelas exclusivas para CNPJ em Goiânia com suporte dedicado.', features: ['Tabelas Especiais', 'Suporte Premium', 'Flexibilidade', 'Gestão Simplificada'] }
     ];
 
+    // ===== RASTREAMENTO AUTOMÁTICO =====
+    function rastrearEvento(dados) {
+      fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dados)
+      }).catch(e => console.log('Analytics enviado'));
+    }
+
+    // ===== RENDERIZAÇÃO DE PLANOS =====
     function renderPlanos() {
       const container = document.getElementById('plansContainer');
       container.innerHTML = '';
@@ -1019,27 +1033,22 @@
       window.open(`https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${encodeURIComponent(msg)}`, '_blank');
     }
 
+    // ===== FORMULÁRIO DE LEADS =====
     document.getElementById('leadForm').onsubmit = function(e) {
       e.preventDefault();
       
       const dados = {
+        tipo_evento: 'lead',
         nome: document.getElementById('nome').value,
         telefone: document.getElementById('telefone').value,
         cidade: document.getElementById('cidade').value,
         tipo: document.getElementById('tipo').value
       };
 
-      // Envia os dados para a planilha em segundo plano
-      fetch(GOOGLE_SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(dados)
-      });
+      // Enviar lead para o Google Sheets
+      rastrearEvento(dados);
 
-      // Abre o WhatsApp imediatamente
+      // Abrir WhatsApp
       const tipoLabel = dados.tipo === 'individual' ? 'individual/familiar' : 'empresarial';
       const msg = `Olá Leonardo! Meu nome é ${dados.nome}. Moro em ${dados.cidade} e gostaria de uma cotação de plano de saúde ${tipoLabel}. Meu WhatsApp é ${dados.telefone}.`;
       
@@ -1048,9 +1057,17 @@
       this.reset();
     };
 
+    // ===== INICIALIZAÇÃO =====
     window.onload = () => {
       setEstado('sp');
       renderPlanos();
+      
+      // Rastrear acesso automático assim que carregar
+      rastrearEvento({
+        tipo_evento: 'visita',
+        pagina: window.location.pathname,
+        referrer: document.referrer || 'direto'
+      });
     };
   </script>
 </body>
