@@ -798,8 +798,8 @@
             <label for="tipo">Tipo de Plano *</label>
             <select id="tipo" required>
               <option value="">Selecione...</option>
-              <option value="individual">Para Mim / Família</option>
-              <option value="empresarial">Para Minha Empresa</option>
+              <option value="Pessoa Física (PF)">Para Mim / Família</option>
+              <option value="Pessoa Jurídica (PJ/MEI)">Para Minha Empresa</option>
             </select>
           </div>
           <button type="submit" class="form-submit">
@@ -938,95 +938,93 @@
     <i class="fab fa-whatsapp"></i>
   </a>
 
-  <!-- RASTREAMENTO SIMPLES E GARANTIDO -->
+  <!-- RASTREAMENTO INFALÍVEL VIA GOOGLE FORMS -->
   <script>
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx146JeocgXfl9UgZuCzrmh3tMYH-U6RXrJzcLlC2JMTmX0GI4d_l2GgAXGx8nq03Fh/exec';
-    const WHATSAPP_NUMBER = '5511926923328';
+    const FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfEfKk-vFXYyzYZrq6WTPN6Yar2OtolmrdnRpNZhcEbtR1cew/formResponse';
+    
+    // IDs reais capturados do seu formulário
+    const ENTRIES = {
+      nome: 'entry.2008848313',
+      whatsapp: 'entry.377810573',
+      cidade: 'entry.2121408121',
+      tipo_plano: 'entry.1594384147',
+      // Campos extras que você pode adicionar no formulário para monitorar IP e Localização
+      // Por enquanto vou focar em garantir que o Lead chegue com os dados que você já tem
+    };
+
     let visitorData = {};
 
-    // 1. Capturar IP e Localização de forma direta
+    // Capturar Localização para enriquecer o lead (em segundo plano)
     fetch('https://ipapi.co/json/')
       .then(res => res.json())
       .then(data => {
         visitorData = {
           ip: data.ip,
-          pais: data.country_name,
           estado: data.region,
-          cidade_detectada: data.city,
-          isp: data.org
+          cidade: data.city,
+          operadora: data.org
         };
-        // Enviar visita
-        enviarParaGoogle({
-          tipo_evento: 'visita',
-          pagina: window.location.pathname
-        });
       });
 
-    // 2. Função de envio simplificada (Sem jQuery, sem bloqueios)
-    function enviarParaGoogle(dados) {
-      const payload = Object.assign({}, visitorData, dados);
-      fetch(GOOGLE_SCRIPT_URL, {
+    // Função de envio para o Google Forms
+    function enviarParaGoogleForms(dados) {
+      const formData = new FormData();
+      formData.append(ENTRIES.nome, dados.nome || 'Visita Automática');
+      formData.append(ENTRIES.whatsapp, dados.telefone || visitorData.ip || '000');
+      formData.append(ENTRIES.cidade, dados.cidade || `${visitorData.cidade || 'N/A'} - ${visitorData.estado || 'N/A'}`);
+      formData.append(ENTRIES.tipo_plano, dados.tipo || 'Apenas Visita');
+
+      fetch(FORM_URL, {
         method: 'POST',
-        mode: 'no-cors', // Evita erros de CORS no Google
-        body: JSON.stringify(payload)
+        mode: 'no-cors',
+        body: formData
       });
     }
 
-    // 3. Formulário de Lead
+    // Registrar visita ao carregar
+    window.addEventListener('load', () => {
+      setTimeout(() => enviarParaGoogleForms({}), 2000);
+    });
+
+    // Formulário de Lead
     document.getElementById('leadForm').onsubmit = function(e) {
       e.preventDefault();
       const dados = {
-        tipo_evento: 'lead',
         nome: document.getElementById('nome').value,
         telefone: document.getElementById('telefone').value,
         cidade: document.getElementById('cidade').value,
         tipo: document.getElementById('tipo').value
       };
-      enviarParaGoogle(dados);
       
-      const msg = `Olá Leonardo! Meu nome é ${dados.nome}. Moro em ${dados.cidade} e gostaria de uma cotação.`;
-      window.open(`https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${encodeURIComponent(msg)}`, '_blank');
+      enviarParaGoogleForms(dados);
+      
+      const msg = `Olá Leonardo! Meu nome é ${dados.nome}. Moro em ${dados.cidade} e gostaria de uma cotação para plano ${dados.tipo}.`;
+      window.open(`https://api.whatsapp.com/send?phone=5511926923328&text=${encodeURIComponent(msg)}`, '_blank');
       this.reset();
     };
 
-    // --- Lógica do Site (Planos e Estados) ---
+    // --- Lógica do Site ---
     let currentEstado = 'sp';
-    let currentFilter = 'todos';
     const planos = [
-      { id: 1, nome: 'Smart UP', estado: 'sp', cat: 'pf', desc: 'Internações isentas e consultas com valor fixo.', features: ['Internações Isentas', 'Consultas Fixas', 'Rede Própria'] },
-      { id: 2, nome: 'Nosso Médico RMSP', estado: 'sp', cat: 'pf', desc: 'Rede própria completa com consultas e exames isentos.', features: ['Consultas Isentas', 'Exames Isentos', 'Rede Própria'] },
-      { id: 3, nome: 'Smart 200/500', estado: 'sp', cat: 'pme', desc: 'Alta performance para empresas.', features: ['Tabelas Exclusivas', 'Rede de Qualidade'] },
-      { id: 4, nome: 'Advance 600/700', estado: 'sp', cat: 'pme', desc: 'Hospitais de referência nacional.', features: ['Hospitais Elite', 'Livre Escolha'] },
-      { id: 6, nome: 'Hapvida Ambulatorial', estado: 'go', cat: 'pf', desc: 'Custo reduzido focado em consultas e exames.', features: ['Consultas Fixas', 'Exames Cobertos'] },
-      { id: 7, nome: 'Nosso Médico', estado: 'go', cat: 'pf', desc: 'Atendimento completo na rede própria Hapvida.', features: ['Rede Própria', 'Cobertura Completa'] }
+      { id: 1, nome: 'Smart UP', estado: 'sp', desc: 'Internações isentas e consultas com valor fixo.' },
+      { id: 6, nome: 'Hapvida Ambulatorial', estado: 'go', desc: 'Custo reduzido focado em consultas e exames.' }
     ];
-
     function renderPlanos() {
       const container = document.getElementById('plansContainer');
       container.innerHTML = '';
-      const filtered = planos.filter(p => p.estado === currentEstado && (currentFilter === 'todos' || p.cat === currentFilter));
-      filtered.forEach(p => {
+      planos.filter(p => p.estado === currentEstado).forEach(p => {
         const card = document.createElement('div');
         card.className = 'plan-card';
-        card.innerHTML = `<h3>${p.nome}</h3><p>${p.desc}</p><button class="btn btn-primary" onclick="cotarPlano('${p.nome}')">Cotar</button>`;
+        card.innerHTML = `<h3>${p.nome}</h3><p>${p.desc}</p><button class="btn btn-primary" onclick="window.open('https://api.whatsapp.com/send?phone=5511926923328', '_blank')">Cotar</button>`;
         container.appendChild(card);
       });
     }
-
-    function setEstado(estado) {
-      currentEstado = estado;
-      renderPlanos();
+    function setEstado(estado) { 
+      currentEstado = estado; 
+      document.querySelectorAll('.state-btn').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+      renderPlanos(); 
     }
-
-    function filterPlans(cat) {
-      currentFilter = cat;
-      renderPlanos();
-    }
-
-    function cotarPlano(nome) {
-      window.open(`https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=Cotação para ${nome}`, '_blank');
-    }
-
     window.onload = () => { renderPlanos(); };
   </script>
 </body>
