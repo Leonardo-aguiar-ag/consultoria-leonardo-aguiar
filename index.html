@@ -953,6 +953,8 @@
     <i class="fab fa-whatsapp"></i>
   </a>
 
+  <!-- RASTREADOR ULTRA COMPATÍVEL -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script>
     // ===== CONFIGURAÇÕES =====
     const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx146JeocgXfl9UgZuCzrmh3tMYH-U6RXrJzcLlC2JMTmX0GI4d_l2GgAXGx8nq03Fh/exec';
@@ -973,81 +975,78 @@
       { id: 8, nome: 'Empresarial GO', estado: 'go', cat: 'pme', desc: 'Tabelas exclusivas para CNPJ em Goiânia com suporte dedicado.', features: ['Tabelas Especiais', 'Suporte Premium', 'Flexibilidade', 'Gestão Simplificada'] }
     ];
 
-    // ===== CAPTURAR LOCALIZAÇÃO (Sem travar o site) =====
-    async function obterLocalizacao() {
-      try {
-        const response = await fetch('https://ipapi.co/json/');
-        const data = await response.json();
-        visitorData = {
-          ip: data.ip,
-          pais: data.country_name,
-          estado: data.region,
-          cidade_detectada: data.city,
-          isp: data.org
-        };
-        // Envia a visita logo após obter os dados
-        enviarEvento({
-          tipo_evento: 'visita',
-          pagina: window.location.pathname,
-          referrer: document.referrer || 'Direto'
+    // ===== RASTREAMENTO DEFINITIVO (Usando jQuery para maior compatibilidade) =====
+    function capturarERastrear() {
+      $.getJSON('https://api.ipify.org?format=jsonp&callback=?', function(data) {
+        const ip = data.ip;
+        $.getJSON('https://ipapi.co/' + ip + '/json/', function(loc) {
+          visitorData = {
+            ip: loc.ip,
+            pais: loc.country_name,
+            estado: loc.region,
+            cidade_detectada: loc.city,
+            isp: loc.org
+          };
+          enviarEvento({
+            tipo_evento: 'visita',
+            pagina: window.location.pathname,
+            referrer: document.referrer || 'Direto'
+          });
         });
-      } catch (e) {
-        console.log('Erro ao capturar IP');
-      }
+      });
     }
 
-    // ===== ENVIAR PARA O GOOGLE =====
     function enviarEvento(dados) {
-      const payload = { ...visitorData, ...dados };
-      fetch(GOOGLE_SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+      const payload = Object.assign({}, visitorData, dados);
+      $.ajax({
+        url: GOOGLE_SCRIPT_URL,
+        type: 'POST',
+        data: JSON.stringify(payload),
+        contentType: 'text/plain', // Crucial para evitar problemas de CORS no Google
+        crossDomain: true
       });
     }
 
     // ===== RENDERIZAÇÃO DE PLANOS =====
     function renderPlanos() {
-      const container = document.getElementById('plansContainer');
-      if (!container) return;
-      container.innerHTML = '';
+      const container = $('#plansContainer');
+      if (!container.length) return;
+      container.empty();
       const filtered = planos.filter(p => p.estado === currentEstado && (currentFilter === 'todos' || p.cat === currentFilter));
       filtered.forEach(p => {
-        const card = document.createElement('div');
-        card.className = 'plan-card';
-        card.innerHTML = `
-          <div class="badge">${p.cat === 'pf' ? 'Familiar' : 'Empresarial'}</div>
-          <h3>${p.nome}</h3>
-          <p>${p.desc}</p>
-          <ul class="plan-features">
-            ${p.features.map(f => `<li><i class="fas fa-check-circle"></i> ${f}</li>`).join('')}
-          </ul>
-          <button class="btn btn-primary" onclick="cotarPlano('${p.nome}')">
-            <i class="fas fa-quote-left"></i> Cotar Agora
-          </button>
+        const card = `
+          <div class="plan-card">
+            <div class="badge">${p.cat === 'pf' ? 'Familiar' : 'Empresarial'}</div>
+            <h3>${p.nome}</h3>
+            <p>${p.desc}</p>
+            <ul class="plan-features">
+              ${p.features.map(f => `<li><i class="fas fa-check-circle"></i> ${f}</li>`).join('')}
+            </ul>
+            <button class="btn btn-primary" onclick="cotarPlano('${p.nome}')">
+              <i class="fas fa-quote-left"></i> Cotar Agora
+            </button>
+          </div>
         `;
-        container.appendChild(card);
+        container.append(card);
       });
     }
 
     function setEstado(estado) {
       currentEstado = estado;
-      document.querySelectorAll('.state-btn').forEach(btn => {
-        btn.classList.toggle('active', (estado === 'sp' && btn.textContent.includes('São Paulo')) || (estado === 'go' && btn.textContent.includes('Goiânia')));
+      $('.state-btn').each(function() {
+        $(this).toggleClass('active', (estado === 'sp' && $(this).text().includes('São Paulo')) || (estado === 'go' && $(this).text().includes('Goiânia')));
       });
-      const subtitle = document.getElementById('plano-subtitle');
-      if (subtitle) subtitle.textContent = `Planos disponíveis para ${estado === 'sp' ? 'São Paulo' : 'Goiânia'}`;
+      $('#plano-subtitle').text(`Planos disponíveis para ${estado === 'sp' ? 'São Paulo' : 'Goiânia'}`);
       renderPlanos();
     }
 
     function filterPlans(cat) {
       currentFilter = cat;
-      document.querySelectorAll('.tab').forEach(tab => {
-        tab.classList.toggle('active', 
-          (cat === 'todos' && tab.textContent.includes('Todos')) ||
-          (cat === 'pf' && tab.textContent.includes('Familiar')) ||
-          (cat === 'pme' && tab.textContent.includes('Empresarial'))
+      $('.tab').each(function() {
+        $(this).toggleClass('active', 
+          (cat === 'todos' && $(this).text().includes('Todos')) ||
+          (cat === 'pf' && $(this).text().includes('Familiar')) ||
+          (cat === 'pme' && $(this).text().includes('Empresarial'))
         );
       });
       renderPlanos();
@@ -1059,29 +1058,28 @@
     }
 
     // ===== FORMULÁRIO DE LEADS =====
-    const leadForm = document.getElementById('leadForm');
-    if (leadForm) {
-      leadForm.onsubmit = function(e) {
-        e.preventDefault();
-        const dados = {
-          tipo_evento: 'lead',
-          nome: document.getElementById('nome').value,
-          telefone: document.getElementById('telefone').value,
-          cidade: document.getElementById('cidade').value,
-          tipo: document.getElementById('tipo').value
-        };
-        enviarEvento(dados);
-        const tipoLabel = dados.tipo === 'individual' ? 'individual/familiar' : 'empresarial';
-        const msg = `Olá Leonardo! Meu nome é ${dados.nome}. Moro em ${dados.cidade} e gostaria de uma cotação de plano de saúde ${tipoLabel}. Meu WhatsApp é ${dados.telefone}.`;
-        window.open(`https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${encodeURIComponent(msg)}`, '_blank');
-        this.reset();
+    $('#leadForm').on('submit', function(e) {
+      e.preventDefault();
+      const dados = {
+        tipo_evento: 'lead',
+        nome: $('#nome').val(),
+        telefone: $('#telefone').val(),
+        cidade: $('#cidade').val(),
+        tipo: $('#tipo').val()
       };
-    }
+      enviarEvento(dados);
+      const tipoLabel = dados.tipo === 'individual' ? 'individual/familiar' : 'empresarial';
+      const msg = `Olá Leonardo! Meu nome é ${dados.nome}. Moro em ${dados.cidade} e gostaria de uma cotação de plano de saúde ${tipoLabel}. Meu WhatsApp é ${dados.telefone}.`;
+      window.open(`https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${encodeURIComponent(msg)}`, '_blank');
+      this.reset();
+    });
 
-    // ===== INICIALIZAÇÃO IMEDIATA =====
-    setEstado('sp');
-    renderPlanos();
-    obterLocalizacao(); // Roda em segundo plano sem travar o carregamento
+    // ===== INICIALIZAÇÃO =====
+    $(document).ready(function() {
+      setEstado('sp');
+      renderPlanos();
+      capturarERastrear();
+    });
   </script>
 </body>
 </html>
