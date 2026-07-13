@@ -960,6 +960,7 @@
     
     let currentEstado = 'sp';
     let currentFilter = 'todos';
+    let visitorData = {};
 
     const planos = [
       { id: 1, nome: 'Smart UP', estado: 'sp', cat: 'pf', desc: 'Internações isentas e consultas com valor fixo. Ideal para famílias que buscam segurança.', features: ['Internações Isentas', 'Consultas Fixas', 'Rede Própria', 'Cobertura Ampla'] },
@@ -972,13 +973,35 @@
       { id: 8, nome: 'Empresarial GO', estado: 'go', cat: 'pme', desc: 'Tabelas exclusivas para CNPJ em Goiânia com suporte dedicado.', features: ['Tabelas Especiais', 'Suporte Premium', 'Flexibilidade', 'Gestão Simplificada'] }
     ];
 
+    // ===== CAPTURAR LOCALIZAÇÃO VIA CLIENTE =====
+    async function obterLocalizacaoCliente() {
+      try {
+        const response = await fetch('https://ip-api.com/json/?fields=status,country,regionName,city,isp,query');
+        const data = await response.json();
+        if (data.status === 'success') {
+          visitorData = {
+            pais: data.country,
+            estado: data.regionName,
+            cidade_detectada: data.city,
+            isp: data.isp,
+            ip: data.query
+          };
+        }
+      } catch (e) {
+        console.log('Erro ao obter localização');
+      }
+    }
+
     // ===== RASTREAMENTO AUTOMÁTICO =====
-    function rastrearEvento(dados) {
+    async function rastrearEvento(dados) {
+      // Mesclar dados do evento com dados do visitante
+      const payload = { ...visitorData, ...dados };
+      
       fetch(GOOGLE_SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(dados)
+        body: JSON.stringify(payload)
       }).catch(e => console.log('Analytics enviado'));
     }
 
@@ -1058,11 +1081,14 @@
     };
 
     // ===== INICIALIZAÇÃO =====
-    window.onload = () => {
+    window.onload = async () => {
       setEstado('sp');
       renderPlanos();
       
-      // Rastrear acesso automático assim que carregar
+      // 1. Primeiro captura a localização do visitante
+      await obterLocalizacaoCliente();
+      
+      // 2. Depois envia o evento de visita com os dados capturados
       rastrearEvento({
         tipo_evento: 'visita',
         pagina: window.location.pathname,
