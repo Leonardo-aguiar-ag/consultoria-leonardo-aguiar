@@ -973,45 +973,46 @@
       { id: 8, nome: 'Empresarial GO', estado: 'go', cat: 'pme', desc: 'Tabelas exclusivas para CNPJ em Goiânia com suporte dedicado.', features: ['Tabelas Especiais', 'Suporte Premium', 'Flexibilidade', 'Gestão Simplificada'] }
     ];
 
-    // ===== CAPTURAR LOCALIZAÇÃO VIA CLIENTE =====
-    async function obterLocalizacaoCliente() {
+    // ===== CAPTURAR LOCALIZAÇÃO (Sem travar o site) =====
+    async function obterLocalizacao() {
       try {
-        const response = await fetch('https://ip-api.com/json/?fields=status,country,regionName,city,isp,query');
+        const response = await fetch('https://ipapi.co/json/');
         const data = await response.json();
-        if (data.status === 'success') {
-          visitorData = {
-            pais: data.country,
-            estado: data.regionName,
-            cidade_detectada: data.city,
-            isp: data.isp,
-            ip: data.query
-          };
-        }
+        visitorData = {
+          ip: data.ip,
+          pais: data.country_name,
+          estado: data.region,
+          cidade_detectada: data.city,
+          isp: data.org
+        };
+        // Envia a visita logo após obter os dados
+        enviarEvento({
+          tipo_evento: 'visita',
+          pagina: window.location.pathname,
+          referrer: document.referrer || 'Direto'
+        });
       } catch (e) {
-        console.log('Erro ao obter localização');
+        console.log('Erro ao capturar IP');
       }
     }
 
-    // ===== RASTREAMENTO AUTOMÁTICO =====
-    async function rastrearEvento(dados) {
-      // Mesclar dados do evento com dados do visitante
+    // ===== ENVIAR PARA O GOOGLE =====
+    function enviarEvento(dados) {
       const payload = { ...visitorData, ...dados };
-      
       fetch(GOOGLE_SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
-      }).catch(e => console.log('Analytics enviado'));
+      });
     }
 
     // ===== RENDERIZAÇÃO DE PLANOS =====
     function renderPlanos() {
       const container = document.getElementById('plansContainer');
+      if (!container) return;
       container.innerHTML = '';
-      
       const filtered = planos.filter(p => p.estado === currentEstado && (currentFilter === 'todos' || p.cat === currentFilter));
-      
       filtered.forEach(p => {
         const card = document.createElement('div');
         card.className = 'plan-card';
@@ -1035,7 +1036,8 @@
       document.querySelectorAll('.state-btn').forEach(btn => {
         btn.classList.toggle('active', (estado === 'sp' && btn.textContent.includes('São Paulo')) || (estado === 'go' && btn.textContent.includes('Goiânia')));
       });
-      document.getElementById('plano-subtitle').textContent = `Planos disponíveis para ${estado === 'sp' ? 'São Paulo' : 'Goiânia'}`;
+      const subtitle = document.getElementById('plano-subtitle');
+      if (subtitle) subtitle.textContent = `Planos disponíveis para ${estado === 'sp' ? 'São Paulo' : 'Goiânia'}`;
       renderPlanos();
     }
 
@@ -1057,44 +1059,29 @@
     }
 
     // ===== FORMULÁRIO DE LEADS =====
-    document.getElementById('leadForm').onsubmit = function(e) {
-      e.preventDefault();
-      
-      const dados = {
-        tipo_evento: 'lead',
-        nome: document.getElementById('nome').value,
-        telefone: document.getElementById('telefone').value,
-        cidade: document.getElementById('cidade').value,
-        tipo: document.getElementById('tipo').value
+    const leadForm = document.getElementById('leadForm');
+    if (leadForm) {
+      leadForm.onsubmit = function(e) {
+        e.preventDefault();
+        const dados = {
+          tipo_evento: 'lead',
+          nome: document.getElementById('nome').value,
+          telefone: document.getElementById('telefone').value,
+          cidade: document.getElementById('cidade').value,
+          tipo: document.getElementById('tipo').value
+        };
+        enviarEvento(dados);
+        const tipoLabel = dados.tipo === 'individual' ? 'individual/familiar' : 'empresarial';
+        const msg = `Olá Leonardo! Meu nome é ${dados.nome}. Moro em ${dados.cidade} e gostaria de uma cotação de plano de saúde ${tipoLabel}. Meu WhatsApp é ${dados.telefone}.`;
+        window.open(`https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${encodeURIComponent(msg)}`, '_blank');
+        this.reset();
       };
+    }
 
-      // Enviar lead para o Google Sheets
-      rastrearEvento(dados);
-
-      // Abrir WhatsApp
-      const tipoLabel = dados.tipo === 'individual' ? 'individual/familiar' : 'empresarial';
-      const msg = `Olá Leonardo! Meu nome é ${dados.nome}. Moro em ${dados.cidade} e gostaria de uma cotação de plano de saúde ${tipoLabel}. Meu WhatsApp é ${dados.telefone}.`;
-      
-      window.open(`https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${encodeURIComponent(msg)}`, '_blank');
-      
-      this.reset();
-    };
-
-    // ===== INICIALIZAÇÃO =====
-    window.onload = async () => {
-      setEstado('sp');
-      renderPlanos();
-      
-      // 1. Primeiro captura a localização do visitante
-      await obterLocalizacaoCliente();
-      
-      // 2. Depois envia o evento de visita com os dados capturados
-      rastrearEvento({
-        tipo_evento: 'visita',
-        pagina: window.location.pathname,
-        referrer: document.referrer || 'direto'
-      });
-    };
+    // ===== INICIALIZAÇÃO IMEDIATA =====
+    setEstado('sp');
+    renderPlanos();
+    obterLocalizacao(); // Roda em segundo plano sem travar o carregamento
   </script>
 </body>
 </html>
