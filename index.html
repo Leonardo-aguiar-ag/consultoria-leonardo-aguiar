@@ -498,7 +498,6 @@
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 40px;
       max-width: 1200px;
-      margin: 0 auto;
     }
 
     .stat-item {
@@ -790,7 +789,7 @@
           <li><i class="fas fa-check"></i> <strong>Cotação 100% Gratuita</strong> - Sem custos ocultos</li>
           <li><i class="fas fa-check"></i> <strong>Resposta Rápida</strong> - Contato em até 1 hora</li>
           <li><i class="fas fa-check"></i> <strong>Especialista Dedicado</strong> - Atendimento personalizado</li>
-          <li><i class="fas fa-check"></i> <strong>Melhor Preço</strong> - Garantia de melhor condição</li>
+          <li><i class="fas fa-check"></i> <strong>Melhor Preço</strong> - Garantia de melhor condition</li>
         </ul>
       </div>
       <div class="form-card">
@@ -955,6 +954,7 @@
 
   <script>
     const WHATSAPP_NUMBER = '5511926923328';
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxDihslMkd41TQrrGxhAnIPBCUDh2oSiIKvppbUuwTMHm8dZgsQ9Pulqs4aseblrl8t/exec';
     let currentEstado = 'sp';
     let currentFilter = 'todos';
 
@@ -1021,13 +1021,27 @@
 
     document.getElementById('leadForm').onsubmit = function(e) {
       e.preventDefault();
-      const nome = document.getElementById('nome').value;
-      const tel = document.getElementById('telefone').value;
-      const cidade = document.getElementById('cidade').value;
-      const tipo = document.getElementById('tipo').value;
       
-      const tipoLabel = tipo === 'individual' ? 'individual/familiar' : 'empresarial';
-      const msg = `Olá Leonardo! Meu nome é ${nome}. Moro em ${cidade} e gostaria de uma cotação de plano de saúde ${tipoLabel}. Meu WhatsApp é ${tel}.`;
+      const dados = {
+        nome: document.getElementById('nome').value,
+        telefone: document.getElementById('telefone').value,
+        cidade: document.getElementById('cidade').value,
+        tipo: document.getElementById('tipo').value
+      };
+
+      // Envia os dados para a planilha em segundo plano
+      fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(dados)
+      });
+
+      // Abre o WhatsApp imediatamente
+      const tipoLabel = dados.tipo === 'individual' ? 'individual/familiar' : 'empresarial';
+      const msg = `Olá Leonardo! Meu nome é ${dados.nome}. Moro em ${dados.cidade} e gostaria de uma cotação de plano de saúde ${tipoLabel}. Meu WhatsApp é ${dados.telefone}.`;
       
       window.open(`https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${encodeURIComponent(msg)}`, '_blank');
       
