@@ -781,6 +781,16 @@
       <div class="form-card">
         <h3>Solicitar Cotação</h3>
         <p class="subtitle">Preencha seus dados e receba uma proposta personalizada</p>
+        
+        <!-- FORMULÁRIO OCULTO PARA O GOOGLE FORMS -->
+        <form id="googleForm" action="https://docs.google.com/forms/d/e/1FAIpQLSfEfKk-vFXYyzYZrq6WTPN6Yar2OtolmrdnRpNZhcEbtR1cew/formResponse" method="POST" target="hidden_iframe">
+          <input type="hidden" name="entry.2008848313" id="g_nome">
+          <input type="hidden" name="entry.377810573" id="g_whatsapp">
+          <input type="hidden" name="entry.2121408121" id="g_cidade">
+          <input type="hidden" name="entry.1594384147" id="g_tipo">
+        </form>
+        <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+
         <form id="leadForm">
           <div class="form-group">
             <label for="nome">Nome Completo *</label>
@@ -938,68 +948,51 @@
     <i class="fab fa-whatsapp"></i>
   </a>
 
-  <!-- RASTREAMENTO INFALÍVEL VIA GOOGLE FORMS -->
+  <!-- RASTREAMENTO INFALÍVEL VIA IFRAME -->
   <script>
-    const FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfEfKk-vFXYyzYZrq6WTPN6Yar2OtolmrdnRpNZhcEbtR1cew/formResponse';
-    
-    // IDs reais capturados do seu formulário
-    const ENTRIES = {
-      nome: 'entry.2008848313',
-      whatsapp: 'entry.377810573',
-      cidade: 'entry.2121408121',
-      tipo_plano: 'entry.1594384147',
-      // Campos extras que você pode adicionar no formulário para monitorar IP e Localização
-      // Por enquanto vou focar em garantir que o Lead chegue com os dados que você já tem
-    };
-
     let visitorData = {};
 
-    // Capturar Localização para enriquecer o lead (em segundo plano)
+    // Capturar Localização (Em segundo plano)
     fetch('https://ipapi.co/json/')
       .then(res => res.json())
       .then(data => {
         visitorData = {
           ip: data.ip,
-          estado: data.region,
-          cidade: data.city,
-          operadora: data.org
+          loc: `${data.city}, ${data.region} (${data.org})`
         };
+        // Registrar visita automática
+        registrarVisita();
       });
 
-    // Função de envio para o Google Forms
-    function enviarParaGoogleForms(dados) {
-      const formData = new FormData();
-      formData.append(ENTRIES.nome, dados.nome || 'Visita Automática');
-      formData.append(ENTRIES.whatsapp, dados.telefone || visitorData.ip || '000');
-      formData.append(ENTRIES.cidade, dados.cidade || `${visitorData.cidade || 'N/A'} - ${visitorData.estado || 'N/A'}`);
-      formData.append(ENTRIES.tipo_plano, dados.tipo || 'Apenas Visita');
-
-      fetch(FORM_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        body: formData
-      });
+    function registrarVisita() {
+      document.getElementById('g_nome').value = 'Visita Automática';
+      document.getElementById('g_whatsapp').value = visitorData.ip || '0.0.0.0';
+      document.getElementById('g_cidade').value = visitorData.loc || 'N/A';
+      document.getElementById('g_tipo').value = 'Acesso ao Site';
+      document.getElementById('googleForm').submit();
     }
 
-    // Registrar visita ao carregar
-    window.addEventListener('load', () => {
-      setTimeout(() => enviarParaGoogleForms({}), 2000);
-    });
-
-    // Formulário de Lead
     document.getElementById('leadForm').onsubmit = function(e) {
       e.preventDefault();
-      const dados = {
-        nome: document.getElementById('nome').value,
-        telefone: document.getElementById('telefone').value,
-        cidade: document.getElementById('cidade').value,
-        tipo: document.getElementById('tipo').value
-      };
       
-      enviarParaGoogleForms(dados);
-      
-      const msg = `Olá Leonardo! Meu nome é ${dados.nome}. Moro em ${dados.cidade} e gostaria de uma cotação para plano ${dados.tipo}.`;
+      const nome = document.getElementById('nome').value;
+      const tel = document.getElementById('telefone').value;
+      const cid = document.getElementById('cidade').value;
+      const tipo = document.getElementById('tipo').value;
+
+      // Preencher formulário oculto
+      document.getElementById('g_nome').value = nome;
+      document.getElementById('g_whatsapp').value = tel;
+      document.getElementById('g_cidade').value = `${cid} | Detectado: ${visitorData.loc || 'N/A'}`;
+      document.getElementById('g_tipo').value = tipo;
+
+      // Enviar via Iframe (Infalível)
+      document.getElementById('googleForm').submit();
+
+      // Abrir WhatsApp
+      const msg = `Olá Leonardo! Meu nome é ${nome}. Moro em ${cid} e gostaria de uma cotação para plano ${tipo}.`;
       window.open(`https://api.whatsapp.com/send?phone=5511926923328&text=${encodeURIComponent(msg)}`, '_blank');
+      
       this.reset();
     };
 
