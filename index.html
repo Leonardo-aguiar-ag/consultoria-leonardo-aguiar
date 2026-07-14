@@ -19,7 +19,7 @@
     t.src=v;s=b.getElementsByTagName(e)[0];
     s.parentNode.insertBefore(t,s)}(window, document,'script',
     'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', 'SEU_PIXEL_ID_AQUI'); // <-- Substitua
+    fbq('init', 'SEU_PIXEL_ID_AQUI'); // Substitua
     fbq('track', 'PageView');
   </script>
   <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=SEU_PIXEL_ID_AQUI&ev=PageView&noscript=1" /></noscript>
@@ -36,6 +36,7 @@
   <!-- ===== FIREBASE SDKs ===== -->
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 
   <style>
     /* ================================================================
@@ -224,6 +225,13 @@
       box-shadow:0 12px 32px rgba(37,211,102,0.4) !important;
     }
     .btn-sm { padding:10px 24px; font-size:0.85rem; }
+    .btn-admin {
+      background: #6c5ce7 !important;
+      box-shadow: 0 8px 24px rgba(108,92,231,0.3) !important;
+    }
+    .btn-admin:hover {
+      background: #5a4bd1 !important;
+    }
 
     /* ---- SEÇÕES ---- */
     .secao { padding:80px 20px; max-width:1200px; margin:0 auto; text-align:center; }
@@ -340,12 +348,12 @@
     }
     .estado-switcher .estado-btn:hover:not(.active) { color:var(--texto); }
 
-    /* ---- FORMULÁRIO SIMPLIFICADO ---- */
+    /* ---- FORMULÁRIO COMPLETO ---- */
     .form-simplificado {
       background:var(--branco);
       border-radius:var(--radius);
       padding:40px 32px;
-      max-width:500px;
+      max-width:550px;
       margin:0 auto;
       box-shadow:var(--shadow-md);
       border:1px solid rgba(0,0,0,0.02);
@@ -354,16 +362,19 @@
     .form-simplificado p { color:var(--texto-claro); font-size:0.95rem; margin-bottom:24px; }
     .form-simplificado .form-group { margin-bottom:16px; text-align:left; }
     .form-simplificado label { display:block; font-weight:600; font-size:0.85rem; color:var(--texto); margin-bottom:4px; }
-    .form-simplificado input {
+    .form-simplificado input,
+    .form-simplificado select {
       width:100%;
-      padding:14px 18px;
+      padding:12px 16px;
       border:2px solid var(--border);
       border-radius:var(--radius-sm);
       font-size:1rem;
       transition:var(--transition);
       background:var(--bg-light);
+      color:var(--texto);
     }
-    .form-simplificado input:focus {
+    .form-simplificado input:focus,
+    .form-simplificado select:focus {
       outline:none;
       border-color:var(--azul-vibrante);
       box-shadow:0 0 0 4px rgba(0,77,128,0.08);
@@ -585,6 +596,7 @@
       <a href="#depoimentos">Depoimentos</a>
       <a href="#faq">FAQ</a>
       <a href="#consultor">Contato</a>
+      <a href="admin.html" class="btn btn-sm btn-admin" style="color:#fff; padding:6px 18px; text-decoration:none;">🔐 Admin</a>
       <span class="menu-divider"></span>
       <div class="estado-switcher">
         <button class="estado-btn active" data-estado="sp" onclick="switchEstado('sp')">📍 São Paulo</button>
@@ -623,22 +635,46 @@
     </div>
   </section>
 
-  <!-- ===== FORMULÁRIO SIMPLIFICADO ===== -->
+  <!-- ===== FORMULÁRIO COMPLETO ===== -->
   <section class="secao" id="formulario">
     <div class="form-simplificado">
-      <h3>📲 Receba sua cotação agora</h3>
-      <p>Preencha apenas Nome e WhatsApp. Em <strong>menos de 5 minutos</strong> você terá a tabela 2026 na mão.</p>
+      <h3>📋 Solicitar Cotação</h3>
+      <p>Preencha seus dados e receba uma proposta personalizada.</p>
       <form id="leadForm" onsubmit="enviarLead(event)">
         <div class="form-group">
-          <label for="nome">Seu nome</label>
-          <input type="text" id="nome" name="nome" placeholder="Ex: João Silva" required />
+          <label for="nome">Nome completo *</label>
+          <input type="text" id="nome" name="nome" placeholder="Seu nome completo" required />
         </div>
         <div class="form-group">
-          <label for="whatsapp">WhatsApp (com DDD)</label>
-          <input type="tel" id="whatsapp" name="whatsapp" placeholder="(11) 99999-9999" required />
+          <label for="whatsapp">WhatsApp (com DDD) *</label>
+          <input type="tel" id="whatsapp" name="whatsapp" placeholder="(00) 00000-0000" required />
+        </div>
+        <div class="form-group">
+          <label for="cidade">Cidade *</label>
+          <input type="text" id="cidade" name="cidade" placeholder="Sua cidade" required />
+        </div>
+        <div class="form-group">
+          <label for="idades">Idades dos dependentes (se houver)</label>
+          <input type="text" id="idades" name="idades" placeholder="Ex: 32 anos, 8 anos..." />
+        </div>
+        <div class="form-group">
+          <label for="tipoPlano">Tipo de Plano *</label>
+          <select id="tipoPlano" name="tipoPlano" required>
+            <option value="">Selecione...</option>
+            <option value="Pessoa Física (PF)">Pessoa Física (PF)</option>
+            <option value="Pessoa Jurídica (PJ/MEI)">Pessoa Jurídica (PJ/MEI)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="acomodacao">Acomodação preferida *</label>
+          <select id="acomodacao" name="acomodacao" required>
+            <option value="">Selecione...</option>
+            <option value="Enfermaria">Enfermaria</option>
+            <option value="Apartamento">Apartamento</option>
+          </select>
         </div>
         <button type="submit" class="btn btn-whatsapp">
-          📲 Enviar e abrir WhatsApp
+          📲 Enviar Cotação
         </button>
         <div class="termos">🔒 Seus dados estão seguros. Ao enviar, você concorda com nossa Política de Privacidade.</div>
       </form>
@@ -776,6 +812,7 @@
       <a href="#depoimentos">Depoimentos</a>
       <a href="#faq">FAQ</a>
       <a href="#consultor">Contato</a>
+      <a href="admin.html">🔐 Admin</a>
       <a href="#" onclick="alert('Política de Privacidade em construção.')">Política de Privacidade</a>
       <a href="#" onclick="alert('Termos de Uso em construção.')">Termos de Uso</a>
     </div>
@@ -893,18 +930,37 @@
       }
     };
 
-    // ---- FUNÇÃO ENVIAR LEAD (FORMULÁRIO) ----
+    // ---- FUNÇÃO ENVIAR LEAD (FORMULÁRIO COMPLETO) ----
     async function enviarLead(event) {
       event.preventDefault();
+
       const nome = document.getElementById('nome').value.trim();
       const whatsapp = document.getElementById('whatsapp').value.trim();
+      const cidade = document.getElementById('cidade').value.trim();
+      const idades = document.getElementById('idades').value.trim();
+      const tipoPlano = document.getElementById('tipoPlano').value;
+      const acomodacao = document.getElementById('acomodacao').value;
 
-      if (!nome || !whatsapp) return alert('Preencha Nome e WhatsApp');
+      if (!nome || !whatsapp || !cidade || !tipoPlano || !acomodacao) {
+        alert('Preencha todos os campos obrigatórios.');
+        return;
+      }
 
-      const leadData = { nome, whatsapp, origem: 'Formulário Site' };
+      // 1. Registrar lead no Firebase com todos os campos
+      const leadData = {
+        nome,
+        whatsapp,
+        cidade,
+        idades,
+        tipoPlano,
+        acomodacao,
+        origem: 'Formulário Site'
+      };
       const sucesso = await window.capturarLeadCompleto(leadData);
 
-      const mensagem = `Olá Leonardo! Meu nome é ${nome} e quero receber a tabela de planos. Meu WhatsApp é ${whatsapp}.`;
+      // 2. Abrir WhatsApp com mensagem contendo todos os dados
+      let mensagem = `Olá Leonardo! Meu nome é ${nome}, sou de ${cidade} e quero uma cotação para ${tipoPlano} (${acomodacao}). Meu WhatsApp é ${whatsapp}.`;
+      if (idades) mensagem += ` Idades: ${idades}.`;
       const numero = '5511926923328';
       const url = `https://api.whatsapp.com/send?phone=${numero}&text=${encodeURIComponent(mensagem)}`;
       window.open(url, '_blank');
@@ -916,6 +972,7 @@
       document.getElementById('leadForm').reset();
     }
 
+    // ---- FUNÇÃO CAPTURAR LEAD WHATSAPP (para os botões) ----
     function capturarLeadWhatsApp(origem) {
       const mensagem = 'Olá Leonardo! Vi seu site e quero mais informações sobre os planos de saúde.';
       const numero = '5511926923328';
